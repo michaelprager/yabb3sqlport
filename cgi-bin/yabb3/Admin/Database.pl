@@ -316,7 +316,7 @@ sub SaveDatabase {
 			} elsif ($_ eq 'regdate') {
 				$buildnew_vars .= qq~`$_` char(25) default NULL,\n~;
 			} elsif ($_ eq 'regtime') {
-				$buildnew_vars .= qq~`$_` int(11) default NULL,\n~;
+				$buildnew_vars .= qq~`$_` bigint(11) default NULL,\n~;
 			} elsif ($_ eq 'regreason') {
 				$buildnew_vars .= qq~`$_` varchar(500) default NULL,\n~;
 			} elsif ($_ eq 'location') {
@@ -370,11 +370,11 @@ sub SaveDatabase {
 			} elsif ($_ eq 'postcount') {
 				$buildnew_vars .= qq~`$_` int(6) NOT NULL default '0',\n~;
 			} elsif ($_ eq 'lastonline') {
-				$buildnew_vars .= qq~`$_` int(11) default NULL,\n~;
+				$buildnew_vars .= qq~`$_` bigint(11) default NULL,\n~;
 			} elsif ($_ eq 'lastpost') {
-				$buildnew_vars .= qq~`$_` int(11) default NULL,\n~;
+				$buildnew_vars .= qq~`$_` bigint(11) default NULL,\n~;
 			} elsif ($_ eq 'lastim') {
-				$buildnew_vars .= qq~`$_` int(11) default NULL,\n~;
+				$buildnew_vars .= qq~`$_` bigint(11) default NULL,\n~;
 			} elsif ($_ eq 'im_ignorelist') {
 				$buildnew_vars .= qq~`$_` varchar(500) default NULL,\n~;
 			} elsif ($_ eq 'im_popup') {
@@ -426,7 +426,7 @@ sub SaveDatabase {
 			} elsif ($_ eq 'spamcount') {
 				$buildnew_vars .= qq~`$_` int(6) NOT NULL default '0',\n~;
 			} elsif ($_ eq 'spamtime') {
-				$buildnew_vars .= qq~`$_` int(11) default NULL,\n~;
+				$buildnew_vars .= qq~`$_` bigint(11) default NULL,\n~;
 			} elsif ($_ eq 'hide_avatars') {
 				$buildnew_vars .= qq~`$_` int(1) NOT NULL default '0',\n~;
 			} elsif ($_ eq 'hide_user_text') {
@@ -489,7 +489,7 @@ sub SaveDatabase {
 			push(@order, $_);
 			push(@var_colums, $_);
 			push(@db_log_array_order, $i);
-			$buildnew_online .= qq~`date` int(11) default NULL,\n~ if $_ eq 'date';
+			$buildnew_online .= qq~`date` bigint(11) default NULL,\n~ if $_ eq 'date';
 			$buildnew_online .= qq~`ip` char(15) default NULL,\n~ if $_ eq 'ip';
 			$buildnew_online .= qq~`user_host` char(100) default NULL,\n~ if $_ eq 'user_host';
 		}
@@ -515,12 +515,12 @@ sub SaveDatabase {
 
 	# ctb
 	my $buildnew_ctb;
-	$buildnew_ctb = qq~CREATE TABLE `$FORM{'db_prefix'}_ctb` (\n`threadnum` int(11) NOT NULL,\n~;
+	$buildnew_ctb = qq~CREATE TABLE `$FORM{'db_prefix'}_ctb` (\n`threadnum` bigint(11) NOT NULL,\n~;
 	$buildnew_ctb .= qq~`board` char(20) default NULL,\n~;
 	$buildnew_ctb .= qq~`replies` int(5) default NULL,\n~;
 	$buildnew_ctb .= qq~`views` int(5) default NULL,\n~;
 	$buildnew_ctb .= qq~`lastposter` char(20) default NULL,\n~;
-	$buildnew_ctb .= qq~`lastpostdate` int(11) default NULL,\n~;
+	$buildnew_ctb .= qq~`lastpostdate` bigint(11) default NULL,\n~;
 	$buildnew_ctb .= qq~`threadstatus` char(5) default NULL,\n~;
 	$buildnew_ctb .= qq~`repliers` varchar(1000) default NULL,\n~;
 	$buildnew_ctb .= qq~`mail` text,\n~;
@@ -531,18 +531,18 @@ sub SaveDatabase {
 
 	# messages.txt
 	my $buildnew_message_txt;
-	$buildnew_message_txt = qq~CREATE TABLE `$FORM{'db_prefix'}_messages` (\n`mess_threadnum` int(11) NOT NULL,\n~;
+	$buildnew_message_txt = qq~CREATE TABLE `$FORM{'db_prefix'}_messages` (\n`mess_threadnum` bigint(11) NOT NULL,\n~;
 	$buildnew_message_txt .= qq~`subject` varchar(100) default NULL,\n~;
 	$buildnew_message_txt .= qq~`displayname` char(30) default NULL,\n~;
 	$buildnew_message_txt .= qq~`email` varchar(100) default NULL,\n~;
-	$buildnew_message_txt .= qq~`date` int(11) default NULL,\n~;
+	$buildnew_message_txt .= qq~`date` bigint(11) default NULL,\n~;
 	$buildnew_message_txt .= qq~`username` char(20) default NULL,\n~;
 	$buildnew_message_txt .= qq~`icon` char(15) default NULL,\n~;
 	$buildnew_message_txt .= qq~`post_number` int(5) NOT NULL default '0',\n~;
 	$buildnew_message_txt .= qq~`user_ip` char(15) default NULL,\n~;
 	$buildnew_message_txt .= qq~`message` text,\n~;
 	$buildnew_message_txt .= qq~`no_smilies` char(2) default NULL,\n~;
-	$buildnew_message_txt .= qq~`modified_date` int(11) default NULL,\n~;
+	$buildnew_message_txt .= qq~`modified_date` bigint(11) default NULL,\n~;
 	$buildnew_message_txt .= qq~`modified_by` char(20) default NULL,\n~;
 	$buildnew_message_txt .= qq~`attachments` varchar(500) default NULL,\n~;
 	$buildnew_message_txt .= qq~PRIMARY KEY (`mess_threadnum`,`post_number`)) TYPE=MyISAM~;
