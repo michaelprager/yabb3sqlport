@@ -2176,6 +2176,10 @@ sub CheckUserPM_Level {
 			$openfiles .= qq~\n[$file, $line, $sub]~;
 		}
 
+		if ($use_MySQL) {
+			mysql_connect();
+		}
+
 		if ($use_MySQL && ($db_table{$folder.$ext}[0] || $db_table{$folder.$name.$ext}[0])) {
 			my $DBfile = $db_table{$folder.$ext}[0] ? $folder.$ext : $folder.$name.$ext;
 			if      ($folder eq $boardsdir) {
@@ -2222,6 +2226,10 @@ sub CheckUserPM_Level {
 		if ($debug && (!$LOCKHANDLE || $use_MySQL)) {
 			my ($file, $line, $sub) = &get_caller;
 			$openfiles .= qq~\n[$file, $line, $sub]~;
+		}
+		
+		if ($use_MySQL) {
+			mysql_connect();
 		}
 
 		if ($use_MySQL && ($db_table{$folder.$ext}[0] || $db_table{$folder.$name.$ext}[0])) {
@@ -2376,9 +2384,9 @@ sub CheckUserPM_Level {
 						&mysql_process(0,'prepare',qq~UPDATE `$db_table{$DBfile}[0]` SET ~ . join(",", map { "`$_`=?" } @{$db_table{$DBfile}[2]}) . qq~ WHERE `$db_table{$DBfile}[1]`=?~);
 				}
 				if (@{$db_table{$DBfile}[2]} > 1) {
-					&mysql_process($sth_w{$DBfile.$db_table{$DBfile}[0]},'execute',(map { s/"/\\"/g; $_; } @$data,$name));
+					&mysql_process($sth_w{$DBfile.$db_table{$DBfile}[0]},'execute',(@$data,$name));
 				} else {
-					&mysql_process($sth_w{$DBfile.$db_table{$DBfile}[0]},'execute',(join('', map { s/"/\\"/g; $_; } @$data),$name));
+					&mysql_process($sth_w{$DBfile.$db_table{$DBfile}[0]},'execute',(join('', @$data),$name));
 				}
 			}
 
@@ -2390,12 +2398,12 @@ sub CheckUserPM_Level {
 				}
 				&mysql_process(0,'do',qq~DELETE FROM `$db_table{$DBfile}[0]` WHERE `$db_table{$DBfile}[1]`="$name"~); # must delete all old entries first because there is no update!
 				foreach (@$data) {
-					&mysql_process($sth_w{$DBfile.$db_table{$DBfile}[0]},'execute',($name,(map { s/"/\\"/g; $_; } split(/\|/, $_))));
+					&mysql_process($sth_w{$DBfile.$db_table{$DBfile}[0]},'execute',($name,(map { $_; } split(/\|/, $_))));
 				}
 
 			} else { # for Messages/[threadnumber].ctb; mail,poll,polled are empty here
 				&mysql_process(0,'do',qq~DELETE FROM `$db_table{$DBfile}[0]` WHERE `$db_table{$DBfile}[1]`="$name"~); # delete old entries first to avoid error because of double
-				&mysql_process(0,'do',qq~INSERT INTO `$db_table{$DBfile}[0]` VALUES ("$name","~ . join('","', (map { s/"/\\"/g; $_; } @$data)) . qq~","","","")~);
+				&mysql_process(0,'do',qq~INSERT INTO `$db_table{$DBfile}[0]` VALUES ("$name",~ . join(',', (map { $vari{"dbh"}->quote($_); } @$data)) . qq~,"","","")~);
 			}
 		}
 	}
@@ -2405,11 +2413,11 @@ sub CheckUserPM_Level {
 
 		if ($update_DB) { # UPDATE table(s)
 			if ($DBfile ne $memberdir."vars") { # update single colums in .vars table
-				&mysql_process(0,'do',qq~UPDATE `$db_table{$DBfile}[0]` SET `${$db_table{$DBfile}[2]}[0]`="~ . join('', map { s/"/\\"/g; $_; } @$data) . qq~" WHERE `$db_table{$DBfile}[1]`="$name"~);
+				&mysql_process(0,'do',qq~UPDATE `$db_table{$DBfile}[0]` SET `${$db_table{$DBfile}[2]}[0]`=~ . $vari{"dbh"}->quote(join('', map { $_ } @$data)) . qq~ WHERE `$db_table{$DBfile}[1]`="$name"~);
 
 			} else { # update all .vars colums
-				&mysql_process(0,'do',"UPDATE `$db_user_vars_table` SET " . join(',', map { qq~`$_`="${$uid.$name}{ $db_user_vars_col{$_} }"~; } keys %db_user_vars_col) . qq~ WHERE `$db_user_vars_key`="$name"~) if $db_user_vars_table;
-				&mysql_process(0,'do',"UPDATE `$db_prefix\_vars` SET " . join(',', map { qq~`$_`="${$uid.$name}{ $_ }"~ } keys %db_vars_col) . qq~ WHERE `yabbusername`="$name"~);
+				&mysql_process(0,'do',"UPDATE `$db_user_vars_table` SET " . join(',', map { qq~`$_`=~ . $vari{"dbh"}->quote(${$uid.$name}{ $db_user_vars_col{$_} }); } keys %db_user_vars_col) . qq~ WHERE `$db_user_vars_key`="$name"~) if $db_user_vars_table;
+				&mysql_process(0,'do',"UPDATE `$db_prefix\_vars` SET " . join(',', map { qq~`$_`=~ . $vari{"dbh"}->quote(${$uid.$name}{ $_ }) } keys %db_vars_col) . qq~ WHERE `yabbusername`="$name"~);
 			}
 
 		} else { # INSERT table(s)
@@ -2417,11 +2425,11 @@ sub CheckUserPM_Level {
 				# INSERT new values into `$db_user_vars_table` if no key with same name exists
 				if ($db_user_vars_table && !&mysql_process(0,'selectrow_array',qq~SELECT `$db_user_vars_key` FROM `$db_user_vars_table` WHERE `$db_user_vars_key`="$name"~)) {
 					@keys = keys %db_user_vars_col;
-					&mysql_process(0,'do',"INSERT INTO `$db_user_vars_table` (`$db_user_vars_key`,`" . join('`,`', @keys) . qq~`) VALUES ("$name","~ . join('","', map { ${$uid.$name}{ $db_user_vars_col{$_} } } @keys) . '")');
+					&mysql_process(0,'do',"INSERT INTO `$db_user_vars_table` (`$db_user_vars_key`,`" . join('`,`', @keys) . qq~`) VALUES ("$name",~ . join(',', map { $vari{"dbh"}->quote(${$uid.$name}{ $db_user_vars_col{$_} }) } @keys) . ')');
 				}
 				# INSERT new values into `$db_prefix\_vars`
 				@keys = keys %db_vars_col;
-				&mysql_process(0,'do',"INSERT INTO `$db_prefix\_vars` (`yabbusername`,`" . join('`,`', @keys) . qq~`) VALUES ("$name","~ . join('","', map { ${$uid.$name}{ $_ } } @keys) . '")');
+				&mysql_process(0,'do',"INSERT INTO `$db_prefix\_vars` (`yabbusername`,`" . join('`,`', @keys) . qq~`) VALUES ("$name",~ . join(',', map { $vari{"dbh"}->quote(${$uid.$name}{ $_ }) } @keys) . ')');
 		}
 	}
 
@@ -2430,8 +2438,8 @@ sub CheckUserPM_Level {
 
 		if ($DBfile eq $vardir."log"."txt") { # only for Variables/log.txt
 			my @temp_array = split(/\|/, $$data[0]);
-			&mysql_process(0,'do',qq~INSERT INTO `$db_user_log_table` (`$db_user_log_key`,`$db_user_log_col`) VALUES ("$name","~ . join('","', map { $temp_array[$_] } @db_user_log_array_order) . qq~")~) if $db_user_log_table;
-			&mysql_process(0,'do',qq~INSERT INTO `$db_prefix\_log` (`$db_log_col`) VALUES ("~ . join('","', map { $temp_array[$_] } @db_log_array_order) . qq~")~);
+			&mysql_process(0,'do',qq~INSERT INTO `$db_user_log_table` (`$db_user_log_key`,`$db_user_log_col`) VALUES ("$name","~ . join(',', map { $vari{"dbh"}->quote($temp_array[$_]) } @db_user_log_array_order) . qq~")~) if $db_user_log_table;
+			&mysql_process(0,'do',qq~INSERT INTO `$db_prefix\_log` (`$db_log_col`) VALUES (~ . join(',', map { $vari{"dbh"}->quote($temp_array[$_]) } @db_log_array_order) . qq~)~);
 
 		} else {
 			# to be done
@@ -2665,7 +2673,23 @@ sub CheckUserPM_Level {
 	}
 	# Do the file management (open and close) END
 
+	# Opens a database connection which is required to use quote() method
+	sub mysql_connect { 
+		if ($debug) { $openfiles .= qq~\n(~ . sprintf("%.4f", (time - $START_TIME)) . qq~) MySQL ~; }
 
+		unless ($vari{"dbh"} && $vari{"dbh"}->FETCH('Active')) {
+			my $socket = qq*;mysql_socket=$db_socket* if $db_socket;
+			my %attr = ( AutoCommit  => 1,
+				     HandleError => 0, # The HandleError attribute provide alternative behaviour in case of errors
+				     PrintError  => 0, # 1 => on error: warn("$class $method failed: $DBI::errstr")
+				     RaiseError  => 0, # 1 => on error:  die("$class $method failed: $DBI::errstr")
+				     );
+			$vari{"dbh"} = DBI->connect(qq*DBI:mysql:$db:$db_server:$db_port;mysql_compression=1$socket*, $db_username, $db_password, \%attr);
+
+			&fatal_error('', qq*No DBI conection:<br>DBI->connect("DBI:mysql:$db:$db_server:$db_port;mysql_compression=1$socket", $db_username, $db_password, %attr)<br>DBI::errstr:<br>* . $DBI::errstr, 1) if $DBI::errstr;
+		}
+	}
+	
 	# Do the SQL-DB management START
 	sub mysql_process { # Module DBI is added by "use" in Variables/Settings.pl
 		my (@ary,%hash);
