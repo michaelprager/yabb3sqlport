@@ -369,7 +369,7 @@ sub plushSearch2 {
 
 	my ($curboard, @threads, $curthread, $tnum, $tsub, $tname, $temail, $tdate, $treplies, $tusername, $ticon, $tstate, @messages, $curpost, $mname, $memail, $mdate, $musername, $micon, $mreplyno, $mip, $ns, $subfound, $msgfound, $numfound, %data, $i, $board, $curcat, @categories, %catid, %catname, %cataccess, %openmemgr, @membergroups, %cats, @boardinfo, %boardinfo, @boards, $counter, $msgnum);
 	my $maxtime = $date + (3600 * ${$uid.$username}{'timeoffset'}) - ($maxage * 86400);
-	my $oldestfound = 9999999999;
+	my $oldestfound = 99999999999;
 
 	unless ($mloaded == 1) { require "$boardsdir/forum.master"; }
 	foreach $catid (@categoryorder) {
