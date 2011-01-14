@@ -247,7 +247,7 @@ sub SaveDatabase {
 
 
 
-	&fatal_error('', $db_txt{'missingDBdata'}) if !$FORM{'db_server'} || !$FORM{'db_port'} || !$FORM{'db'} || !$FORM{'db_username'} || (!$FORM{'db_password'} && !$db_password) || (!$FORM{'db_prefix'} && !$FORM{'save_settings'});
+	&fatal_error('', $db_txt{'missingDBdata'}) if !$FORM{'db_server'} || !$FORM{'db_port'} || !$FORM{'db'} || !$FORM{'db_username'} || (!$FORM{'db_prefix'} && !$FORM{'save_settings'});
 
 	my $own_vars_table = 1 if $FORM{'own_tables'} && $FORM{'vars_tablename'} && $FORM{'col_yabbusername'};
 	my $own_log_table  = 1 if $FORM{'own_tables'} && $FORM{'log_tablename'}  && $FORM{'col_username'};
