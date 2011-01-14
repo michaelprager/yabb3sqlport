@@ -248,7 +248,7 @@ sub UserAccount {
 	# of the names from @tags above, nor one beginning with 'ext_'!
 
 	if ($use_MySQL && $userext eq 'vars') {
-		${$uid.$user}{'additional_variables'} = join('', map { qq~'$_',\\"${$uid.$user}{$_}\\"\n~ } @additional_tags);
+		${$uid.$user}{'additional_variables'} = join('', map { qq~'$_',"${$uid.$user}{$_}"\n~ } @additional_tags);
 	} else {
 		@tags = map { qq~'$_',"${$uid.$user}{$_}"\n~ } (@tags,@additional_tags);
 		unshift(@tags, "### User variables for ID: $user ###\n\n");
