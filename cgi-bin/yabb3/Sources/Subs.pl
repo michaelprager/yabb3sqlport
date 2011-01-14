@@ -2711,7 +2711,7 @@ sub CheckUserPM_Level {
 			}
 		}
 
-		&db_error(qq*\$method = '$method',<br>\@statement = ('* . join("','", @statement) . qq*'),<br>DBI::errstr = '* . $vari{"dbh"}->errstr . "'");
+		&db_error(qq*\$method = '$method',<br>\@statement = ('* . join("','", @statement) . qq*'),<br>DBI::errstr = '* . $vari{"dbh"}->errstr . "'<br>prepare = ".$vari{"dbh"}->{Statement});
 	}
 	# Do the SQL-DB management END
 
