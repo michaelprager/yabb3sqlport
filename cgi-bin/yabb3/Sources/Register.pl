@@ -762,6 +762,25 @@ sub Register2 {
 	${$uid.$reguser}{'template'} = $new_template;
 	${$uid.$reguser}{'language'} = $language;
 	${$uid.$reguser}{'pageindex'} = qq~1|1|1|1~;
+	# the following values must no be NULL when using SQL backend, so we set default values here
+	${$uid.$reguser}{'im_popup'} = 0;
+	${$uid.$reguser}{'hide_smilies_row'} = 0;
+	${$uid.$reguser}{'hide_user_text'} = 0;
+	${$uid.$reguser}{'im_imspop'} = 0;
+	${$uid.$reguser}{'hide_signat'} = 0;
+	${$uid.$reguser}{'stealth'} = 0;
+	${$uid.$reguser}{'dynamic_clock'} = 0;
+	${$uid.$reguser}{'pmmessprev'} = 0;
+	${$uid.$reguser}{'pmviewMess'} = 0;
+	${$uid.$reguser}{'pmactprev'} = 0;
+	${$uid.$reguser}{'notify_me'} = 0;
+	${$uid.$reguser}{'reversetopic'} = 0;
+	${$uid.$reguser}{'onlinealert'} = 0;
+	${$uid.$reguser}{'spamcount'} = 0;
+	${$uid.$reguser}{'hide_avatars'} = 0;
+	${$uid.$reguser}{'hide_attach_img'} = 0;
+	${$uid.$reguser}{'numberformat'} = 0;
+
 	if (($addmemgroup_enabled == 1 || $addmemgroup_enabled == 3) && $member{'joinmemgroup'} ne '') {
 		my @newmemgr;
 		foreach (split(/, /, $member{'joinmemgroup'})) {

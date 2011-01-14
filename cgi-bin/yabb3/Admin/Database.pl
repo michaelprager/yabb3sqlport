@@ -694,6 +694,8 @@ sub ConvertDatabase {
 
 		# Loop through each -rest- member
 		my $member;
+		my @notnull_default0 = (qw/hidemail stealth dsttimeoffset dynamic_clock postcount im_popup im_imspop pmmessprev pmviewMess pmactprev notify_me reversetopic onlinealert spamcount hide_avatars hide_user_text hide_attach_img hide_signat hide_smilies_row numberformat/);
+		my @notnull_default1 = (qw/timeselect/);
 		while (@contents) {
 			$member = pop @contents;
 			chomp $member;
@@ -701,6 +703,18 @@ sub ConvertDatabase {
 			# Load the users info from file
 			$use_MySQL = 0;
 			&LoadUser($member);
+			
+			# make sure that NOT NULL values actually have a value before submitting them to the database
+			foreach my $tag (@notnull_default0) {
+				if (${$uid.$member}{$tag} eq "") {
+					${$uid.$member}{$tag} = 0;
+				}
+			}
+			foreach my $tag (@notnull_default1) {
+				if (${$uid.$member}{$tag} eq "") {
+					${$uid.$member}{$tag} = 1;
+				}
+			}
 
 			# save the users info to MySQL
 			$use_MySQL = 1;
