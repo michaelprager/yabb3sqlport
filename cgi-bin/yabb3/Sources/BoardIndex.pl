@@ -395,6 +395,7 @@ sub BoardIndex {
 			} else {
 				$collapse_link = ''; $hash{$catname} = '';
 				$template_boardtable = qq~id="$catid"~;
+				$template_colboardtable = qq~id="col$catid" style="display:none;"~;
 			}
 
 			$catlink = qq~$collapse_link $hash{$catname} <a href="$scripturl?catselect=$catid" title="$boardindex_txt{'797'} $catname">$catname</a>~;
@@ -660,13 +661,26 @@ sub BoardIndex {
 						$template_subboards .= qq~$tmp_sublinks, ~;
 					}
 					$template_subboards =~ s/, $//g;
+					
+					my $sub_txt = $boardindex_txt{'64'};
+									
+					if($sub_count == 1) { $sub_txt = $boardindex_txt{'66'}; }
+					elsif($sub_count == 0) { $sub_txt = ''; $tmp_sublist = '';}
+					
+					# drop down arrow for expanding sub boards
+					# only do this if 1 or more sub boards and if this is an ajax call we dont want infinite levels of subboards
+					my $subdropdown;
+					if ($sub_count > 0) {
+						# don't make an ajax dropdown if we are calling from ajax. All those dropdowns would get confusing.
+						if ($INFO{'a'}) {
+							$subdropdown = qq~$sub_txt~;
+						} else {
+							$subdropdown = qq~<a href="javascript://" id="subdropa_$curboard" style="font-weight:bold" onclick="SubBoardList('$scripturl?board=$curboard','$curboard','$catid',$sub_count,$alternateboardcolor)"><img id="subdropbutton_$curboard" style="position: relative; top: 2px;" src="$imagesdir/sub_arrow.png" style="cursor: pointer;" border="0" />&nbsp;$sub_txt</a>~;
+						}
+					}
 					$tmp_sublist =~ s/({|<)yabb subboardlinks(}|>)/$template_subboards/g;
+					$tmp_sublist =~ s/({|<)yabb subdropdown(}|>)/$subdropdown/g;
 				}
-				
-				my $sub_txt = $boardindex_txt{'64'};
-				
-				if($sub_count == 1) { $sub_txt = $boardindex_txt{'66'}; }
-				elsif($sub_count == 0) { $sub_txt = ''; $tmp_sublist = '';}
 
 				my $altbrdcolor = (($alternateboardcolor % 2) == 1) ? "windowbg" : "windowbg2";
 				my $boardanchor = $curboard;
@@ -695,11 +709,11 @@ sub BoardIndex {
 					<table cellpadding="0" cellspacing="0" border="0" width="100%">
 						<tr>
 							<td width="20" valign="bottom" style="background-image:url($imagesdir/fadeleftdropdown.gif)">
-								<img onclick="MessageList('$scripturl\?board\=$curboard;messagelist=1','$curboard', 0)" style="position: absolute; cursor: pointer; bottom: -12px; left: -12px" src="$imagesdir/closebutton.png" border="0" />
+								<img onclick="MessageList('$scripturl\?board\=$curboard;messagelist=1','$yyhtml_root','$curboard', 0)" style="position: absolute; cursor: pointer; bottom: -12px; left: -12px" src="$imagesdir/closebutton.png" border="0" />
 							</td>
 							<td id="drop_$curboard" style="padding: 0px; padding-bottom: 8px"></td>
 							<td width="20" valign="top" style="background-image:url($imagesdir/faderightdropdown.gif)">
-								<img onclick="MessageList('$scripturl\?board\=$curboard;messagelist=1','$curboard', 0)" style="position: absolute; cursor: pointer; top: -12px; right: -12px" src="$imagesdir/closebutton.png" border="0" />
+								<img onclick="MessageList('$scripturl\?board\=$curboard;messagelist=1','$yyhtml_root','$curboard', 0)" style="position: absolute; cursor: pointer; top: -12px; right: -12px" src="$imagesdir/closebutton.png" border="0" />
 							</td>
 						</tr>
 					</table>
@@ -708,19 +722,11 @@ sub BoardIndex {
 				</tr>
 				~;
 				$messagedropdown = qq~
-				<img onclick="MessageList('$scripturl\?board\=$curboard;messagelist=1','$curboard', 0)" id="dropbutton_$curboard" style="cursor: pointer" src="$imagesdir/dropdown.png" border="0" />
+				<img onclick="MessageList('$scripturl\?board\=$curboard;messagelist=1','$yyhtml_root','$curboard', 0)" id="dropbutton_$curboard" style="cursor: pointer" src="$imagesdir/dropdown.png" border="0" />
 				~;
-				
-				# drop down arrow for expanding sub boards
-				# only do this if 1 or more sub boards and if this is an ajax call we dont want infinite levels of subboards
-				my $subdropdown;
-				if ($sub_count > 0 && !$INFO{'a'}) {
-					$subdropdown = qq~<img id="subdropbutton_$curboard" src="$imagesdir/dropdown.png" onclick="SubBoardList('$scripturl?board=$curboard','$curboard','$catid',$sub_count,$alternateboardcolor)" style="cursor: pointer; float: left" border="0" />&nbsp;~;
-				}
 				
 				$templateblock =~ s/({|<)yabb expandmessages(}|>)/$expandmessages/g;
 				$templateblock =~ s/({|<)yabb messagedropdown(}|>)/$messagedropdown/g;
-				$templateblock =~ s/({|<)yabb subdropdown(}|>)/$subdropdown/g;
 				
 				$templateblock =~ s/({|<)yabb boardanchor(}|>)/$boardanchor/g;
 				$templateblock =~ s/({|<)yabb new(}|>)/$new/g;
@@ -736,7 +742,6 @@ sub BoardIndex {
 				$templateblock =~ s/({|<)yabb altbrdcolor(}|>)/$altbrdcolor/g;
 				$templateblock =~ s/({|<)yabb altbrdcolor(}|>)/$altbrdcolor/g;
 				$templateblock =~ s/({|<)yabb subboardlist(}|>)/$tmp_sublist/g;
-				$templateblock =~ s/({|<)yabb subboardtxt(}|>)/$sub_txt/g;
 				$tmptemplateblock .= $templateblock;
 				
 				$alternateboardcolor++;
@@ -838,6 +843,30 @@ if (confirm('$boardindex_imtxt{'11'} ${$username}{'PMstorenum'} $boardindex_imtx
 	
 	# Template some stuff for sub boards before the rest
 	$boardindex_template =~ s/({|<)yabb catsblock(}|>)/$tmptemplateblock/g;
+	
+	# no matter if this is ajax subboards, subboards at top of messageindex, or regular boardindex we need these vars now
+	$yymain .= qq~\n
+	<script language="JavaScript1.2" type="text/javascript">
+	<!--
+		var catNames = [$template_catnames];
+		var boardNames = [$template_boardnames];
+		var boardOpen = "";
+		var subboardOpen = "";
+		var arrowup = '<img style="margin: 2px" src="$imagesdir/arrowup.gif" />';
+		var openbutton = "$imagesdir/dropdown.png";
+		var closebutton = "$imagesdir/dropup.png";
+		var opensubbutton = "$imagesdir/sub_arrow.png";
+		var closesubbutton = "$imagesdir/sub_arrow_up.png";
+		var loadimg = "$imagesdir/loadbar.gif";
+		var cachedBoards = new Object();
+		var cachedSubBoards = new Object();
+		var curboard = "";
+		var insertindex;
+		var insertcat;
+		var prev_subcount;
+	//-->
+	</script>
+	~;
 	
 	# don't show info center, login, etc. if we're calling from sub boards
 	if(!$subboard_sel) {
@@ -1009,27 +1038,7 @@ if (confirm('$boardindex_imtxt{'11'} ${$username}{'PMstorenum'} $boardindex_imtx
 		chop($template_catnames);
 		chop($template_boardnames);
 		$yyjavascript .= qq~\nvar markallreadlang = '$boardindex_txt{'500'}';\nvar markfinishedlang = '$boardindex_txt{'500a'}';~;
-		$yymain .= qq~\n
-	<script language="JavaScript1.2" src="$yyhtml_root/ajax.js" type="text/javascript"></script>
-	<script language="JavaScript1.2" type="text/javascript">
-	<!--
-		var catNames = [$template_catnames];
-		var boardNames = [$template_boardnames];
-		var boardOpen = "";
-		var subboardOpen = "";
-		var arrowup = '<img style="margin: 2px" src="$imagesdir/arrowup.gif" />';
-		var openbutton = "$imagesdir/dropdown.png";
-		var closebutton = "$imagesdir/dropup.png";
-		var loadimg = "$imagesdir/loadbar.gif";
-		var cachedBoards = new Object();
-		var cachedSubBoards = new Object();
-		var curboard = "";
-		var insertindex;
-		var insertcat;
-		var prev_subcount;
-	//-->
-	</script>
-	$boardindex_template~;
+		$yymain .= qq~\n$boardindex_template~;
 
 		if (${$username}{'PMimnewcount'} > 0) {
 			if (${$username}{'PMimnewcount'} > 1) { $en = 's'; $en2 = $boardindex_imtxt{'47'}; }
@@ -1132,7 +1141,7 @@ if (confirm('$boardindex_imtxt{'11'} ${$username}{'PMstorenum'} $boardindex_imtx
 			}
 		}
 	} else {
-		print "Content-type: text/plain\n\n";
+		print "Content-type: text/html; charset=ISO-8859-1\n\n";
 		print qq~
 		<table id="subloaded_$INFO{'board'}" style="display:none">
 		$boardindex_template

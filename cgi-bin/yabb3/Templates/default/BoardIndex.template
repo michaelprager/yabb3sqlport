@@ -193,7 +193,7 @@ $boardblock = qq~
 		{yabb new} <a name="{yabb boardanchor}" href="{yabb boardurl}"><b>{yabb boardname}</b></a><br />
 		{yabb boarddesc}
 		<div class="small" style="font-style:italic;">{yabb moderators}</div>
-		{yabb subdropdown}{yabb subboardlist}
+		<div class="small" style="display: inline-block; margin-top:5px">{yabb subboardlist}</div>
 		<div style="position: absolute; bottom: 0px; right: 0px;">
 			{yabb messagedropdown}
 		</div>
@@ -217,18 +217,18 @@ $nopost_boardblock = qq~
 	<td class="{yabb altbrdcolor}" width="6%" align="center" valign="middle">
 		<a href="{yabb boardurl}">{yabb boardpic}</a>
 	</td>
-	<td class="{yabb altbrdcolor}" width="54%" align="left" valign="middle" colspan="4">
+	<td class="{yabb altbrdcolor}" width="94%" align="left" valign="middle" colspan="4">
 		{yabb new} <a name="{yabb boardanchor}" href="{yabb boardurl}"><b>{yabb boardname}</b></a><br />
 		{yabb boarddesc}
 		<div class="small" style="font-style:italic;">{yabb moderators}</div>
-		{yabb subdropdown}{yabb subboardlist}
+		<div class="small" style="display: inline-block; margin-top:5px">{yabb subboardlist}</div>
 	</td>
 </tr>
 {yabb expandmessages}
 ~;
 
 $subboard_links = qq~{yabb new} <a href="{yabb boardurl}">{yabb boardname}</a>~;
-$subboard_list = qq~<div class="small" style="display: inline-block; float: float; margin-top:5px"><b>{yabb subboardtxt}:</b> {yabb subboardlinks}</div>~;
+$subboard_list = qq~<b>{yabb subdropdown}:</b> {yabb subboardlinks}~;
 
 # Category footer                          #
 

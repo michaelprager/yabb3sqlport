@@ -890,7 +890,22 @@ sub Display {
 
 	$tabsep = qq~<img src="$imagesdir/tabsep211.png" border="0" alt="" style="vertical-align: middle;" />~;
 	$yynavback = qq~$tabsep <a href="$scripturl">&#171; $img_txt{'103'}</a> $tabsep $navback $tabsep~;
-	$yynavigation = qq~&rsaquo; $template_cat &rsaquo; $template_board &rsaquo; $msubthread~;
+	
+	$boardtree = '';
+	$parentboard = $currentboard;
+	while($parentboard) {
+		my ($pboardname, undef, undef) = split(/\|/, $board{"$parentboard"});
+		if(${$uid.$parentboard}{'canpost'}) {
+			$pboardname = qq~<a href="$scripturl?board=$parentboard" class="a"><b>$pboardname</b></a>~;
+		} else {
+			$pboardname = qq~<a href="$scripturl?boardselect=$parentboard&subboards=1" class="a"><b>$pboardname</b></a>~;
+		}
+		$boardtree = qq~ &rsaquo; $pboardname$boardtree~;
+		$parentboard = ${$uid.$parentboard}{'parent'};
+	}
+	
+	$yynavigation = qq~&rsaquo; $template_cat$boardtree &rsaquo; $msubthread~;
+	
 	# Create link to modify displayed post order if allowed
 	my $curthreadurl = (!$iamguest and $ttsureverse) ? qq~<a title="$display_txt{'reverse'}" href="$scripturl?num=$viewnum;start=~ . (!$ttsreverse ? $mreplies : 0) . qq~;action=~ . ($userthreadpage == 1 ? 'threadpagetext' : 'threadpagedrop') . qq~;reversetopic=$ttsreverse"><img src="$imagesdir/arrow_~ . ($ttsreverse ? 'up' : 'down') . qq~.gif" border="0" alt="" style="vertical-align: middle;" /> $msubthread</a>~ : $msubthread;
 

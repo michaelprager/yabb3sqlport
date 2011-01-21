@@ -385,7 +385,7 @@ function IMComplete() {
 
 // Drop down message index for board index
 
-function MessageList(url,board,loadnew) {
+function MessageList(url,includejs,board,loadnew) {
 	// close previously opened board
 	if(boardOpen != "" && !loadnew) {
 		document.getElementById("droprow_"+boardOpen).style.display = "none";
@@ -405,16 +405,25 @@ function MessageList(url,board,loadnew) {
 	
 	boardOpen = board;
 	
-	MessageListInsert('<img src="'+loadimg+'" border="0" />');
 	document.getElementById("dropbutton_"+board).src = closebutton;
 	
 	if (cachedBoards[board] == null || loadnew) {	
+		MessageListInsert('<img src="'+loadimg+'" border="0" />');
 		xmlHttp.onreadystatechange=MessageListFinished;
-		xmlHttp.open("GET",url,true);
+		xmlHttp.open("GET",url+";r="+Math.random(),true);
 		xmlHttp.send(null);
 	} else {
-		MessageListInsert(cachedBoards[board]);
+		if (document.getElementById("drop_"+boardOpen).innerHTML == "") {
+			MessageListInsert(cachedBoards[board]);
+		} else {
+			document.getElementById("droprow_"+boardOpen).style.display = "table-row";
+		}
 	}
+	
+	var MIscript = document.createElement('script');
+	MIscript.setAttribute("type","text/javascript");
+	MIscript.setAttribute("src", includejs+'/MessageIndex.js');
+	document.getElementsByTagName("head")[0].appendChild(MIscript);
 }
 
 function MessageListFinished() {
@@ -458,7 +467,7 @@ function SubBoardList(url,board,cat,subcount,index) {
 				i--;
 			}
 		}
-		document.getElementById("subdropbutton_"+subboardOpen).src = openbutton;
+		document.getElementById("subdropbutton_"+subboardOpen).src = opensubbutton;
 		if (subboardOpen == board) {
 			subboardOpen = "";
 			return;
@@ -470,14 +479,14 @@ function SubBoardList(url,board,cat,subcount,index) {
 	insertcat = cat;
 	prev_subcount = subcount;
 	
-	document.getElementById("subdropbutton_"+board).src = closebutton;
+	document.getElementById("subdropbutton_"+board).src = closesubbutton;
 	
 	if (cachedSubBoards[board] == null) {
 		document.getElementById("dropsub_" + subboardOpen).innerHTML = '<img src="'+loadimg+'" border="0" />';
 		document.getElementById("dropsubrow_" + subboardOpen).style.display = "table-row";
 		
 		xmlHttp.onreadystatechange=SubBoardListFinished;
-		xmlHttp.open("GET",url + ";a=1",true);
+		xmlHttp.open("GET",url + ";a=1;r="+Math.random(),true);
 		xmlHttp.send(null);
 	} else {
 		document.getElementById("dropsub_" + subboardOpen).innerHTML = cachedSubBoards[board];
@@ -535,7 +544,7 @@ function MakeCollapseBars(table, index) {
 	cell.innerHTML = arrowup;
 	cell.style.cursor = "pointer";
 	cell.onclick = function () {
-		var elem = document.getElementById("subdropbutton_"+subboardOpen);
+		var elem = document.getElementById("subdropa_"+subboardOpen);
 		if (typeof elem.onclick == "function") {
    			elem.onclick.apply(elem);
 		}
@@ -552,9 +561,9 @@ function SwitchPageList(oldurl, sendurl, closelist, openlist) {
 	}
 	
 	document.getElementById(closelist).style.display = "none";
-	document.getElementById(closelist + '2').style.display = "none";
+	document.getElementById('2'+closelist).style.display = "none";
 	document.getElementById(openlist).style.display = "inline-block";
-	document.getElementById(openlist + '2').style.display = "inline-block";
+	document.getElementById('2'+openlist).style.display = "inline-block";
 	
 	xmlHttp.open("GET",sendurl,true);
 	xmlHttp.send(null);

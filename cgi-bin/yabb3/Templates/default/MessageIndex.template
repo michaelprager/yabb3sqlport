@@ -32,8 +32,8 @@ if($threadtools) {
 	$threadhandelstyle = qq~ align="right"~;
 }
 
-if (!$ShowBDescrip && $action ne "favorites") {
 if (!$messagelist) {
+if (!$ShowBDescrip && $action ne "favorites") {
 $messageindex_template .= qq~
 
 
@@ -52,7 +52,6 @@ $messageindex_template .= qq~
 <!-- Board Moderators end -->
 
 ~;
-}
 }
 else {
 $messageindex_template .= qq~
@@ -84,6 +83,7 @@ $messageindex_template .= qq~
 
 
 ~;
+}
 }
 
 if ($action ne "favorites") {

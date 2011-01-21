@@ -196,12 +196,12 @@ sub MessageIndex {
 			$hidedefaultpages = qq~; display: none~;
 		}
 		
-		$pagetxtindexst = qq~<span id="defaultpagelist" class="small" style="float: left; height: 21px; margin: 0px; margin-top: 2px$hidedefaultpages">~;
-		if (!$iamguest) { $pagetxtindexst .= qq~<a href="javascript:SwitchPageList('$scripturl?board=$INFO{'board'};start=$start;action=messagepagedrop','$scripturl?action=messagepagedrop;updateonly=1','defaultpagelist','javascriptpagelist')"><img src="$imagesdir/index_togl.png" border="0" alt="$messageindex_txt{'19'}" title="$messageindex_txt{'19'}" style="vertical-align: middle;" /></a> $messageindex_txt{'139'}: ~; }
+		$pagetxtindexst = qq~<span id="defaultpagelist$currentboard" class="small" style="float: left; height: 21px; margin: 0px; margin-top: 2px$hidedefaultpages">~;
+		if (!$iamguest) { $pagetxtindexst .= qq~<a href="javascript:SwitchPageList('$scripturl?board=$INFO{'board'};start=$start;action=messagepagedrop','$scripturl?action=messagepagedrop;updateonly=1','defaultpagelist$currentboard','javascriptpagelist$currentboard')"><img src="$imagesdir/index_togl.png" border="0" alt="$messageindex_txt{'19'}" title="$messageindex_txt{'19'}" style="vertical-align: middle;" /></a> $messageindex_txt{'139'}: ~; }
 		else { $pagetxtindexst .= qq~<img src="$imagesdir/index_togl.png" border="0" alt="$messageindex_txt{'139'}" title="$messageindex_txt{'139'}" style="vertical-align: middle;" /> $messageindex_txt{'139'}: ~; }
 		if ($startpage > 0) {
 			if ($messagelist) {
-				$pagetxtindex = qq~<a href="javascript:MessageList('$scripturl?board=$currentboard/0;messagelist=1','$currentboard', 1)" style="font-weight: normal;">1</a>~;
+				$pagetxtindex = qq~<a href="javascript:MessageList('$scripturl?board=$currentboard/0;messagelist=1','$yyhtml_root','$currentboard', 1)" style="font-weight: normal;">1</a>~;
 			} else {
 				$pagetxtindex = qq~<a href="$scripturl?board=$currentboard/0'" style="font-weight: normal;">1</a>~;
 			}
@@ -209,14 +209,14 @@ sub MessageIndex {
 		}
 		if ($startpage == $maxindex) {
 			if ($messagelist) {
-				$pagetxtindex = qq~<a href="javascript:MessageList('$scripturl?board=$currentboard/0;messagelist=1','$currentboard', 1)" style="font-weight: normal;">1</a>&nbsp;~;
+				$pagetxtindex = qq~<a href="javascript:MessageList('$scripturl?board=$currentboard/0;messagelist=1','$yyhtml_root','$currentboard', 1)" style="font-weight: normal;">1</a>&nbsp;~;
 			} else {
 				$pagetxtindex = qq~<a href="$scripturl?board=$currentboard/0" style="font-weight: normal;">1</a>&nbsp;~;
 			}
 		}
 		for ($counter = $startpage; $counter < $endpage; $counter += $maxindex) {
 			if ($messagelist) {
-				$pagetxtindex .= $start == $counter ? qq~<b>$tmpa</b>&nbsp;~ : qq~<a href="javascript:MessageList('$scripturl?board=$currentboard/$counter;messagelist=1','$currentboard', 1)" style="font-weight: normal;">$tmpa</a>&nbsp;~;
+				$pagetxtindex .= $start == $counter ? qq~<b>$tmpa</b>&nbsp;~ : qq~<a href="javascript:MessageList('$scripturl?board=$currentboard/$counter;messagelist=1','$yyhtml_root','$currentboard', 1)" style="font-weight: normal;">$tmpa</a>&nbsp;~;
 			} else {
 				$pagetxtindex .= $start == $counter ? qq~<b>$tmpa</b>&nbsp;~ : qq~<a href="$scripturl?board=$currentboard/$counter" style="font-weight: normal;">$tmpa</a>&nbsp;~;
 			}
@@ -225,7 +225,7 @@ sub MessageIndex {
 		if ($endpage < $threadcount - $maxindex) { $pageindexadd = qq~<a href='javascript: void(0);' onclick='ListPages2("$currentboard","$threadcount");'>...</a>&nbsp;~; }
 		if ($endpage != $threadcount) {
 			if ($messagelist) {
-				$pageindexadd .= qq~<a href="javascript:MessageList('$scripturl?board=$currentboard/$lastptn;messagelist=1','$currentboard', 1)" style="font-weight: normal;">$lastpn</a>~;
+				$pageindexadd .= qq~<a href="javascript:MessageList('$scripturl?board=$currentboard/$lastptn;messagelist=1','$yyhtml_root','$currentboard', 1)" style="font-weight: normal;">$lastpn</a>~;
 			} else {
 				$pageindexadd .= qq~<a href="$scripturl?board=$currentboard/$lastptn" style="font-weight: normal;">$lastpn</a>~;
 			}
@@ -234,11 +234,11 @@ sub MessageIndex {
 		$pagetxtindex .= $pageindexadd;
 		$pageindex1 = qq~$pagetxtindexst $pagetxtindex</span>~;
 		$pageindex2 = $pageindex1;
-		$pageindex2 =~ s/defaultpagelist/defaultpagelist2/g;
+		$pageindex2 =~ s/id=\"defaultpagelist/id=\"2defaultpagelist/g;
 		
 		# Javascript page selection
-		$pagedropindex1 = qq~<span id="javascriptpagelist" style="float: left; width: 350px; margin: 0px; margin-top: 2px; border: 0px$hidejavascriptpages">~;
-		$pagedropindex1 .= qq~<span style="float: left; height: 21px; margin: 0; margin-right: 4px;"><a href="javascript:SwitchPageList('$scripturl?board=$INFO{'board'};start=$start;action=messagepagetext','$scripturl?action=messagepagetext;updateonly=1','javascriptpagelist','defaultpagelist')"><img src="$imagesdir/index_togl.png" border="0" alt="$messageindex_txt{'19'}" title="$messageindex_txt{'19'}" /></a></span>~;
+		$pagedropindex1 = qq~<span id="javascriptpagelist$currentboard" style="float: left; width: 350px; margin: 0px; margin-top: 2px; border: 0px$hidejavascriptpages">~;
+		$pagedropindex1 .= qq~<span style="float: left; height: 21px; margin: 0; margin-right: 4px;"><a href="javascript:SwitchPageList('$scripturl?board=$INFO{'board'};start=$start;action=messagepagetext','$scripturl?action=messagepagetext;updateonly=1','javascriptpagelist$currentboard','defaultpagelist$currentboard')"><img src="$imagesdir/index_togl.png" border="0" alt="$messageindex_txt{'19'}" title="$messageindex_txt{'19'}" /></a></span>~;
 		$pagedropindex2 = $pagedropindex1;
 		$tstart = $start;
 		#if (substr($INFO{'start'}, 0, 3) eq "all") { ($tstart, $start) = split(/\-/, $INFO{'start'}); }
@@ -286,7 +286,7 @@ sub MessageIndex {
 		else {
 			$pagedropindexpv .= qq~<img src="$imagesdir/index_left.gif" border="0" height="14" width="13" alt="$pidtxt{'02'}" title="$pidtxt{'02'}" style="display: inline; vertical-align: middle; cursor: pointer;" ~;
 			if($messagelist) {
-				$pagedropindexpv .= qq~onclick="MessageList(\\'$scripturl?board=$currentboard/$prevpage;messagelist=1\\', \\'$currentboard\\', 1)" ondblclick="MessageList(\\'$scripturl?board=$currentboard/0;messagelist=1\\', \\'$currentboard\\', 1)" />~;
+				$pagedropindexpv .= qq~onclick="MessageList(\\'$scripturl?board=$currentboard/$prevpage;messagelist=1\\',\\'$yyhtml_root\\', \\'$currentboard\\', 1)" ondblclick="MessageList(\\'$scripturl?board=$currentboard/0;messagelist=1\\', \\'$yyhtml_root\\',\\'$currentboard\\', 1)" />~;
 			} else {
 				$pagedropindexpv .= qq~onclick="location.href=\\'$scripturl?board=$currentboard/$prevpage\\'" ondblclick="location.href=\\'$scripturl?board=$currentboard/0\\'" />~;
 			}
@@ -295,7 +295,7 @@ sub MessageIndex {
 		else {
 			$pagedropindexnx .= qq~<img src="$imagesdir/index_right.gif" height="14" width="13" border="0" alt="$pidtxt{'03'}" title="$pidtxt{'03'}" style="display: inline; vertical-align: middle; cursor: pointer;" ~;
 			if($messagelist) {
-				$pagedropindexnx .= qq~onclick="MessageList(\\'$scripturl?board=$currentboard/$nextpage;messagelist=1\\', \\'$currentboard\\', 1)" ondblclick="MessageList(\\'$scripturl?board=$currentboard/$lastptn;messagelist=1\\', \\'$currentboard\\', 1)" />~;
+				$pagedropindexnx .= qq~onclick="MessageList(\\'$scripturl?board=$currentboard/$nextpage;messagelist=1\\', \\'$yyhtml_root\\',\\'$currentboard\\', 1)" ondblclick="MessageList(\\'$scripturl?board=$currentboard/$lastptn;messagelist=1\\', \\'$yyhtml_root\\',\\'$currentboard\\', 1)" />~;
 			} else {
 				$pagedropindexnx .= qq~onclick="location.href=\\'$scripturl?board=$currentboard/$nextpage\\'" ondblclick="location.href=\\'$scripturl?board=$currentboard/$lastptn\\'" />~;
 			}
@@ -303,11 +303,11 @@ sub MessageIndex {
 		
 		$pageindex1 .= qq~$pagedropindex1</span>~;
 		$pageindex2 .= qq~$pagedropindex2</span>~;
-		$pageindex2 =~ s/javascriptpagelist/javascriptpagelist2/g;
+		$pageindex2 =~ s/id=\"javascriptpagelist/id=\"2javascriptpagelist/g;
 		
 		# make select box have links for ajax vs default url
 		if ($messagelist) {
-			$default_or_ajax = qq~javascript:MessageList(\\'$scripturl?board=$currentboard/' + pagstart + ';messagelist=1\\', \\'$currentboard\\', 1)~;
+			$default_or_ajax = qq~javascript:MessageList(\\'$scripturl?board=$currentboard/' + pagstart + ';messagelist=1\\', \\'$yyhtml_root\\',\\'$currentboard\\', 1)~;
 		} else {
 			$default_or_ajax = qq~$scripturl?board=$currentboard/' + pagstart + '~;
 		}
@@ -392,7 +392,12 @@ sub MessageIndex {
 	# Print the header and board info.
 	&ToChars($boardname);
 	if ($multiview == 1) {
-		$yymain .= qq~<script language="JavaScript1.2" src="$yyhtml_root/ubbc.js" type="text/javascript"></script>~;
+		$yymain .= qq~<script language="JavaScript1.2" src="$yyhtml_root/ubbc.js" type="text/javascript"></script>\n~;
+	}
+	
+	if ($$multiview >= 2) {
+		my $modul = $currentboard eq $annboard ? 4 : 5;
+		$yymain .= qq~<script language="JavaScript1.2" src="$yyhtml_root/MessageIndex.js" type="text/javascript"></script>\n~;
 	}
 
 	my $homelink = qq~<a href="$scripturl">$mbname</a>~;
@@ -756,25 +761,27 @@ sub MessageIndex {
 	if ($multiview > 1) {
 		my $boardlist = &moveto;
 		my ($admincheckboxes,$adminselector);
+		my $dropdownbd;
+		if ($messagelist) { $dropdownbd = qq~,'$currentboard'~; }
 		if ($multiview == 3) {
 			$adminselector = qq~
 				<label for="toboard">$messageindex_txt{'133'}</label>: <input type="checkbox" name="newinfo" value="1" title="$messageindex_txt{199}" class="titlebg" style="border: 0px;" ondblclick="alert('$messageindex_txt{200}')" /> <select name="toboard" id="toboard">$boardlist</select><input type="submit" value="$messageindex_txt{'462'}" class="button" />
 			~;
 			if ($currentboard eq $annboard) {
 				$admincheckboxes = qq~
-				<input type="checkbox" name="lockall" value="" class="titlebg" style="border: 0px;" onclick="if (this.checked) checkAll(1); else uncheckAll(1);" />
-				<input type="checkbox" name="hideall" value="" class="titlebg" style="border: 0px;" onclick="if (this.checked) checkAll(2); else uncheckAll(2);" />
-				<input type="checkbox" name="moveall" value="" class="titlebg" style="border: 0px;" onclick="if (this.checked) checkAll(3); else uncheckAll(3);" />
-				<input type="checkbox" name="deleteall" value="" class="titlebg" style="border: 0px;" onclick="if (this.checked) checkAll(4); else uncheckAll(4);" />
+				<input type="checkbox" name="lockall" value="" class="titlebg" style="border: 0px;" onclick="if (this.checked) checkAll(1$dropdownbd); else uncheckAll(1$dropdownbd);" />
+				<input type="checkbox" name="hideall" value="" class="titlebg" style="border: 0px;" onclick="if (this.checked) checkAll(2$dropdownbd); else uncheckAll(2$dropdownbd);" />
+				<input type="checkbox" name="moveall" value="" class="titlebg" style="border: 0px;" onclick="if (this.checked) checkAll(3$dropdownbd); else uncheckAll(3$dropdownbd);" />
+				<input type="checkbox" name="deleteall" value="" class="titlebg" style="border: 0px;" onclick="if (this.checked) checkAll(4$dropdownbd); else uncheckAll(4$dropdownbd);" />
 				<input type="hidden" name="fromboard" value="$currentboard" />
 			~;
 			} else {
 				$admincheckboxes = qq~
-				<input type="checkbox" name="lockall" value="" class="titlebg" style="border: 0px;" onclick="if (this.checked) checkAll(1); else uncheckAll(1);" />
-				<input type="checkbox" name="stickall" value="" class="titlebg" style="border: 0px;" onclick="if (this.checked) checkAll(2); else uncheckAll(2);" />
-				<input type="checkbox" name="hideall" value="" class="titlebg" style="border: 0px;" onclick="if (this.checked) checkAll(3); else uncheckAll(3);" />
-				<input type="checkbox" name="moveall" value="" class="titlebg" style="border: 0px;" onclick="if (this.checked) checkAll(4); else uncheckAll(4);" />
-				<input type="checkbox" name="deleteall" value="" class="titlebg" style="border: 0px;" onclick="if (this.checked) checkAll(5); else uncheckAll(5);" />
+				<input type="checkbox" name="lockall" value="" class="titlebg" style="border: 0px;" onclick="if (this.checked) checkAll(1$dropdownbd); else uncheckAll(1$dropdownbd);" />
+				<input type="checkbox" name="stickall" value="" class="titlebg" style="border: 0px;" onclick="if (this.checked) checkAll(2$dropdownbd); else uncheckAll(2$dropdownbd);" />
+				<input type="checkbox" name="hideall" value="" class="titlebg" style="border: 0px;" onclick="if (this.checked) checkAll(3$dropdownbd); else uncheckAll(3$dropdownbd);" />
+				<input type="checkbox" name="moveall" value="" class="titlebg" style="border: 0px;" onclick="if (this.checked) checkAll(4$dropdownbd); else uncheckAll(4$dropdownbd);" />
+				<input type="checkbox" name="deleteall" value="" class="titlebg" style="border: 0px;" onclick="if (this.checked) checkAll(5$dropdownbd); else uncheckAll(5$dropdownbd);" />
 				<input type="hidden" name="fromboard" value="$currentboard" />
 			~;
 			}
@@ -819,12 +826,13 @@ sub MessageIndex {
 			#<input type="radio" name="multiaction" id="multiactionmove" value="move" class="titlebg" style="border: 0px;" /> <label for="multiactionmove">$messageindex_txt{'133'}</label>
 			}
 			$admincheckboxes = qq~
-				<input type="checkbox" name="checkall" id="checkall" value="" class="titlebg" style="border: 0px;" onclick="if (this.checked) checkAll(0); else uncheckAll(0);" />
+				<input type="checkbox" name="checkall" id="checkall" value="" class="titlebg" style="border: 0px;" onclick="if (this.checked) checkAll(0$dropdownbd); else uncheckAll(0$dropdownbd);" />
 			~;
 		}
 		$tmptempfooter = $subfooterbar;
 		$tmptempfooter =~ s/({|<)yabb admin selector(}|>)/$adminselector/g;
 		$tmptempfooter =~ s/({|<)yabb admin checkboxes(}|>)/$admincheckboxes/g;
+		if ($messagelist) { $tempfooter =~ s/checkAll/checkAll2/g; }
 	}
 
 	if (!$messagelist) {
@@ -943,7 +951,14 @@ sub MessageIndex {
 	}
 
 	if ($multiview > 1) {
-		$formstart = qq~<form name="multiadmin" action="$scripturl?board=$currentboard;action=multiadmin" method="post" style="display: inline">~;
+		if (!$messagelist) {
+			$formstart = qq~<form name="multiadmin" action="$scripturl?board=$currentboard;action=multiadmin" method="post" style="display: inline">~;
+		} else {
+			$formstart = qq~
+			<form name="multiadmin$currentboard" id="multiadmin$currentboard" action="$scripturl?board=$currentboard;action=multiadmin" method="post" style="display: inline">
+			<input type="hidden" name="formsession" value="$formsession" />
+			~;
+		}
 		$formend   = qq~<input type="hidden" name="allpost" value="$INFO{'start'}" /></form>~;
 		$messageindex_template =~ s/({|<)yabb modupdate(}|>)/$formstart/g;
 		$messageindex_template =~ s/({|<)yabb modupdateend(}|>)/$formend/g;
@@ -982,40 +997,8 @@ sub MessageIndex {
 	$pageindexjs
 	~;
 
-	if ($multiview > 1) {
-		my $modul = $currentboard eq $annboard ? 4 : 5;
-
-		if ($sessionvalid == 1) {
-			$yymain .= qq~
-<script language="JavaScript1.2" type="text/javascript">
-<!--
-	function checkAll(j) {
-		for (var i = 0; i < document.multiadmin.elements.length; i++) {
-			if (document.multiadmin.elements[i].type == "checkbox" && !/all\$/.test(document.multiadmin.elements[i].name) && (j == 0 || (j != 0 && (i % $modul) == (j - 1))))
-				document.multiadmin.elements[i].checked = true;
-		}
-	}
-	function uncheckAll(j) {
-		for (var i = 0; i < document.multiadmin.elements.length; i++) {
-			if (document.multiadmin.elements[i].type == "checkbox" && !/all\$/.test(document.multiadmin.elements[i].name) && (j == 0 || (j != 0 && (i % $modul) == (j - 1))))
-				document.multiadmin.elements[i].checked = false;
-		}
-	}
-	function checkaction(s) {
-		if (s.options[s.selectedIndex].value == "move") {
-			document.getElementById("moveoptions").style.display = "inline-block";
-		} else {
-			document.getElementById("moveoptions").style.display = "none";
-		}
-	}
-//-->
-</script>\n~;
-		}
-	}
-
 	$yyjavascript .= qq~\nvar markallreadlang = '$messageindex_txt{'500'}';\nvar markfinishedlang = '$messageindex_txt{'500a'}';~;
 	$yymain .= qq~
-<script language="JavaScript1.2" src="$yyhtml_root/ajax.js" type="text/javascript"></script>
 <script language="JavaScript1.2" type="text/javascript">
 <!--
 	function ListPages(tid) { window.open('$scripturl?action=pages;num='+tid, '', 'menubar=no,toolbar=no,top=50,left=50,scrollbars=yes,resizable=no,width=400,height=300'); }
@@ -1045,7 +1028,7 @@ sub MessageIndex {
 		}
 		&template;
 	} else {
-		print "Content-type: text/plain\n\n";
+		print "Content-type: text/html; charset=ISO-8859-1\n\n";
 		print qq~
 		$messageindex_template
 		$pageindexjs

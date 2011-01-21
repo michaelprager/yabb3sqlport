@@ -270,24 +270,6 @@ my $googiehtml = qq~<input type="checkbox" name="enable_spell_check" id="enable_
 			validate => 'boolean',
 		},
 		{
-			description => qq~<label for="posttools">$admin_txt{'527'}</label>~,
-			input_html => qq~<input type="checkbox" name="posttools" id="posttools" value="1"${ischecked($posttools)} />~,
-			name => 'posttools',
-			validate => 'boolean',
-		},
-		{
-			description => qq~<label for="threadtools">$admin_txt{'528'}</label>~,
-			input_html => qq~<input type="checkbox" name="threadtools" id="threadtools" value="1"${ischecked($threadtools)} />~,
-			name => 'threadtools',
-			validate => 'boolean',
-		},
-		{
-			description => qq~<label for="userinfostyle">$admin_txt{'529'}</label>~,
-			input_html => qq~<input type="checkbox" name="userinfostyle" id="userinfostyle" value="1"${ischecked($userinfostyle)} />~,
-			name => 'userinfostyle',
-			validate => 'boolean',
-		},
-		{
 			description => qq~<label for="showlatestmember">$admin_txt{'382'}</label>~,
 			input_html => qq~<input type="checkbox" name="showlatestmember" id="showlatestmember" value="1"${ischecked($showlatestmember)} />~,
 			name => 'showlatestmember',
@@ -465,6 +447,18 @@ my $googiehtml = qq~<input type="checkbox" name="enable_spell_check" id="enable_
 			validate => 'number',
 		},
 		{
+			description => qq~<label for="posttools">$admin_txt{'527'}</label>~,
+			input_html => qq~<input type="checkbox" name="posttools" id="posttools" value="1"${ischecked($posttools)} />~,
+			name => 'posttools',
+			validate => 'boolean',
+		},
+		{
+			description => qq~<label for="threadtools">$admin_txt{'528'}</label>~,
+			input_html => qq~<input type="checkbox" name="threadtools" id="threadtools" value="1"${ischecked($threadtools)} />~,
+			name => 'threadtools',
+			validate => 'boolean',
+		},
+		{
 			description => qq~<label for="mindex_postpopup">$admin_txt{'1000'}</label>~,
 			input_html => qq~<input type="checkbox" name="mindex_postpopup" id="mindex_postpopup" value="1"${ischecked($mindex_postpopup)} />~,
 			name => 'mindex_postpopup',
@@ -480,6 +474,12 @@ my $googiehtml = qq~<input type="checkbox" name="enable_spell_check" id="enable_
 			description => qq~<label for="mdrop_postpopup">$admin_txt{'1002'}</label>~,
 			input_html => qq~<input type="checkbox" name="mdrop_postpopup" id="mdrop_postpopup" value="1"${ischecked($mdrop_postpopup)} />~,
 			name => 'mdrop_postpopup',
+			validate => 'boolean',
+		},
+		{
+			description => qq~<label for="userinfostyle">$admin_txt{'529'}</label>~,
+			input_html => qq~<input type="checkbox" name="userinfostyle" id="userinfostyle" value="1"${ischecked($userinfostyle)} />~,
+			name => 'userinfostyle',
 			validate => 'boolean',
 		},
 		{

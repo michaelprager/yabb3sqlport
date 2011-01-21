@@ -195,6 +195,7 @@ $yysyntax_js = qq~
 <script language="JavaScript1.2" type="text/javascript" src="$yyhtml_root/shjs/sh_php.js"></script>
 <script language="JavaScript1.2" type="text/javascript" src="$yyhtml_root/shjs/sh_sql.js"></script>
 <script language="JavaScript1.2" type="text/javascript" src="$yyhtml_root/YaBB.js"></script>
+<script language="JavaScript1.2" type="text/javascript" src="$yyhtml_root/ajax.js"></script>
 ~;
 
 	# add 'back to top' Button on the end of each page
