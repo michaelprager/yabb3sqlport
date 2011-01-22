@@ -690,7 +690,9 @@ sub Display {
 					$quote_mname =~ s/'/\\'/g;
 					
 					if ($display_postpopup) {
-						$template_markquote = qq~$menusep<a href="javascript://" onclick="popupquote('$quote_mname',$viewnum,$counter,$mdate,quote_selection[$counter])">$img{'mquote'}</a>~;
+						if ($enable_markquote) {
+							$template_markquote = qq~$menusep<a href="javascript://" onclick="popupquote('$quote_mname',$viewnum,$counter,$mdate,quote_selection[$counter])">$img{'mquote'}</a>~;
+						}
 						if (length($postmessage) <= $quick_quotelength) {
 							my $quickmessage = $postmessage;
 							if (!$nestedquotes) {
