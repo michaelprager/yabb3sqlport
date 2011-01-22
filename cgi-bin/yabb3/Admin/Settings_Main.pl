@@ -609,14 +609,14 @@ my $googiehtml = qq~<input type="checkbox" name="enable_spell_check" id="enable_
 			input_html => qq~<input type="checkbox" name="enable_markquote" id="enable_markquote" value="1"${ischecked($enable_markquote)} />~,
 			name => 'enable_markquote',
 			validate => 'boolean',
-			depends_on => ['enable_quickreply'],
+			depends_on => ['enable_quickreply||', 'display_postpopup||'],
 		},
 		{
 			description => qq~<label for="enable_quoteuser">$qrb_txt{'5'}</label>~,
 			input_html => qq~<input type="checkbox" name="enable_quoteuser" id="enable_quoteuser" value="1"${ischecked($enable_quoteuser)} />~,
 			name => 'enable_quoteuser',
 			validate => 'boolean',
-			depends_on => ['enable_quickreply'],
+			depends_on => ['enable_quickreply||', 'display_postpopup||'],
 		},
 		{
 			description => qq~<label for="quoteuser_color">$qrb_txt{'6'}</label>~,
