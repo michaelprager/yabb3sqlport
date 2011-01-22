@@ -9,7 +9,7 @@
 # Packaged:       October 05, 2010                                            #
 # Distributed by: http://www.yabbforum.com                                    #
 # =========================================================================== #
-# Copyright (c) 2000-2010 YaBB (www.yabbforum.com) - All Rights Reserved.     #
+# Copyright (c) 2000-2011 YaBB (www.yabbforum.com) - All Rights Reserved.     #
 # Software by:  The YaBB Development Team                                     #
 #               with assistance from the YaBB community.                      #
 ###############################################################################
@@ -117,7 +117,7 @@ if (-e "$vardir/Setup.lock") {
 		<table width="100%" cellspacing="1" cellpadding="4">
 		<tr valign="middle">
 			<td width="100%" colspan="2" class="titlebg" align="left">
-			YaBB 2 Converter
+			YaBB 3 Converter
 			</td>
 		</tr>
 		<tr valign="middle">
@@ -125,19 +125,19 @@ if (-e "$vardir/Setup.lock") {
 			<img src="$imagesdir/thread.gif" alt="" />
 			</td>
 			<td class="windowbg2" align="left" style="font-size: 11px;">
-			Make sure your YaBB 2 installation is running and that it has all the correct folder paths and URLs.<br />
-			Proceed through the following steps to convert your YaBB 1 Gold - SP 1.x forum to YaBB 2!<br /><br />
-			<b>If</b> your YaBB 1 Gold - SP 1.x forum is located on the same server as your YaBB 2 installation:
+			Make sure your YaBB 3 installation is running and that it has all the correct folder paths and URLs.<br />
+			Proceed through the following steps to convert your YaBB 1 Gold - SP 1.x forum to YaBB 3!<br /><br />
+			<b>If</b> your YaBB 1 Gold - SP 1.x forum is located on the same server as your YaBB 3 installation:
 			<ol>
 			<li>Insert the path to your YaBB 1 Gold - SP 1.x forum in the input field below</li>
 			<li>Click on the 'Continue' button</li>
 			</ol>
-			<b>Else</b> if your YaBB 1 Gold - SP 1.x forum is located on a different server than your YaBB 2 installation or if you dont know the path to your SP 1.x forum:
+			<b>Else</b> if your YaBB 1 Gold - SP 1.x forum is located on a different server than your YaBB 3 installation or if you dont know the path to your SP 1.x forum:
 			<ol>
 			<li>Copy all files in the /Boards, /Members, and /Messages folders from your YaBB 1 Gold - SP 1.x installation, to the corresponding Convert/Boards,
-			Convert/Members, and Convert/Messages folders of your YaBB 2 installation, and chmod them 777.</li>
-			<li>Copy cat.txt from the /Variables folder of your YaBB 1 Gold - SP 1.x installation to the Convert/Variables folder of your YaBB 2 installation, and chmod it 666.</li>
-			<li>If you have 'Add More Membergroups' installed on your YaBB 1 Gold - SP 1.x, copy MemberStats.txt from the /Variables folder of your YaBB 1 Gold - SP 1.x installation to the Convert/Variables folder of your YaBB 2 installation, and chmod it 666.</li>
+			Convert/Members, and Convert/Messages folders of your YaBB 3 installation, and chmod them 777.</li>
+			<li>Copy cat.txt from the /Variables folder of your YaBB 1 Gold - SP 1.x installation to the Convert/Variables folder of your YaBB 3 installation, and chmod it 666.</li>
+			<li>If you have 'Add More Membergroups' installed on your YaBB 1 Gold - SP 1.x, copy MemberStats.txt from the /Variables folder of your YaBB 1 Gold - SP 1.x installation to the Convert/Variables folder of your YaBB 3 installation, and chmod it 666.</li>
 
 			<li>Click on the 'Continue' button</li>
 			</ol>
@@ -203,7 +203,7 @@ EOF
 		<table width="100%" cellspacing="1" cellpadding="4">
 		<tr valign="middle">
 			<td width="100%" colspan="2" class="titlebg" align="left">
-			YaBB 2 Converter
+			YaBB 3 Converter
 			</td>
 		</tr>
 		<tr valign="middle">
@@ -257,7 +257,7 @@ EOF
 		<table width="100%" cellspacing="1" cellpadding="4">
 		<tr valign="middle">
 			<td width="100%" colspan="2" class="titlebg" align="left">
-			YaBB 2 Converter
+			YaBB 3 Converter
 			</td>
 		</tr>
 		<tr valign="middle">
@@ -365,7 +365,7 @@ EOF
 		<table width="100%" cellspacing="1" cellpadding="4">
 		<tr valign="middle">
 			<td width="100%" colspan="2" class="titlebg" align="left">
-			YaBB 2 Converter
+			YaBB 3 Converter
 			</td>
 		</tr>
 		<tr valign="middle">
@@ -443,7 +443,7 @@ EOF
 		<table width="100%" cellspacing="1" cellpadding="4">
 		<tr valign="middle">
 			<td width="100%" colspan="2" class="titlebg" align="left">
-			YaBB 2 Converter
+			YaBB 3 Converter
 			</td>
 		</tr>
 		<tr valign="middle">
@@ -511,7 +511,7 @@ EOF
 		<table width="100%" cellspacing="1" cellpadding="4">
 		<tr valign="middle">
 			<td width="100%" colspan="2" class="titlebg" align="left">
-			YaBB 2 Converter
+			YaBB 3 Converter
 			</td>
 		</tr>
 		<tr valign="middle">
@@ -586,7 +586,7 @@ EOF
 		<table width="100%" cellspacing="1" cellpadding="4">
 		<tr valign="middle">
 			<td width="100%" colspan="2" class="titlebg" align="left">
-			YaBB 2 Converter
+			YaBB 3 Converter
 			</td>
 		</tr>
 		<tr valign="middle">
@@ -655,7 +655,7 @@ EOF
 		<table width="100%" cellspacing="1" cellpadding="4">
 		<tr valign="middle">
 			<td width="100%" colspan="2" class="titlebg" align="left">
-			YaBB 2 Converter
+			YaBB 3 Converter
 			</td>
 		</tr>
 		<tr valign="middle">
@@ -737,7 +737,7 @@ EOF
 		<table width="100%" cellspacing="1" cellpadding="4">
 		<tr valign="middle">
 			<td width="100%" colspan="2" class="titlebg" align="left">
-			YaBB 2 Converter
+			YaBB 3 Converter
 			</td>
 		</tr>
 		<tr valign="middle">
@@ -805,7 +805,7 @@ EOF
 		<table width="100%" cellspacing="1" cellpadding="4">
 		<tr valign="middle">
 			<td width="100%" colspan="2" class="titlebg" align="left">
-			YaBB 2 Converter
+			YaBB 3 Converter
 			</td>
 		</tr>
 		<tr valign="middle">
@@ -932,7 +932,7 @@ EOF
 		<table width="100%" cellspacing="1" cellpadding="4">
 		<tr valign="middle">
 			<td width="100%" colspan="2" class="titlebg" align="left">
-			YaBB 2 Converter
+			YaBB 3 Converter
 			</td>
 		</tr>
 		<tr valign="middle">
@@ -976,7 +976,7 @@ EOF
 			- Attachment Functions => Rebuild Attachments<br /></font>
 			<br />
 			<br />
-			You may now login to your forum. Enjoy using YaBB 2!
+			You may now login to your forum. Enjoy using YaBB 3!
 			</td>
 		</tr>
 		<tr>
@@ -1011,7 +1011,7 @@ EOF
 		<table width="100%" cellspacing="1" cellpadding="4">
 		<tr valign="middle">
 			<td width="100%" colspan="2" class="titlebg" align="left">
-			YaBB 2 Converter
+			YaBB 3 Converter
 			</td>
 		</tr>
 		<tr valign="middle">
@@ -1109,8 +1109,8 @@ EOF
 		~;
 	}
 
-	$yyim    = 'You are running the YaBB 2 Converter.';
-	$yytitle = 'YaBB 2 Converter';
+	$yyim    = 'You are running the YaBB 3 Converter.';
+	$yytitle = 'YaBB 3 Converter';
 	&SetupTemplate;
 }
 
@@ -2007,7 +2007,7 @@ sub MyReCountTotals {
 		${ $uid . $cntboard }{'threadcount'}  = $threadcount;
 		${ $uid . $cntboard }{'messagecount'} = $messagecount;
 		# &BoardTotals("update", ...) is done in &BoardSetLastInfo
-		&BoardSetLastInfo($cntboard,\@threads);
+		&BoardSetLastInfo($cntboard,@threads);
 
 		if (time() > $time_to_jump && ($j + 1) < $totalboards) {
 			$yySetLocation = qq~$set_cgi?action=cleanup2;st=~ . int($INFO{'st'} + time() - $time_to_jump + $max_process_time) . qq~;starttime=$time_to_jump;clean=1;total_boards=$INFO{'total_boards'};total_re_tot=$totalboards;my_re_tot=~ . ($j + 1);
@@ -3335,7 +3335,7 @@ EOF
 	if (!-e "$varsdir/news.txt") {
 		fopen(NEWSFILE, ">$varsdir/news.txt") || &setup_fatal_error("$maintext_23 $varsdir/news.txt: ", 1);
 		print NEWSFILE "Welcome to our forum.\n";
-		print NEWSFILE "We've upgraded to YaBB 2!\n";
+		print NEWSFILE "We've upgraded to YaBB 3!\n";
 		print NEWSFILE "Visit [url=http://www.yabbforum.com]YaBB[/url] today \;\)\n";
 		print NEWSFILE "Signup for free on our forum and benefit from new features!\n";
 		print NEWSFILE "Latest info can be found on the [url=http://www.yabbforum.com/community/]YaBB Chat and Support Community[/url].\n";
@@ -3420,8 +3420,8 @@ sub checkmodules {
 </form>
 ~;
 
-	$yyim    = "You are running YaBB 2 Setup.";
-	$yytitle = "YaBB 2 Setup";
+	$yyim    = "You are running YaBB 3 Setup.";
+	$yytitle = "YaBB 3 Setup";
 	&SetupTemplate;
 }
 
@@ -3452,7 +3452,7 @@ sub SetInstall {
 		</td>
 	</tr><tr valign="middle">
 		<td width="100%" class="windowbg" align="left">
-		Here you can set some of the default settings for your new YaBB 2 forum.<br />
+		Here you can set some of the default settings for your new YaBB 3 forum.<br />
 		After finishing the setup procedure, you should login to your forum and go to your 'Admin Center' -&gt; 'Forum Settings' where you can modify this and other settings.
 		</td>
 	</tr><tr valign="middle">
@@ -3526,8 +3526,8 @@ sub SetInstall {
 </form>
 ~;
 
-	$yyim    = "You are running YaBB 2 Setup.";
-	$yytitle = "YaBB 2 Setup";
+	$yyim    = "You are running YaBB 3 Setup.";
+	$yytitle = "YaBB 3 Setup";
 	&SetupTemplate;
 }
 
@@ -4504,8 +4504,8 @@ sub CheckInstall {
 	<tr><td width="6%" class="windowbg" align="center">
 	<img src="$imagesdir/off.gif" alt="" />
 	</td><td width="94%" class="windowbg2" align="left">
-	Click on 'Continue' and go to your <i>Admin Center - Forum Settings</i> to set the options for your YaBB 2.<br />
-	Click on 'Convert' to convert your YaBB 1 Gold - SP 1.x forum to YaBB 2.
+	Click on 'Continue' and go to your <i>Admin Center - Forum Settings</i> to set the options for your YaBB 3.<br />
+	Click on 'Convert' to convert your YaBB 1 Gold - SP 1.x forum to YaBB 3.
 	</td></tr>
 		~;
 	}
@@ -4534,8 +4534,8 @@ sub CheckInstall {
 	</table>
 </div>
 	~;
-	$yyim    = "You are running YaBB 2 Setup.";
-	$yytitle = "YaBB 2 Setup";
+	$yyim    = "You are running YaBB 3 Setup.";
+	$yytitle = "YaBB 3 Setup";
 	&SetupTemplate;
 }
 
@@ -4616,7 +4616,7 @@ sub FoundConvLock {
 	<table width="100%" cellspacing="1" cellpadding="4">
 	<tr valign="middle">
 		<td width="100%" colspan="2" class="titlebg" align="left">
-		YaBB 2 Converter
+		YaBB 3 Converter
 		</td>
 	</tr>
 	<tr valign="middle">
@@ -4642,8 +4642,8 @@ sub FoundConvLock {
 </div>
 	~;
 
-	$yyim    = "YaBB 2 Setup and Converter has already been run.";
-	$yytitle = "YaBB 2 Setup/Converter";
+	$yyim    = "YaBB 3 Setup and Converter has already been run.";
+	$yytitle = "YaBB 3 Setup/Converter";
 	&SetupTemplate;
 }
 
@@ -4670,8 +4670,8 @@ sub setup_fatal_error {
 </table>
 <center><br /><a href="javascript:history.go(-1)">Back</a></center>
 	~;
-	$yyim    = "YaBB 2 Convertor Error.";
-	$yytitle = "YaBB 2 Convertor Error.";
+	$yyim    = "YaBB 3 Convertor Error.";
+	$yytitle = "YaBB 3 Convertor Error.";
 
 	&SimpleOutput if !-e "$vardir/Settings.pl";
 
@@ -4687,7 +4687,7 @@ sub SimpleOutput {
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>YaBB 2 Setup</title>
+<title>YaBB 3 Setup</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 </head>
 <body>
