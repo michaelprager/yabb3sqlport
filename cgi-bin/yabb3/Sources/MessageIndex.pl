@@ -108,28 +108,28 @@ sub MessageIndex {
 	
 	&ManageMemberinfo("load");
 	if ($tsort == 1) {
-		$sort_lastpostim = qq~<a href="$scripturl?board=$currentboard;tsort=0" rel="nofollow">$messageindex_txt{'22'}</a> <img src="$imagesdir/sort_down.gif" border="0" alt="$messageindex_sort{'sort_first'}" title="$messageindex_sort{'sort_first'}" />~;
+		$sort_lastpostim = qq~<a href="$scripturl?board=$currentboard;tsort=0" title = "$messageindex_sort{'sort_first'}"  rel="nofollow">$messageindex_txt{'22'}</a> <img src="$imagesdir/sort_down.gif" border="0" alt="$messageindex_sort{'sort_first'}" title="$messageindex_sort{'sort_first'}" />~;
 		@threadlist = reverse (@temp_list);
 	} elsif ($tsort == 2) {
-		$sort_subject = qq~<a href="$scripturl?board=$currentboard;tsort=3" rel="nofollow">$messageindex_txt{'70'}</a> <img src="$imagesdir/sort_up.gif" border="0" alt="$messageindex_sort{'sort_za'}" title="$messageindex_sort{'sort_za'}" />~;
+		$sort_subject = qq~<a href="$scripturl?board=$currentboard;tsort=3" title = "$messageindex_sort{'sort_za'}" rel="nofollow">$messageindex_txt{'70'}</a> <img src="$imagesdir/sort_up.gif" border="0" alt="$messageindex_sort{'sort_za'}" title="$messageindex_sort{'sort_za'}" />~;
 		@threadlist = sort {lc((split /\|/,$b,3)[1]) cmp lc((split /\|/,$a,3)[1])} @temp_list;
 	} elsif ($tsort == 3) {
-		$sort_subject = qq~<a href="$scripturl?board=$currentboard;tsort=2" rel="nofollow">$messageindex_txt{'70'}</a> <img src="$imagesdir/sort_down.gif" border="0" alt="$messageindex_sort{'sort_az'}" title="$messageindex_sort{'sort_az'}" />~;
+		$sort_subject = qq~<a href="$scripturl?board=$currentboard;tsort=2" title = "$messageindex_sort{'sort_az'}" rel="nofollow">$messageindex_txt{'70'}</a> <img src="$imagesdir/sort_down.gif" border="0" alt="$messageindex_sort{'sort_az'}" title="$messageindex_sort{'sort_az'}" />~;
 		@threadlist = sort {lc((split /\|/,$a,3)[1]) cmp lc((split /\|/,$b,3)[1])} @temp_list;
 	} elsif ($tsort == 4) {
-		$sort_starter = qq~<a href="$scripturl?board=$currentboard;tsort=5" rel="nofollow">$messageindex_txt{'109'}</a> <img src="$imagesdir/sort_up.gif" border="0" alt="$messageindex_sort{'sort_za'}" title="$messageindex_sort{'sort_za'}" />~;
+		$sort_starter = qq~<a href="$scripturl?board=$currentboard;tsort=5" title = "$messageindex_sort{'sort_za'}" rel="nofollow">$messageindex_txt{'109'}</a> <img src="$imagesdir/sort_up.gif" border="0" alt="$messageindex_sort{'sort_za'}" title="$messageindex_sort{'sort_za'}" />~;
 		@threadlist = sort { &starter((split /\|/, $b, 8)[6], $b) cmp &starter((split /\|/, $a, 8)[6], $a) } @temp_list;
 	} elsif ($tsort == 5) {
-		$sort_starter = qq~<a href="$scripturl?board=$currentboard;tsort=4" rel="nofollow">$messageindex_txt{'109'}</a> <img src="$imagesdir/sort_down.gif" border="0" alt="$messageindex_sort{'sort_az'}" title="$messageindex_sort{'sort_az'}" />~;
+		$sort_starter = qq~<a href="$scripturl?board=$currentboard;tsort=4" title = "$messageindex_sort{'sort_az'}" rel="nofollow">$messageindex_txt{'109'}</a> <img src="$imagesdir/sort_down.gif" border="0" alt="$messageindex_sort{'sort_az'}" title="$messageindex_sort{'sort_az'}" />~;
 		@threadlist = sort { &starter((split /\|/, $a, 8)[6], $a) cmp &starter((split /\|/, $b, 8)[6], $b) } @temp_list;
 	} elsif ($tsort == 6) {
-		$sort_answer = qq~<a href="$scripturl?board=$currentboard;tsort=7" rel="nofollow">$messageindex_txt{'110'}</a> <img src="$imagesdir/sort_up.gif" border="0" alt="$messageindex_sort{'sort_max'}" title="$messageindex_sort{'sort_max'}" />~;
+		$sort_answer = qq~<a href="$scripturl?board=$currentboard;tsort=7" title = "$messageindex_sort{'sort_max'}" rel="nofollow">$messageindex_txt{'110'}</a> <img src="$imagesdir/sort_up.gif" border="0" alt="$messageindex_sort{'sort_max'}" title="$messageindex_sort{'sort_max'}" />~;
 		@threadlist = sort {(split /\|/,$b,7)[5] <=> (split /\|/,$a,7)[5]} @temp_list;
 	} elsif ($tsort == 7) {
-		$sort_answer = qq~<a href="$scripturl?board=$currentboard;tsort=6" rel="nofollow">$messageindex_txt{'110'}</a> <img src="$imagesdir/sort_down.gif" border="0" alt="$messageindex_sort{'sort_min'}" title="$messageindex_sort{'sort_min'}" />~;
+		$sort_answer = qq~<a href="$scripturl?board=$currentboard;tsort=6" title = "$messageindex_sort{'sort_min'}" rel="nofollow">$messageindex_txt{'110'}</a> <img src="$imagesdir/sort_down.gif" border="0" alt="$messageindex_sort{'sort_min'}" title="$messageindex_sort{'sort_min'}" />~;
 		@threadlist = sort {(split /\|/,$a,7)[5] <=> (split /\|/,$b,7)[5]} @temp_list;
 	} else {
-		$sort_lastpostim = qq~<a href="$scripturl?board=$currentboard;tsort=1" rel="nofollow">$messageindex_txt{'22'}</a> <img src="$imagesdir/sort_up.gif" border="0" alt="$messageindex_sort{'sort_last'}" title="$messageindex_sort{'sort_last'}" />~;
+		$sort_lastpostim = qq~<a href="$scripturl?board=$currentboard;tsort=1" title = "$messageindex_sort{'sort_last'}" rel="nofollow">$messageindex_txt{'22'}</a> <img src="$imagesdir/sort_up.gif" border="0" alt="$messageindex_sort{'sort_last'}" title="$messageindex_sort{'sort_last'}" />~;
 		@threadlist = @temp_list;
 	}
 	sub starter {
@@ -765,7 +765,7 @@ sub MessageIndex {
 		if ($messagelist) { $dropdownbd = qq~,'$currentboard'~; }
 		if ($multiview == 3) {
 			$adminselector = qq~
-				<label for="toboard">$messageindex_txt{'133'}</label>: <input type="checkbox" name="newinfo" value="1" title="$messageindex_txt{199}" class="titlebg" style="border: 0px;" ondblclick="alert('$messageindex_txt{200}')" /> <select name="toboard" id="toboard">$boardlist</select><input type="submit" value="$messageindex_txt{'462'}" class="button" />
+				<label for="toboard">$messageindex_txt{'133'}</label>: <input type="checkbox" name="newinfo" value="1" title="$messageindex_txt{199}" class="titlebg" style="border: 0px;" ondblclick="alert('$messageindex_txt{200}')" /> <select onchange="NoPost(this.selectedIndex, '$messageindex_txt{'27'}')" name="toboard" id="toboard">$boardlist</select><input type="submit" value="$messageindex_txt{'462'}" class="button" />
 			~;
 			if ($currentboard eq $annboard) {
 				$admincheckboxes = qq~
@@ -796,7 +796,7 @@ sub MessageIndex {
 					<option value="move">$messageindex_txt{'133'}</option>
 				</select>&nbsp;
 				<div id="moveoptions" style="display:none">
-					<select name="toboard">$boardlist</select>
+					<select onchange="NoPost(this.selectedIndex, '$messageindex_txt{'27'}')" name="toboard" id="toboard">$boardlist</select>
 					&nbsp;$messageindex_txt{'6'}: <input type="checkbox" style="position: relative; top: 3px" name="newinfo" value="1" title="$messageindex_txt{199}" class="titlebg" style="border: 0px;" ondblclick="alert('$messageindex_txt{200}')" />
 				</div>
 				<input type="hidden" name="fromboard" value="$currentboard" />
@@ -813,7 +813,7 @@ sub MessageIndex {
 					<option value="move">$messageindex_txt{'133'}</option>
 				</select>&nbsp;
 				<div id="moveoptions" style="display:none">
-					<select name="toboard">$boardlist</select>
+					<select onchange="NoPost(this.selectedIndex, '$messageindex_txt{'27'}')" name="toboard" id="toboard">$boardlist</select>
 					&nbsp;$messageindex_txt{'6'}: <input type="checkbox" style="position: relative; top: 3px" name="newinfo" value="1" title="$messageindex_txt{199}" class="titlebg" style="border: 0px;" ondblclick="alert('$messageindex_txt{200}')" />
 				</div>
 				<input type="hidden" name="fromboard" value="$currentboard" />
@@ -1152,7 +1152,8 @@ sub moveto {
 			$access = &AccessCheck($board, '', $boardperms);
 			if (!$iamadmin && $access ne "granted") { next; }
 			if ($board ne $currentboard) {
-				$boardlist .= qq~<option value="$board">~ . ("&nbsp;" x $indent) . ($dash x ($indent / 2)) . qq~$boardname</option>\n~;
+				my $bdnopost = !${$uid.$board}{'canpost'} && $subboard{$board} ? "class='nopost' style='background-color: #ffbbbb'" : "";
+				$boardlist .= qq~<option $bdnopost value="$board">~ . ("&nbsp;" x $indent) . ($dash x ($indent / 2)) . qq~$boardname</option>\n~;
 			}
 			if($subboard{$board}) {
 				&move_subboards(split(/\|/,$subboard{$board}));

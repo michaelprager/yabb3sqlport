@@ -26,6 +26,7 @@ $messageindexlngver = 'YaBB 3.0 Beta $Revision: 100 $';
 '18' => 'Index',
 '19' => 'Page Index Toggle',
 '22' => 'Last Post',
+'27' => 'This board cannot be posted in and no posts can be moved into it.',
 '31' => 'Remove',
 '54' => 'Remove',
 '63' => 'Moderators',

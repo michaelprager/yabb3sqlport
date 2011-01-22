@@ -45,7 +45,7 @@ $movesplitsplicelngver = 'YaBB 3.0 Beta $Revision: 100 $';
 '24' => 'Submit',
 '25' => 'Reset',
 '26' => '&raquo;&raquo; All Posts &laquo;&laquo;',
-
+'27' => 'This board cannot be posted in and no posts can be moved into it.',
 '28' => '&raquo;&raquo; Categories &laquo;&laquo;',
 '29' => '&raquo;&raquo; Boards &laquo;&laquo;',
 '30' => '&raquo;&raquo; New Topic &laquo;&laquo;',

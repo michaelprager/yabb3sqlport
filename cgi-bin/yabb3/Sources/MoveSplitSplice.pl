@@ -110,7 +110,8 @@ sub Split_Splice {
 			my $access = &AccessCheck($_, '', $boardperms);
 			next if !$iamadmin && $access ne "granted" && $boardview != 1;
 			
-			$boardlist .= qq~<option value="$childbd" ~ . ($newboard eq $childbd ? q~selected="selected"~ : '') . qq~>~ . ("&nbsp;" x $indent) . ($dash x ($indent / 2)) . qq~&nbsp;$boardname</option>\n~;
+			my $bdnopost = ${$uid.$childbd}{'canpost'} ? "" : "class='nopost' style='background-color: #ffbbbb'";
+			$boardlist .= qq~<option $bdnopost value="$childbd" ~ . ($newboard eq $childbd ? q~selected="selected"~ : '') . qq~>~ . ("&nbsp;" x $indent) . ($dash x ($indent / 2)) . qq~&nbsp;$boardname</option>\n~;
 			if($subboard{$childbd}) {
 				&get_subboards(split(/\|/,$subboard{$childbd}));
 			}
@@ -183,6 +184,14 @@ sub Split_Splice {
 
 	$output .= qq~
 <script language="JavaScript1.2" src="$yyhtml_root/ubbc.js" type="text/javascript"></script>
+<script language="JavaScript1.2" type="text/javascript">
+function NoPost(op) {
+	if (document.getElementById("newboard").options[op].className == "nopost") {
+		alert("$sstxt{'27'}");
+		document.getElementById("newboard").selectedIndex = 0;
+	}
+} 
+</script>
 <form action="$scripturl?action=split_splice;board=$currentboard;thread=$INFO{'thread'}" method="post" name="split_splice" onsubmit="return submitproc()">
 <input type="hidden" name="formsession" value="$formsession" />
 <table border="0" cellspacing="0" cellpadding="0" class="tabtitle" align="center" width="90%" height="30">
@@ -224,7 +233,7 @@ sub Split_Splice {
 	</tr><tr>
 		<td class="windowbg2">
 			<label for="newboard">$sstxt{'17'}</label><br />
-			<select name="newboard" id="newboard" onchange="document.split_splice.submit();">$boardlist</select>
+			<select name="newboard" id="newboard" onchange="NoPost(this.selectedIndex); document.split_splice.submit();">$boardlist</select>
 		</td>
 	</tr><tr>
 		<td class="windowbg"><b>$sstxt{'8'}</b></td>
