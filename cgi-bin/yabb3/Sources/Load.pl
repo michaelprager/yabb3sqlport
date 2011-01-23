@@ -166,6 +166,7 @@ sub LoadUser {
 						$settings[$i] = qq~'lastonline',"$date"\n~;
 					}
 				}
+			}
 			&write_DBorFILE(${$uid.$user}{'mysql'},LOADUSER,$memberdir,$user,$userextension,@settings);
 		}
 	}
