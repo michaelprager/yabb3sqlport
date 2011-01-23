@@ -1,0 +1,36 @@
+body {position:relative;background-color:#F2F6F9;position:relative;margin:5px auto 0px auto;padding:5px 0px;;width:770px;font:normal 11px Tahoma, Verdana, Helvetica, Arial;}
+.clr {clear:both;}
+#header {width:100%;text-align:right;margin-bottom:3px;}
+#header a {font-weight:bold;font-size:11px;color:#6A0000;}
+#header a:hover {color:#990000;}
+#content {position:relative;background-color:white;border:1px solid black;background-image: url(../../Quick-Guide/images/cbg.png);}
+#content .logo {position:relative;top:-14px;left:-10px;}
+#content .title {position:absolute;right:-6px;_right:-5px;top:52px;}
+#content .lang {position:absolute;right:5px;top:5px;z-index:9;}
+#content .spc {position:relative;top:-10px;height:5px;overflow:hidden;background-color:#6699CC;border-top:1px solid black;border-bottom:1px solid black;}
+#content .shead {background-color:#ffffff;} 
+#content .subs {height:100%;position: relative;top:-10px;}
+#content .menu {position: relative;top:7px;left:0px;width:130px;float:left;}
+#content .menu ul {padding:0px;margin:0px;list-style:none;}
+#content .menu ul li {padding:3px 4px;}
+#content .menu ul li span {display:block;width:98%;font-weight:bold;border-bottom:1px solid black;padding-top:10px;}
+#content .menu ul li a {padding-left:3px;color:#000000;text-decoration:none;font-weight:bold;display:block;height:17px;background-color:#DDE3EB;width:97%;border:1px solid black;line-height:16px;}
+#content .menu ul li a:hover {background-color:#ADC7E1;color:#ffffff;}
+
+#content .body {margin-left:140px;margin-right:10px;}
+#content .body h3 {padding-top:5px;font-size:20px;padding-bottom:0px;margin-bottom:0px;margin-top:0px;}
+#content .body p {margin-bottom:10px;font-family:"Trebuchet MS";}
+#content .body p span {font-weight:bold;}
+#content .body .imga {margin-left:5px;float:right;}
+
+#content .body ol {margin-left:0px;padding-left:15px;margin-top:0px;}
+#content .body ol li {padding-bottom:15px;}
+#content .body ol li ul {margin-left:15px;margin-top:5px;}
+#content .body ol li ul li {padding:0px;margin:0px;line-height:15px;}
+
+#content .body ul.st3 {margin-left:0px;padding-left:15px;margin-top:0px;}
+#content .body ul.st3 li {width:98%;margin-bottom:4px;border-bottom:1px solid #DDE3EB; }
+#content .body ul.st3 li span.ascii {display:block;width:60px;float:right;}
+#content .body ul.st3 li span.chmod {display:block;width:180px;float:right;text-align:right;}
+
+

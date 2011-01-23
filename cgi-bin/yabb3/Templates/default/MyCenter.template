@@ -1,0 +1,95 @@
+###############################################################################
+# MyCenter.template                                                           #
+###############################################################################
+# YaBB: Yet another Bulletin Board                                            #
+# Open-Source Community Software for Webmasters                               #
+# Version:        YaBB 3.0 Beta                                               #
+# Packaged:       October 05, 2010                                            #
+# Distributed by: http://www.yabbforum.com                                    #
+# =========================================================================== #
+# Copyright (c) 2000-2010 YaBB (www.yabbforum.com) - All Rights Reserved.     #
+# Software by:  The YaBB Development Team                                     #
+#               with assistance from the YaBB community.                      #
+# Sponsored by: Xnull Internet Media, Inc. - http://www.ximinc.com            #
+#               Your source for web hosting, web design, and domains.         #
+###############################################################################
+# $Revision: 100 $
+
+$mycenter_template = qq~
+<!-- My Center Title Bar start -->
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="28%">
+<table cellpadding="0" cellspacing="0" border="0" width="100%" class="tabtitle">
+	<tr>
+		<td class="round_top_left" width="1%">&nbsp;</td>
+		<td align="center" height="25">
+			$mycenter_txt{'view'}
+		</td>
+		<td class="round_top_right" width="1%">&nbsp;</td>
+	</tr>
+</table>
+</td>
+<td width="2%">&nbsp;</td>
+<td width="70%">
+<table cellpadding="0" cellspacing="0" border="0" width="100%" class="tabtitle">
+	<tr>
+		<td class="round_top_left" width="1%">&nbsp;</td>
+		<td class="tabtitle" align="center" height="25">
+			{yabb mctitle}
+		</td>
+		<td class="round_top_right" width="1%">&nbsp;</td>
+	</tr>
+</table>
+</td>
+</tr>
+</table>
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+	<tr>
+<!-- My Center Title Bar end -->
+
+<!-- My Center body start -->
+		<td width="28%" align="center" valign="top">
+			<div class="bordercolor" style="padding:1px">
+			<div class="windowbg" style="width:100%;">{yabb mcviewmenu}</div>
+				{yabb mcpmmenu}
+				{yabb mcprofmenu}
+				{yabb mcpostsmenu}
+				<div class="windowbg" style="width:100%; height:100%">
+					{yabb mcextrasmilies}
+				</div>
+			</div>
+		</td>
+		<td width="2%">&nbsp;</td>
+		<td width="70%" style="overflow:auto;" valign="top">
+		<!-- content table start -->
+		{yabb mcglobformstart}
+		{yabb mccontent}
+		<br clear="all" />
+		{yabb mcglobformend}
+		<!-- content table end -->
+		</td>
+	</tr>
+</table>
+<br />
+<!-- My Center body end -->
+~;
+
+## version of user/poster block for user's display in 'my center'
+$myprofileblock = qq~
+<div id="userdata" style="width: 95%; border: 2px dashed #B0C4DE; padding: 3px;">
+	<yabb userlink>
+	<div class="small">
+		{yabb memberinfo}<br />
+		{yabb stars}
+		{yabb useronline}
+		{yabb userpic}
+		{yabb usertext}<br />
+		{yabb postinfo}
+		{yabb location}
+		{yabb gender}
+	</div>
+</div>
+~;
+
+1;

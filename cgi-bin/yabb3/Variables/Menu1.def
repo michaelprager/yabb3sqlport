@@ -1,0 +1,107 @@
+###############################################################################
+# Menu1.def (Image text/images definitions)                                   #
+###############################################################################
+# YaBB: Yet another Bulletin Board                                            #
+# Open-Source Community Software for Webmasters                               #
+# Version:        YaBB 3.0 Beta                                               #
+# Packaged:       October 05, 2010                                            #
+# Distributed by: http://www.yabbforum.com                                    #
+# =========================================================================== #
+# Copyright (c) 2000-2010 YaBB (www.yabbforum.com) - All Rights Reserved.     #
+# Software by: The YaBB Development Team                                      #
+#              with assistance from the YaBB community.                       #
+###############################################################################
+
+$menusep = ' | ';
+
+%img = (
+'add_notify' => qq~<span style="white-space: nowrap;" class="imgcatbg">$img_txt{'131a'}</span>~,
+'addbuddy' => qq~<span style="white-space: nowrap;" class="imgwindowbg">$img_txt{'addbuddy'}</span>~,
+'addfav' => qq~<span style="white-space: nowrap;" class="imgcatbg">$img_txt{'71'}</span>~,
+'addpoll' => qq~<span style="white-space: nowrap;" class="imgcatbg">$img_polltxt{'2'}</span>~,
+'admin' => qq~<span style="white-space: nowrap;" class="imgmenu">$img_txt{'2'}</span>~,
+'admin_del' => qq~<span style="white-space: nowrap;" class="imgwindowbg">$img_txt{'55'}</span>~,
+'admin_lock' => qq~<span style="white-space: nowrap;" class="imgwindowbg">$img_txt{'104'}</span>~,
+'admin_move' => qq~<span style="white-space: nowrap;" class="imgwindowbg">$img_txt{'132'}</span>~,
+'admin_move_split_splice' => qq~<span style="white-space: nowrap;" class="imgwindowbg">$img_txt{'621'}</span>~,
+'admin_rem' => qq~<span style="white-space: nowrap;" class="imgwindowbg">$img_txt{'54'}</span>~,
+'admin_splice' => qq~<span style="white-space: nowrap;" class="imgwindowbg">$img_txt{'621'}</span>~,
+'admin_split' => qq~<span style="white-space: nowrap;" class="imgwindowbg">$img_txt{'620'}</span>~,
+'admin_sticky' => qq~<span style="white-space: nowrap;" class="imgwindowbg">$img_txt{'781'}</span>~,
+'aim' => qq~<span style="white-space: nowrap;" class="imgwindowbg">$img_txt{'aim'}</span>~,
+'alertmod' => qq~<span style="white-space: nowrap;" class="imgwindowbg">$img_txt{'alertmodtext'}</span>~,
+'birthdaylist' => qq~<span style="white-space: nowrap;" class="imgmenu">$img_txt{'birthdaylist'}</span>~,
+'closepoll' => qq~<span style="white-space: nowrap;" class="imgcatbg">$img_polltxt{'21'}</span>~,
+'collapse' => qq~<span style="white-space: nowrap;" class="imgcatbg">$img_txt{'623'}</span>~,
+'createpoll' => qq~<span style="white-space: nowrap;" class="imgcatbg">$img_polltxt{'1'}</span>~,
+'del_notify' => qq~<span style="white-space: nowrap;" class="imgcatbg">$img_txt{'131d'}</span>~,
+'delete' => qq~<span style="white-space: nowrap;" class="imgwindowbg">$img_txt{'121'}</span>~,
+'deletepoll' => qq~<span style="white-space: nowrap;" class="imgcatbg">$img_polltxt{'27'}</span>~,
+'deletevote' => qq~<span style="white-space: nowrap;" class="imgwindowbg">$img_polltxt{'43'}</span>~,
+'email' => qq~<span style="white-space: nowrap;" class="imgcatbg">$img_txt{'69'}</span>~,
+'email_sm' => qq~<span style="white-space: nowrap;" class="imgwindowbg">$img_txt{'69'}</span>~,
+'eventcal' => qq~<span style="white-space: nowrap;" class="imgmenu">$img_txt{'eventcal'}</span>~,
+'expand' => qq~<span style="white-space: nowrap;" class="imgcatbg">$img_txt{'624'}</span>~,
+'facebook' => qq~<span style="white-space: nowrap;" class="imgwindowbg">$img_txt{'facebook'}</span>~,
+'favorites' => qq~<span style="white-space: nowrap;" class="imgmenu">$img_txt{'70'}</span>~,
+'forward' => qq~<span style="white-space: nowrap;" class="imgwindowbg">$img_txt{'forward'}</span>~,
+'gtalk' => qq~<span style="white-space: nowrap;" class="imgwindowbg">$img_txt{'gtalk'}</span>~,
+'help' => qq~<span style="white-space: nowrap;" class="imgmenu">$img_txt{'119'}</span>~,
+'hide' => qq~<span style="white-space: nowrap;" class="imgwindowbg">$img_txt{'622'}</span>~,
+'home' => qq~<span style="white-space: nowrap;" class="imgmenu">$img_txt{'103'}</span>~,
+'icq' => qq~<span style="white-space: nowrap;" class="imgwindowbg">$img_txt{'icq'}</span>~,
+'im_inbox' => qq~<span style="white-space: nowrap;" class="imgwindowbg">$img_txt{'316'}</span>~,
+'im_new' => qq~<span style="white-space: nowrap;" class="imgwindowbg">$img_txt{'321'}</span>~,
+'im_outbox' => qq~<span style="white-space: nowrap;" class="imgwindowbg">$img_txt{'320'}</span>~,
+'im_remove' => qq~<span style="white-space: nowrap;" class="imgwindowbg">$img_txt{'31'}</span>~,
+'im_send' => qq~<span style="white-space: nowrap;" class="imgwindowbg">$img_txt{'sendpm'}</span>~,
+'lastpost' => qq~<img src="$forumstylesurl/$usestyle/lastpost.gif" alt="$img_txt{'105'}" border="0" />~,
+'lock' => qq~<span style="white-space: nowrap;" class="imgwindowbg">$img_txt{'104'}</span>~,
+'login' => qq~<span style="white-space: nowrap;" class="imgmenu">$img_txt{'34'}</span>~,
+'logout' => qq~<span style="white-space: nowrap;" class="imgmenu">$img_txt{'108'}</span>~,
+'markallread' => qq~<span style="white-space: nowrap;" class="imgcatbg">$img_txt{'452'}</span>~,
+'markboardread' => qq~<span style="white-space: nowrap;" class="imgcatbg">$img_txt{'300'}</span>~,
+'markunread' => qq~<span style="white-space: nowrap;" class="imgcatbg">$img_txt{'627'}</span>~,
+'memberlist' => qq~<span style="white-space: nowrap;" class="imgmenu">$img_txt{'331'}</span>~,
+'message' => qq~<span style="white-space: nowrap;" class="imgwindowbg">$img_txt{'144'}</span>~,
+'message_sm' => qq~<span style="white-space: nowrap;" class="imgwindowbg">$img_txt{'144'}</span>~,
+'modify' => qq~<span style="white-space: nowrap;" class="imgwindowbg">$img_txt{'66'}</span>~,
+'modify_profile' => qq~<span style="white-space: nowrap;" class="imgmenu">$img_txt{'66'}</span>~,
+'modifypoll' => qq~<span style="white-space: nowrap;" class="imgcatbg">$img_polltxt{'39'}</span>~,
+'mquote' => qq~<span style="white-space: nowrap;" class="imgwindowbg">$img_txt{'145q'}</span>~,
+'msn' => qq~<span style="white-space: nowrap;" class="imgwindowbg">$img_txt{'msn'}</span>~,
+'mycenter' => qq~<span style="white-space: nowrap;" class="imgmenu">$img_txt{'mycenter'}</span>~,
+'myspace' => qq~<span style="white-space: nowrap;" class="imgwindowbg">$img_txt{'myspace'}</span>~,
+'newthread' => qq~<span style="white-space: nowrap;" class="imgcatbg">$img_txt{'33'}</span>~,
+'notification' => qq~<span style="white-space: nowrap;" class="imgmenu">$img_txt{'418'}</span>~,
+'notify' => qq~<span style="white-space: nowrap;" class="imgcatbg">$img_txt{'131'}</span>~,
+'openpoll' => qq~<span style="white-space: nowrap;" class="imgcatbg">$img_polltxt{'20'}</span>~,
+'pmadmin' => qq~<span style="white-space: nowrap;" class="imgmenu">$img_txt{'pmadmin'}</span>~,
+'pollicon' => qq~<img src="$forumstylesurl/$usestyle/poll_open.gif" alt="$img_polltxt{'44'}" border="0" />~,
+'polliconclosed' => qq~<img src="$forumstylesurl/$usestyle/poll_lock.gif" alt="$img_polltxt{'46'}" border="0" />~,
+'polliconnew' => qq~<img src="$forumstylesurl/$usestyle/poll_new.gif" alt="$img_polltxt{'45'}" border="0" />~,
+'print' => qq~<span style="white-space: nowrap;" class="imgcatbg">$img_txt{'465'}</span>~,
+'print_im' => qq~<span style="white-space: nowrap;" class="imgwindowbg">$img_txt{'465'}</span>~,
+'profile' => qq~<span style="white-space: nowrap;" class="imgmenu">$img_txt{'467'}</span>~,
+'quote' => qq~<span style="white-space: nowrap;" class="imgwindowbg">$img_txt{'145'}</span>~,
+'recentquote' => qq~<span style="white-space: nowrap;" class="imgcatbg">$img_txt{'145'}</span>~,
+'register' => qq~<span style="white-space: nowrap;" class="imgmenu">$img_txt{'97'}</span>~,
+'remfav' => qq~<span style="white-space: nowrap;" class="imgcatbg">$img_txt{'72'}</span>~,
+'removetopic' => qq~<span style="white-space: nowrap;" class="imgwindowbg">$img_txt{'63'}</span>~,
+'reply' => qq~<span style="white-space: nowrap;" class="imgcatbg">$img_txt{'146'}</span>~,
+'reply_ims' => qq~<span style="white-space: nowrap;" class="imgwindowbg">$img_txt{'146'}</span>~,
+'search' => qq~<span style="white-space: nowrap;" class="imgmenu">$img_txt{'182'}</span>~,
+'sendbmess' => qq~<span style="white-space: nowrap;" class="imgwindowbg">$img_txt{'sendbmess'}</span>~,
+'sendtopic' => qq~<span style="white-space: nowrap;" class="imgcatbg">$img_txt{'707'}</span>~,
+'sessreval' => qq~<span style="white-space: nowrap;" class="imgmenu">$img_txt{'34a'}</span>~,
+'skype' => qq~<span style="white-space: nowrap;" class="imgwindowbg">$img_txt{'skype'}</span>~,
+'viewprofile' => qq~<span style="white-space: nowrap;" class="imgwindowbg">$img_txt{'27'}</span>~,
+'viewprofile_sm' => qq~<span style="white-space: nowrap;" class="imgwindowbg">$img_txt{'27'}</span>~,
+'viewthread' => qq~<span style="white-space: nowrap;" class="imgwindowbg">$img_polltxt{'33a'}</span>~,
+'viewvotes' => qq~<span style="white-space: nowrap;" class="imgwindowbg">$img_polltxt{'33'}</span>~,
+'website' => qq~<span style="white-space: nowrap;" class="imgwindowbg">$img_txt{'515'}</span>~,
+'website_sm' => qq~<span style="white-space: nowrap;" class="imgwindowbg">$img_txt{'515'}</span>~,
+'yim' => qq~<span style="white-space: nowrap;" class="imgwindowbg">$img_txt{'yim'}</span>~,
+);
+
+1;

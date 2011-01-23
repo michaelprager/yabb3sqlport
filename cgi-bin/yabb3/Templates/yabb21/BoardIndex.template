@@ -1,0 +1,221 @@
+###############################################################################
+# BoardIndex.template                                                         #
+###############################################################################
+# YaBB: Yet another Bulletin Board                                            #
+# Open-Source Community Software for Webmasters                               #
+# Version:        YaBB 3.0 Beta                                               #
+# Packaged:       October 05, 2010                                            #
+# Distributed by: http://www.yabbforum.com                                    #
+# =========================================================================== #
+# Copyright (c) 2000-2010 YaBB (www.yabbforum.com) - All Rights Reserved.     #
+# Software by:  The YaBB Development Team                                     #
+#               with assistance from the YaBB community.                      #
+# Sponsored by: Xnull Internet Media, Inc. - http://www.ximinc.com            #
+#               Your source for web hosting, web design, and domains.         #
+###############################################################################
+# $Revision: 100 $
+
+$boardhandellist = qq~
+	<yabb expand><yabb collapse><yabb markallread>
+~;
+
+$boardindex_template = qq~
+
+<!-- Navigation Bar start -->
+
+<div style="float: right;"><yabb rss></div>
+<span class="nav"><b><yabb navigation></b></span>
+
+<!-- Navigation Bar end -->
+
+<!-- Board Index Showcase Poll start -->
+
+<yabb pollshowcase>
+
+<!-- Board Index Showcase Poll end-->
+
+
+<!-- Board Index Title Bar start -->
+
+<div class="seperator">
+<table cellpadding="4" cellspacing="1" border="0" width="100%">
+<tr>
+	<td class="titlebg" colspan="2" width="60%">
+		$boardindex_txt{'20'}
+	</td>
+	<td class="titlebg" width="24%" align="center">
+		$boardindex_txt{'22'}
+	</td>
+	<td class="titlebg" width="8%" align="center">
+		$boardindex_txt{'330'}
+	</td>
+	<td class="titlebg" width="8%" align="center">
+		$boardindex_txt{'21'}
+	</td>
+</tr>
+</table>
+</div>
+
+<!-- Board Index Title Bar end -->
+
+
+<!-- Board Index Category block start, should be left as is -->
+
+<yabb catsblock>
+
+<!-- Board Index Category block end, should be left as is -->
+
+~;
+if (!$iamguest) {
+$boardindex_template .= qq~
+
+<!-- Board Index Button Bar start -->
+
+<div class="seperator">
+<table cellpadding="4" cellspacing="1" border="0" width="100%">
+<tr>
+	<td class="catbg" align="center">
+		<div style="float: left; width: 49%; text-align: left;">
+		<span class="small">&nbsp;
+			<img src="$imagesdir/on.gif" border="0" id="no_edit" alt="$boardindex_txt{'333'}" title="$boardindex_txt{'333'}" /> $boardindex_txt{'333'}&nbsp;&nbsp;
+			<img src="$imagesdir/off.gif" border="0" id="no_edit" alt="$boardindex_txt{'334'}" title="$boardindex_txt{'334'}" /> $boardindex_txt{'334'}
+		</span>
+		</div>
+		<div style="float: right; width: 49%; text-align: right;">
+		<span class="small">
+			<yabb boardhandellist>
+		</span>
+		</div>
+	</td>
+</tr>
+</table>
+</div><br />
+
+<!-- Board Index Button Bar end -->
+
+~;
+}
+$boardindex_template .= qq~
+
+<!-- Info Center block start -->
+
+<div class="seperator">
+<table cellpadding="4" cellspacing="1" border="0" width="100%">
+<tr>
+	<td class="titlebg" align="center" colspan="2">
+		$boardindex_txt{'685'}
+	</td>
+</tr>
+<tr>
+	<td align="left" class="catbg" colspan="2">
+		$boardindex_txt{'200'}
+	</td>
+</tr>
+<tr>
+	<td class="windowbg" width="5%" valign="middle" align="center">
+		<img src="$imagesdir/info.gif" border="0" alt="" />
+	</td>
+	<td class="windowbg2" valign="top" align="center">
+		<div class="small" style="float: left; width: 59%; text-align: left;">
+			$boardindex_txt{'489'} <b><yabb totalmessages> $boardindex_txt{'21l'}</b> $boardindex_txt{'490'} <b><yabb totaltopics> $boardindex_txt{'330l'}</b>.<br />
+			<yabb lastpostlink> <yabb lastpostdate>
+			<yabb recentposts>
+		</div>
+		<div class="small" style="float: left; width: 40%; text-align: left;">
+			$boardindex_txt{'487'} <yabb membercount> $boardindex_txt{'488'}.<br />
+			<yabb latestmember>
+			<yabb ims>
+		</div>
+	</td>
+</tr>
+
+<tr>
+	<td class="windowbg" width="5%" valign="middle" align="center">
+		<img src="$imagesdir/online.gif" border="0" alt="" />
+	</td>
+	<td class="windowbg2" valign="top" align="center">
+		<div class="small" style="float: left; width: 90%; text-align: left;">
+		$boardindex_txt{'800'} <b><yabb mostusers></b> $maintxt{'30'} <yabb mostusersdate>.<br />
+		$boardindex_txt{'801'} <b><yabb mostmembers></b> $maintxt{'30'} <yabb mostmembersdate>.<br />
+		$boardindex_txt{'802'} <b><yabb mostguests></b> $maintxt{'30'} <yabb mostguestsdate>.<br />
+		$boardindex_txt{'803'} <b><yabb mostbots></b> $maintxt{'30'} <yabb mostbotsdate>.
+		</div>
+	</td>
+</tr>
+
+<tr>
+	<td align="left" class="catbg" colspan="2">
+		$boardindex_txt{'158'}
+	</td>
+</tr>
+<tr>
+	<td class="windowbg" width="5%" valign="middle" align="center">
+		<img src="$imagesdir/online.gif" border="0" alt="" />
+	</td>
+	<td class="windowbg2">
+		<div class="small" style="float: left; width: 59%; text-align: left;">
+		<yabb users><br />
+		<yabb onlineusers>
+		<yabb guests><br />
+		<yabb onlineguests>
+		<yabb bots><br />
+		<yabb onlinebots>
+		</div>
+		<div style="float: left; width: 40%; text-align: left;">
+		<yabb groupcolors>
+		</div>
+	</td>
+</tr>
+<!-- ## XTC Cal Mod ## -->
+		<yabb caldisplay>
+<!-- ## XTC Cal Mod ## -->
+</table>
+	<yabb sharedlogin>
+</div>
+
+<!-- Info Center block end -->
+
+~;
+
+
+# Category header                          #
+
+$new_msg_bg = "windowbg";
+$new_msg_class = "small";
+
+$catheader = qq~
+<div class="boardcontainer">
+<table cellpadding="4" cellspacing="1" border="0" width="100%">
+<tr><td colspan="5" class="catbg" height="18" ><yabb catimage> <yabb catlink></td></tr>
+<yabb newmsg start><yabb newmsg icon><yabb newmsg><yabb newmsg end>
+</table>
+<table <yabb boardtable> cellpadding="4" cellspacing="1" border="0" width="100%"> 
+~;
+
+# Looks of each board in category          #
+
+$topiccut = 25;
+$boardblock = qq~
+<tr>
+	<td class="windowbg" width="5%" align="center" valign="top"><yabb new></td>
+	<td class="windowbg2" width="55%" align="left"><a name="<yabb boardanchor>" id="<yabb boardanchor>" href="<yabb boardurl>"><yabb boardpic><b><yabb boardname></b></a><br /><yabb boarddesc><br /><div class="small" style="font-style:italic;"><yabb moderators></div></td>
+	<td class="windowbg" valign="middle" align="left" width="24%">
+	<span class="small" style="float: left; margin-left: 12px;">
+	<yabb lastpostlink><br />
+	<b>$boardindex_txt{'524'}:</b> <yabb lasttopiclink><br />
+	<b>$boardindex_txt{'525'}:</b> <yabb lastposter>
+	</span>
+	</td>
+	<td class="windowbg2" valign="middle" align="center" width="8%"><yabb threadcount></td>
+	<td class="windowbg2" valign="middle" align="center" width="8%"><yabb messagecount></td>
+</tr>
+~;
+
+# Category footer                          #
+
+$catfooter = qq~
+</table>
+</div><br />
+~;
+
+1;

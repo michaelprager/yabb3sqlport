@@ -1,0 +1,57 @@
+###############################################################################
+# MyCenter.lng (My Center text definitions)                                   #
+###############################################################################
+# YaBB: Yet another Bulletin Board                                            #
+# Open-Source Community Software for Webmasters                               #
+# Version:        YaBB 3.0 Beta                                               #
+# Packaged:       October 05, 2010                                            #
+# Distributed by: http://www.yabbforum.com                                    #
+# =========================================================================== #
+# Copyright (c) 2000-2010 YaBB (www.yabbforum.com) - All Rights Reserved.     #
+# Software by:  The YaBB Development Team                                     #
+#               with assistance from the YaBB community.                      #
+###############################################################################
+
+$mycenterlngver = 'YaBB 3.0 Beta $Revision: 100 $';
+
+## LEAVE USERLABEL intact. Move within the string for correct language syntax!
+
+%mycenter_txt = (
+'welcometxt' => "USERLABEL\'s Control Panel",
+'buddylisttitle' => 'Your Buddies',
+'buddylistnone' => 'Your Buddy List is empty',
+'buddydeleted' => 'This Buddy was deleted. The name is not available any more!',
+'hiddenemail' => 'Hidden Email',
+'currentsettings' => 'Your current Settings:',
+'onoffstatus' => 'Online/Offline Status:', 
+'onoffstatuson' => 'Online/Offline',
+'onoffstatusaway' => 'Away',
+'view' => 'View',
+'stealth' => 'Stealth:',
+'stealth_off' => 'Stealth Mode Off',
+'stealth_on' => 'Stealth Mode On',
+'posts' => 'Posts',
+);
+
+%display_txt = (
+'139' => 'Pages',
+);
+
+%mc_menus = (
+'messages' => 'Messages',
+'profile' => 'Profile',
+'posts' => 'Posts',
+);
+
+%pm_search = (
+'all' => 'All',
+'justthis' => 'This folder only',
+'byuser' => 'by Username',
+'desc' => 'Search my PMs',
+);
+
+%mc_folders = (
+'foldername' => 'Folder Name',
+);
+
+1;

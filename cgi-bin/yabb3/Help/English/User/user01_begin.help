@@ -1,0 +1,58 @@
+$SectionName = "Getting_started";
+
+### Section 1
+#############################################
+$SectionSub1 = "Register_an_Account";
+$SectionBody1 = qq~Since this forum is powered by YaBB, registering an account is so simple, you'll be chatting in no time!
+<p><b>Step 1:</b> In the menu above, you will see items titled &quot;Home&quot;, &quot;Help&quot;, &quot;Login&quot;, &quot;Register&quot;, etc. Click on &quot;Register&quot;.</p>
+<p><b>Step 2:</b> On this new page, you will see a form where you can choose your username and displayed name, password &#40;if the administrator allows&#41;, and enter you email address.  Fill in the boxes with your information.</p>
+<p><b>Step 3:</b> If enabled by the Administrator, you may need to fill in the characters presented in the Verification Code &#40;CAPTCHA&#41; box.</p> 
+<p><b>Step 4:</b> Check the box to agree to the User Agreement if the Administrator has enabled one.</p>
+<p><b>Step 5:</b> Click on the &quot;Register&quot; button at the bottom of the page.</p>
+<p>That's it! The administrator may require you to validate your account before you can post. If this is the case, an E-mail will be sent to you containing your password.</p>
+<p><font color="#0099CC"><b><u>USER TIP:</u></b> Some ISPs and E-mail handlers treat the link sent to you in such a way that it will not work if you click on it.  If that happens, try copying and pasting the link from the E-mail into your browser's URL window and reaching the forum that way.</font></p>
+<p>Now you&quot;re ready to log in and post!</p>
+~;
+#############################################
+
+
+### Section 2
+#############################################
+$SectionSub2 = "Log_Into_Your_Account";
+$SectionBody2 = qq~Now that you've registered an account, it's time to sign in.
+<p><b>Step 1:</b> In the menu above, you will see items titled &quot;Home, &quot;Help&quot;, &quot;Login&quot;, &quot;Register&quot;, etc. Click on &quot;Login&quot;.</p>
+<p><b>Step 2:</b> On this new page, you will see several options.</p>
+<ul>
+<li><u>Username or email address</u> - Enter in the userID or the E-mail address you registered with.</li>
+<li><u>Password</u> - Type in your password.</li>
+<li><u>Logged in For</u> - Choose how long you would like to stay logged in for.</li>
+<li><u>Forgot Password</u> - If you can't remember your password, click this button to have it resent. (Full directions below.)</li>
+</ul>
+<p><b>Step 3</b> Once you have everything filled out, click the button in the form titled &quot;Login&quot;.</p>
+<p>Congratulations! You are now ready to participate in this community!</p>
+<p><font color="#0099CC"><b><u>USER TIP:</u></b> If you do not see the &quot;Login&quot; button in the menu, you may already be logged in. This can happen on some boards set up for instant registration.</font></p>
+~;
+#############################################
+
+
+### Section 3
+#############################################
+$SectionSub3 = "Log_Out_of_Your_Account";
+$SectionBody3 = qq~When you are done posting, it is a good idea to log out of your account so others using your computer will not have access to your information. To do this, find the menu item titled &quot;Logout&quot;. Once you click this button, YaBB will log you out of the forum. You must log in again if you wish to post or access member-only functions.
+~;
+#############################################
+
+
+### Section 4
+#############################################
+$SectionSub4 = "Forgotten_Password";
+$SectionBody4 = qq~If you have forgotten your password, YaBB can resend it to the E-mail account you have given in your profile.
+<p><b>Step 1</b> In the menu above, you will see items titled &quot;Home&quot;, &quot;Login&quot;, &quot;Register&quot;, etc. Click on &quot;Login&quot;.</p>
+<p><b>Step 2</b> On this new page, you will see a button titled &quot;Forgot Password&quot;. Click this button.</p>
+<p><b>Step 3</b> A new page will load with a single box. Enter your username or the E-mail address you registered with.</p>
+<p><b>Step 4</b> Click the button titled &quot;Send&quot;.</p>
+~;
+#############################################
+
+
+1;

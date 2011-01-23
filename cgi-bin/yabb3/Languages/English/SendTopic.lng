@@ -1,0 +1,36 @@
+###############################################################################
+# SendTopic.lng (SendTopic text definitions)                                  #
+###############################################################################
+# YaBB: Yet another Bulletin Board                                            #
+# Open-Source Community Software for Webmasters                               #
+# Version:        YaBB 3.0 Beta                                               #
+# Packaged:       October 05, 2010                                            #
+# Distributed by: http://www.yabbforum.com                                    #
+# =========================================================================== #
+# Copyright (c) 2000-2010 YaBB (www.yabbforum.com) - All Rights Reserved.     #
+# Software by:  The YaBB Development Team                                     #
+#               with assistance from the YaBB community.                      #
+###############################################################################
+
+$sendtopiclngver = 'YaBB 3.0 Beta $Revision: 100 $';
+
+%sendtopic_txt = (
+'118' => 'Topic',
+'241' => 'field!',
+'318' => 'From',
+'335' => 'Your name',
+'336' => 'Your email address',
+'339' => 'Send',
+'707' => 'Send Topic',
+'708' => 'to a friend!',
+'717' => 'Recipient\'s name',
+'718' => 'Recipient\'s email address',
+);
+
+%floodtxt=(
+'1' => 'Your Verification Code is',
+'3' => 'Verification Code',
+'casewarning' => 'Please type exactly what text appears in the image. The characters must be typed in the same order, and it is case-sensitive.',
+);
+
+1;

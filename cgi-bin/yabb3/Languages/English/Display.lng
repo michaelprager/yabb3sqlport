@@ -1,0 +1,68 @@
+###############################################################################
+# Display.lng (Display text definitions)                                      #
+###############################################################################
+# YaBB: Yet another Bulletin Board                                            #
+# Open-Source Community Software for Webmasters                               #
+# Version:        YaBB 3.0 Beta                                               #
+# Packaged:       October 05, 2010                                            #
+# Distributed by: http://www.yabbforum.com                                    #
+# =========================================================================== #
+# Copyright (c) 2000-2010 YaBB (www.yabbforum.com) - All Rights Reserved.     #
+# Software by:  The YaBB Development Team                                     #
+#               with assistance from the YaBB community.                      #
+###############################################################################
+
+$displaylngver = 'YaBB 3.0 Beta $Revision: 100 $';
+
+%display_txt = (
+'10' => 'Permalink for this article',
+'19' => 'Page Index Toggle',
+'21' => 'Posts',
+'24' => '(No subject)',
+'28' => 'Guest',
+'29' => 'Author',
+'30' => 'on',
+'63' => 'Moderators',
+'63a' => 'Moderator Groups',
+'116' => 'Post Reply',
+'118' => 'Topic',
+'139' => 'Pages',
+'146' => 'Reply',
+'146n' => 'Paste User Name in Quick Reply Box',
+'162' => 'Are you sure you want to remove this topic?',
+'rempost' => 'Are you sure you want to remove this post?',
+'211' => 'Last Edit',
+'298' => 'Moderator',
+'298a' => 'Moderator Group',
+'470' => 'N/A',
+'470a' => '<i>Ex Member</i>',
+'511' => 'IP Logged',
+'525' => 'by',
+'526' => 'Adding Favorite',
+'527' => 'Removing Favorite',
+'528' => 'Complete',
+'529' => 'Adding Notification',
+'530' => 'Removing Notification',
+'641' => 'Read',
+'642' => 'times',
+'643' => 'Back to top',
+'644' => 'Members viewing this topic',
+'645' => 'replying',
+'646' => 'Members replying to this topic',
+'739' => 'Are you sure you want to delete this post?',
+'766' => 'No Topic',
+'767' => 'Next Topic',
+'768' => 'Previous Topic',
+'769' => 'Flash Location',
+'888' => 'Browsing Topic',
+'999' => 'Board Announcement',
+'posttolocked' => 'Warning: You are about to post to a locked thread! Click [OK] to confirm this or [Cancel] to return to the thread.',
+'modifyinlocked' => 'Warning: You are about to modify a locked thread! Click [OK] to confirm this or [Cancel] to return to the thread.',
+'isbuddy' => 'In my Buddy List!',
+'split_confirm' => 'Are you sure you want to split messages?',
+'alertmod_confirm' => 'Are you sure you want to alert moderator about this Message?',
+'reverse' => 'Click here if you want to change the order topics are shown in.',
+'sendtopicemail' => 'Click [OK] if you want to send the Email through your Email program, otherwise the forums Email program will be used.',
+);
+
+1;

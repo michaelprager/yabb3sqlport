@@ -1,0 +1,82 @@
+###############################################################################
+# MyCenter.template                                                           #
+###############################################################################
+# YaBB: Yet another Bulletin Board                                            #
+# Open-Source Community Software for Webmasters                               #
+# Version:        YaBB 3.0 Beta                                               #
+# Packaged:       October 05, 2010                                            #
+# Distributed by: http://www.yabbforum.com                                    #
+# =========================================================================== #
+# Copyright (c) 2000-2010 YaBB (www.yabbforum.com) - All Rights Reserved.     #
+# Software by:  The YaBB Development Team                                     #
+#               with assistance from the YaBB community.                      #
+# Sponsored by: Xnull Internet Media, Inc. - http://www.ximinc.com            #
+#               Your source for web hosting, web design, and domains.         #
+###############################################################################
+# $Revision: 100 $
+
+$mycenter_template = qq~
+<!-- My Center Title Bar start -->
+<div class="seperator">
+	<table cellpadding="0" cellspacing="0" border="0" width="100%">
+	<tr>
+		<td class="tabmenuleft" width="40">&nbsp;</td>
+		<td class="tabmenu" align="left">{yabb mcmenu}</td>
+		<td class="tabmenuright" width="45">&nbsp;</td>
+		<td class="rightbox" width="440" valign="top">
+			<div style="float: left; width: 100%; height: 21px; text-align: center; padding-top: 3px;">
+			{yabb mctitle}
+			</div>
+		</td>
+	</tr>
+	</table>
+</div>
+<!-- My Center Title Bar end -->
+
+<!-- My Center body start -->
+<div id="PMcontainer">
+	<div class="bordercolor" id="PMmenucontainer" style="float: left; width: 28%; padding: 1px;">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" class="windowbg">
+			<tr><td>
+			{yabb mcviewmenu}
+			{yabb mcpmmenu}
+			{yabb mcprofmenu}
+			{yabb mcpostsmenu}
+			{yabb mcextrasmilies}
+			</td></tr>
+		</table>
+	</div>
+	<div class="bordercolor" id="PMcontent" style="float: right; width: 70%; padding: 1px; overflow:auto;">
+		<!-- content table start -->
+		{yabb mcglobformstart}
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" align="right" style="table-layout:fixed">
+			<tr><td class="windowbg">
+			{yabb mccontent}
+			</td></tr>
+		</table>
+		<br clear="all" />
+		{yabb mcglobformend}
+		<!-- content table end -->
+	</div>
+</div>
+<!-- My Center body end -->
+~;
+
+## version of user/poster block for user's display in 'my center'
+$myprofileblock = qq~
+<div id="userdata" style="width: 95%; border: 2px dashed #B0C4DE; padding: 3px;">
+	<yabb userlink>
+	<div class="small">
+		{yabb memberinfo}<br />
+		{yabb stars}
+		{yabb useronline}
+		{yabb userpic}
+		{yabb usertext}<br />
+		{yabb postinfo}
+		{yabb location}
+		{yabb gender}
+	</div>
+</div>
+~;
+
+1;

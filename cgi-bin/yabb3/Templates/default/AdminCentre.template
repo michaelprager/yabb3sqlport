@@ -1,0 +1,122 @@
+###############################################################################
+# AdminCentre.template                                                        #
+###############################################################################
+# YaBB: Yet another Bulletin Board                                            #
+# Open-Source Community Software for Webmasters                               #
+# Version:        YaBB 3.0 Beta                                               #
+# Packaged:       October 05, 2010                                            #
+# Distributed by: http://www.yabbforum.com                                    #
+# =========================================================================== #
+# Copyright (c) 2000-2010 YaBB (www.yabbforum.com) - All Rights Reserved.     #
+# Software by:  The YaBB Development Team                                     #
+#               with assistance from the YaBB community.                      #
+# Sponsored by: Xnull Internet Media, Inc. - http://www.ximinc.com            #
+#               Your source for web hosting, web design, and domains.         #
+###############################################################################
+# $Revision: 100 $
+
+$header = qq~<?xml version="1.0" encoding="ISO-8859-1" standalone="no" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>{yabb title}</title>
+<meta http-equiv="Content-Type" content="text/html; charset={yabb charset}" />
+<meta http-equiv="pragma" content="no-cache" />
+{yabb style}
+<script language="JavaScript" type="text/javascript">
+<!--
+	function toggleList(e){
+		element = document.getElementById(e).style;
+
+		if (element.display == "") {
+			element.display = "none"
+			setcookie("admin_center" + e, "1", new Date().getTime() + 525600 * 60007);
+		} else {
+			element.display = ""
+			setcookie("admin_center" + e, "0", new Date());
+		}
+	}
+
+	function setcookie(name, value, expire){
+		var theDate = new Date();
+		theDate.setTime(expire);
+
+		if (expire) {
+			document.cookie = name + "=" + escape(value) + "; expires=" + theDate.toGMTString();
+		} else {
+			document.cookie = name + "=" + escape(value);
+		}
+	}
+
+	function getcookie(name){
+		var cookies = document.cookie.split(/[;][ ]?/), temp;
+
+		for(var i = 0; i < cookies.length; i++)
+		{
+			temp = cookies[i].split("=");
+			if (temp[0] == name)
+				return temp[1];
+		}
+		return;
+	}
+
+	function AdminCheck(){
+		var bars = ["a1", "a2", "a3", "a4", "a5", "a6", "a7", "a8", "a9"];
+
+		for(var i = 0; i < bars.length; i++)
+		{
+			if (getcookie("admin_center" + bars[i]) == "1")
+				toggleList(bars[i]);
+		}
+	}
+	{yabb javascript}
+-->
+</script>
+</head>
+~;
+
+$leftmenutop = qq~
+<body>
+<img src="{yabb images}/adminlogo.gif" id="adminlogo" alt="Yet Another Bulletin Board"/>
+
+<div id="menu">
+{yabb maintenance}
+~;
+
+$leftmenubottom = qq~
+</div>
+<script language="JavaScript" type="text/javascript"><!--
+	setTimeout("AdminCheck()", 80);
+// -->
+</script>
+~;
+
+$topnav = qq~
+<div id="ql">
+<table>
+	<tr>
+		<td width="190">&nbsp;</td>
+		<td align="center">{yabb topmenu_one}</td>
+		<td>&nbsp;|&nbsp;</td>
+		<td align="center">{yabb topmenu_two}</td>
+		<td align="center">&nbsp;|&nbsp;</td>
+		<td align="center">{yabb topmenu_tree}</td>
+		<td>&nbsp;|&nbsp;</td>
+		<td align="center">{yabb topmenu_four}</td>
+	</tr>
+</table>
+</div>
+~;
+
+$mainbody = qq~
+<div id="content">
+{yabb main}
+<br />
+<br />
+<div align="center">{yabb_admin debug}</div>
+<br />
+<br />
+</div>
+</body>
+</html>
+~;

@@ -1,0 +1,71 @@
+###############################################################################
+# Database.lng                                                                #
+###############################################################################
+# YaBB: Yet another Bulletin Board                                            #
+# Open-Source Community Software for Webmasters                               #
+# Version:        YaBB 3.0 Beta                                               #
+# Packaged:       October 05, 2010                                            #
+# Distributed by: http://www.yabbforum.com                                    #
+# =========================================================================== #
+# Copyright (c) 2000-2010 YaBB (www.yabbforum.com) - All Rights Reserved.     #
+# Software by:  The YaBB Development Team                                     #
+#               with assistance from the YaBB community.                      #
+###############################################################################
+
+$databaselngver = 'YaBB 3.0 Beta $Revision: 100 $';
+
+%db_txt = (
+'title' => 'YaBB Database',
+'1' => 'You are running YaBB with a file Database structure. Here you can modify it to a partially MySQL supported Forum and vice versa. Only the most used files will be add by this Mod to the database. This are the Members/<i>username</i>.vars, Variables/log.txt and Messages/<i>threadnumber</i>.ctb files.',
+'2' => 'You are running YaBB with a parcial MySQL Database structure. Here you can return to the flat-file Database structure:',
+'3' => 'Return to FILE Database',
+'4' => 'or change the Database access information:',
+'5' => 'If you want you can delete the Members/<i>username</i>.vars and Messages/<i>threadnumber</i>.ctb files now. They are not needed any more, now that you are on MySQL-DB.',
+'6' => 'Delete unused files',
+'9' => 'First we need this informations:',
+'10' => 'Yes, I am allready runing tables with member informations (also if only in parts) from where we can get some or all data needed by YaBB.<br />If you leave this unchecked we will build compleatly new tables.',
+'11' => 'OK, you have some data in your existing tables.<br />We can use external data to build the <i>username</i>.vars and the log.txt information for YaBB.<br />Tell us in which table to use and under which colum name we can find this data. If you leave one free, we will build this colum in a separate table.',
+'20' => 'Name of the MySQL-Server',
+'21' => 'Port of the MySQL-Server',
+'21a' => 'STANDARD VALUE',
+'22' => 'Socket of the MySQL-Server',
+'22a' => 'Insert value only if you are not using the the standard-socket for the connection to you MySQL-Server',
+'23' => 'Name of the database',
+'24' => 'Name of the MySQL-database user',
+'25' => 'Password of the MySQL-database user',
+'25a' => 'No entry needed if you have insert it before',
+'26' => 'Name of the Prefix for your YaBB tables',
+'26a' => 'Example: "yabb2" will build the tables "yabb2_vars",""yabb2_log and "yabb2_ctb"',
+'29' => 'If you click on "Go!" the above settings will be stored.',
+'30' => 'If you click on "Go!" the new tables will be build. If this is done, the conversion can be started on next page.<br /><b>ATENTION:</b> If you have tables in your database with the same names as this we will build now (YaBB-Prefix_vars, YaBB-Prefix_ctb, ...) then they will be <u>removed</u> together with all data in it, before we build the new tables!!! Tables with other names will not be touched.',
+'31' => 'Go!',
+
+'33' => 'If you click on "Go!" the process of converting data is started. Meanwhile your Forum will be set into Maintenace mode. The conversion can take some time if your forum is large! In this case the page will be refreshed to avoid server timeout. No files will be deleted in this process. You can do this later.<br /><br /><br />ATTENTION: If some data in your <i>username</i>.vars files is longer then 510 characters (ex.: regreason, signature, addgroups, board_notifications, thread_notifications, favorites, buddylist, awayreply), the rest will be cut and is lost for Database usage!<br />The same happens if the \'repiers\' of the .ctb files become larger then 510 characters.',
+
+
+'40' => 'YaBB <b><i>username</i>.vars</b> entries',
+'40a' => 'YaBB <b>log.txt</b> entries',
+'41' => 'Your existing table name for the following colums',
+'42' => 'Your existing colum names in this table',
+'43' => 'Comment',
+
+
+'yabbusername' => 'This name is your unique username, your identifyer. It must be given, otherwise we don\'t know where to write the userdata. The yabbusername can be equal your displayname ("realname") but must not. In any case this name is not visibel for other YaBB users and can not be changed. If we don\'t find a username in your table maching the YaBB username, we will add it to your table with all the values in the <i>username</i>.vars file. If we find a row with the username in your tabel, we will ignore the values in the .vars-file and use the values of the table even if there are no values in it! In both case only the values without colum in your table will be overtaken into a new build table.',
+'password' => 'Use your passwords only if they are encrypted in the exact same way as they are by YaBB, or modify the YaBB code in the following place to match your password structure: Subs.pl =&gt; sub encode_password {<br />Do this only if you know exactly what you are doing!!! The password in this table is also transmitted and stored in the cookies. So never let them unencrypted!!!',
+'username' => 'The values in this colum must be the same as in \'yabbusername\' from above!!! The only difference is that the rows will be added and removed dynamically, depending on when the user goes Online and when he goes Off again or the "Time while a usere is shown as Online" is over.',
+
+
+'100' => 'All <i>username</i>.vars and <i>threadnumber</i>.ctb filed have been converted into the MySQL database.<br />If you want to free up some space on your account, you can now (or later) delete all this converted files.',
+'101' => 'All <i>users</i> and <i>ctb</i> infos have been converted back into files.<br />If you want to free up some space on your account, you can now (or later) delete the MySQL tables used by YaBB. We don\'t provide a function for this, so you must use your MySQL program and do it yourself.',
+'105' => 'All <i>username</i>.vars and <i>threadnumber</i>.ctb were deleted.',
+
+
+# error messages
+'missingDBdata' => 'Missing needed data at the top of the previous page!',
+'missingvarsdata' => 'I need to know at least the vars-table name and colum name of the "yabbusername", or remove both, or uncheck that you are running other tables!',
+'missinglogdata' => 'I need to know at least the log-table name and colum name of the "username", or remove both, or uncheck that you are running other tables!',
+'already_in_MySQL' => 'You are already on a MySQL database structure. Therfore you can\'t re-run this function.',
+'wrongchar' => 'Character not allowed in colum name ',
+);
+
+1;

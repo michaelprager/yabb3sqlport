@@ -1,0 +1,316 @@
+/*--------------------------------------------------------*/
+/*                      YaBB 2010                         */
+/*--------------------------------------------------------*/
+/*      Created by: XIMinc http://www.ximinc.com          */
+/*                  YaBB http://www.yabbforum.com         */
+/*--------------------------------------------------------*/
+/*    You may adapt elements of this CSS in your own      */
+/*    projects, but please give credit to yabbforum.com.  */
+/*--------------------------------------------------------*/
+/*     This is the css file for YaBB 3.0 Admin Center     */
+/*--------------------------------------------------------*/
+/* $Revision: 100 $ */
+
+
+/* General layout */
+a:link, a:visited {
+	color: #475F79;
+	font-weight: normal;
+	text-decoration: none;
+}
+a:hover {
+	color: #00AEEF;
+	font-weight: normal;
+	text-decoration: none;
+}
+body {
+	background: url("default/adminbg.gif") #DFE4E9 repeat-y;
+}
+form {
+	display: inline;
+}
+html>body #menu li a {
+	width: auto;
+	font-family: Verdana, Arial, Sans-Serif;
+	font-size: 11px;
+}
+img#adminlogo {
+	left: 0px;
+	position: absolute;
+	top: 0px;
+	z-index: 2;
+}
+input, .button, textarea {
+	background-color: #F1F2F4;
+	border: 1px solid #C2C6CF;
+	color: #000000;
+	font-family: Verdana, Arial, Sans-Serif;
+	font-size: 11px;
+}
+select {
+	background-color: #F1F2F4;
+	color: #000000;
+	font-family: Verdana, Arial, Sans-Serif;
+	font-size: 10px;
+}
+.bordercolor {
+	background-color: #A7B8CC;
+}
+.button {
+	cursor: pointer;
+}
+.catbg {
+	background: url("default/admincatbg.gif");
+	background-color: #FEFEFE;
+	color: #000000;
+	font-size: 13px;
+}
+.catbg a {
+	font-style: normal;
+	font-weight: bold;
+}
+.catbg a:link {
+	color: #475F79;
+	text-decoration: none;
+}
+.catbg a:visited {
+	color: #20B2AA;
+}
+.catbg a:hover {
+	text-decoration: underline;
+}
+.catbg a:focus, .catbg a:active {
+	border: thin dashed #20B2AA;
+}
+.copyright {
+	font-family: Verdana, Arial, Sans-Serif;
+	font-size: 10px;
+}
+.droppageindex {
+	background-color: #FFFFFF;
+	border: 2px inset;
+	color: #000000;
+	float: left;
+	font-family: Verdana, Arial, Sans-Serif;
+	margin: 0px;
+	padding: 0px;
+	padding-left: 4px;
+}
+.droppages {
+	height: 14px;
+	padding-left: 1px;
+	padding-right: 1px;
+}
+.droppages a {
+	color: #000000;
+	font-size: 9px;
+	font-weight: normal;
+}
+
+
+/* Misc./title/category colors */
+.hr {
+	color: #A7B8CC;
+}
+.setting_cell {
+	float: left;
+	font-size: 12px;
+	padding-bottom: 2px;
+	padding-top: 2px;
+	text-align: left;
+	width: 35%;
+}
+.setting_cell2 {
+	float: left;
+	font-size: 12px;
+	padding-bottom: 2px;
+	padding-top: 2px;
+	text-align: left;
+	width: 65%;
+	overflow:visible;
+}
+.setting_cell3 {
+	float: left;
+	font-size: 12px;
+	padding-bottom: 2px;
+	padding-top: 2px;
+	text-align: left;
+	width: 100%;
+	overflow:visible;
+}
+.setting_cell4 {
+	float: left;
+	font-size: 12px;
+	padding-bottom: 2px;
+	padding-top: 2px;
+	text-align: left;
+	width: 100%;
+	overflow:visible;
+}
+.small {
+	font-family: Verdana, Arial, Sans-Serif;
+	font-size: 10px;
+}
+.titlebg {
+	background-color: #D2DBE6;
+	color: #475F79;
+	font-size: 13px;
+}
+
+
+/* YaBB alternating bgcolors */
+.windowbg {
+	background-color: #E0E4EB;
+	color: #000000;
+	font-family: Verdana, sans-serif;
+	font-size: 11px;
+}
+.windowbg2 {
+	background-color: #FEFEFE;
+	color: #000000;
+	font-family: Verdana, sans-serif;
+	font-size: 11px;
+}
+#content {
+	color: #000000;
+	font-family: Verdana, Arial, Sans-Serif;
+	font-size: 11px;
+	left: 210px;
+	position: absolute;
+	top: 60px;
+	width: 75%;
+	z-index: 10;
+}
+#menu {
+	color: #000000;
+	font-family: Verdana, Arial, Sans-Serif;
+	font-size: 10px;
+	left: 0px;
+	position: absolute;
+	top: 120px;
+	width: 175px;
+	z-index: 3;
+}
+#menu h3 {
+	background-color: #D2DBE6;
+	border: 1px solid #738DAE;
+	border-left: 0px;
+	color: #000000;
+	font-family: Verdana, Arial, Sans-Serif;
+	font-size: 10px;
+	font-weight: bold;
+	margin: 0px;
+	margin-top: 5px;
+	padding: 2px;
+	padding-left: 5px;
+	text-decoration: none;
+	text-transform: capitalize;
+	width: 170px;
+}
+#menu h3 a {
+	color: #000000;
+	text-decoration: none;
+	text-transform: capitalize;
+}
+#menu li {
+	font-family: Verdana, Arial, Sans-Serif;
+	font-size: 10px;
+	margin: 0px;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+#menu li a {
+	background-color: transparent;
+	border: 1px solid #A7B8CC;
+	color: #000000;
+	display: block;
+	font-family: Verdana, Arial, Sans-Serif;
+	font-size: 10px;
+	margin: 2px;
+	padding: 1px;
+	padding-left: 5px;
+	text-decoration: none;
+	width: 100%;
+}
+#menu li a.current, #menu li a.current:hover {
+	background-color: #FEFEFE;
+	border: 1px solid #738DAE;
+}
+#menu li a:hover {
+	background-color: #DFE4E9;
+	border: 1px solid #738DAE;
+	color: #000000;
+}
+#menu ul {
+	border: none;
+	font-family: Verdana, Arial, Sans-Serif;
+	font-size: 10px;
+	list-style: none;
+	margin: 0px;
+	padding: 0px;
+}
+
+
+/* Tabbed Settings Code */
+#navlist {
+	margin: 0px 4px 2px 0px;
+	padding: 0px;
+}
+#navlist li {
+	background: #F1F2F4;
+	border: 1px solid #A7B8CC;
+	cursor: pointer;
+	display: inline;
+	font-family: Verdana, Arial, Sans-Serif;
+	font-weight: bold;
+	list-style: none;
+	margin: 0px 2px 0px 0px;
+	padding: 2px;
+	text-decoration: none;
+}
+#navlist li a:link {
+	color: #000000;
+}
+#navlist li.curtab {
+	background: #D2DBE6;
+	border-bottom: none;
+	cursor: default;
+	padding-bottom: 3px;
+}
+#navlist li:hover {
+	background: #FEFEFE;
+}
+#ql {
+	background: url("default/admintopbg.gif") #DFE4E9 repeat-x;
+	font-family: Verdana, Arial, Sans-Serif;
+	font-size: 12px;
+	height: 31px;
+	position: absolute;
+	right: 0px;
+	top: 0px;
+	width: 100%;
+	z-index: 1;
+}
+#ql a {
+	font-weight: bold;
+}
+#ql a:hover {
+	color: #000000;
+	left: 1px;
+	position: relative;
+	top: 1px;
+}
+#ql td {
+	height: 29px;
+}
+
+
+/* Disabled Pseudo class -- to make it easier to tell what's disabled */
+textarea:disabled, input:disabled {
+	color: #888888;
+}
+
+/* Fix Gullotine bug using the Holly Hack */
+/*  \*/
+* html #container {height: 1%;}
+/*  */

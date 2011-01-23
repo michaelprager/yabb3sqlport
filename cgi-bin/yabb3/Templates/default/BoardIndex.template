@@ -1,0 +1,239 @@
+###############################################################################
+# BoardIndex.template                                                         #
+###############################################################################
+# YaBB: Yet another Bulletin Board                                            #
+# Open-Source Community Software for Webmasters                               #
+# Version:        YaBB 3.0 Beta                                               #
+# Packaged:       October 05, 2010                                            #
+# Distributed by: http://www.yabbforum.com                                    #
+# =========================================================================== #
+# Copyright (c) 2000-2010 YaBB (www.yabbforum.com) - All Rights Reserved.     #
+# Software by:  The YaBB Development Team                                     #
+#               with assistance from the YaBB community.                      #
+# Sponsored by: Xnull Internet Media, Inc. - http://www.ximinc.com            #
+#               Your source for web hosting, web design, and domains.         #
+###############################################################################
+# $Revision: 100 $
+
+$boardhandellist = qq~
+	{yabb expand}{yabb collapse}{yabb markallread}
+~;
+
+$boardindex_template = qq~
+
+<!-- Board Index Showcase Poll start -->
+
+{yabb pollshowcase}
+
+<!-- Board Index Showcase Poll end-->
+
+<!-- Board Index Category block start, should be left as is -->
+
+{yabb catsblock}
+
+<!-- Board Index Category block end, should be left as is -->
+
+~;
+
+if(!$iamguest && !$subboard_sel) {
+$boardindex_template .= qq~
+
+<!-- Board Index Button Bar start -->
+<table class="bordercolor" cellpadding="4" cellspacing="1" border="0" width="100%">
+<tr>
+	<td class="windowbg" align="center">
+		<div class="small" style="float: left; width: 49%; text-align: left;">
+			<img src="$imagesdir/on.gif" border="0" id="no_edit" alt="$boardindex_txt{'333'}" title="$boardindex_txt{'333'}" style="vertical-align: middle;" /> $boardindex_txt{'333'}&nbsp;&nbsp;
+			<img src="$imagesdir/off.gif" border="0" id="no_edit" alt="$boardindex_txt{'334'}" title="$boardindex_txt{'334'}" style="vertical-align: middle;" /> $boardindex_txt{'334'}
+		</div>
+		<div class="small" style="float: right; width: 49%; text-align: right;">
+			{yabb boardhandellist}
+		</div>
+	</td>
+</tr>
+</table>
+<!-- Board Index Button Bar end -->
+
+~;
+}
+
+if(!$subboard_sel) {
+$boardindex_template .= qq~
+
+<!-- Info Center block start -->
+
+<br /><br />
+<table class="tabtitle" cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+	<td class="round_top_left" width="1%" height="25" valign="middle">
+		&nbsp;
+	</td>
+	<td class="round_top_right" width="99%" height="25" valign="middle">
+		$boardindex_txt{'200'}
+	</td>
+</tr>
+</table>
+<table class="bordercolor" cellpadding="4" cellspacing="1" border="0" width="100%">
+<tr>
+	<td class="windowbg" width="5%" valign="middle" align="center">
+		<img src="$imagesdir/info.gif" border="0" alt="" />
+	</td>
+	<td class="windowbg2" valign="top" align="center">
+		<div class="small" style="float: left; width: 59%; text-align: left;">
+			$boardindex_txt{'489'} <b>{yabb totalmessages} $boardindex_txt{'21l'}</b> $boardindex_txt{'490'} <b>{yabb totaltopics} $boardindex_txt{'330l'}</b>.<br />
+			{yabb lastpostlink} {yabb lastpostdate}
+			{yabb recentposts}
+		</div>
+		<div class="small" style="float: left; width: 40%; text-align: left;">
+			$boardindex_txt{'487'} {yabb membercount} $boardindex_txt{'488'}.<br />
+			{yabb latestmember}
+			{yabb ims}
+		</div>
+	</td>
+</tr>
+<tr>
+	<td class="windowbg" width="5%" valign="middle" align="center">
+		<img src="$imagesdir/online.gif" border="0" alt="" />
+	</td>
+	<td class="windowbg2" valign="top" align="center">
+		<div class="small" style="float: left; width: 90%; text-align: left;">
+		$boardindex_txt{'800'} <b>{yabb mostusers}</b> $maintxt{'30'} {yabb mostusersdate}.<br />
+		$boardindex_txt{'801'} <b>{yabb mostmembers}</b> $maintxt{'30'} {yabb mostmembersdate}.<br />
+		$boardindex_txt{'802'} <b>{yabb mostguests}</b> $maintxt{'30'} {yabb mostguestsdate}.<br />
+		$boardindex_txt{'803'} <b>{yabb mostbots}</b> $maintxt{'30'} {yabb mostbotsdate}.
+		</div>
+	</td>
+</tr>
+</table><br />
+<table cellpadding="0" cellspacing="0" border="0" width="100%" class="tabtitle">
+<tr>
+	<td class="round_top_left" width="1%" height="25" valign="middle">
+		&nbsp;
+	</td>
+	<td class="round_top_right" width="99%" height="25" valign="middle">
+		$boardindex_txt{'158'}
+	</td>
+</tr>
+</table>
+<table class="bordercolor" cellpadding="4" cellspacing="1" border="0" width="100%">
+<tr>
+	<td class="windowbg" width="5%" valign="middle" align="center">
+		<img src="$imagesdir/online.gif" border="0" alt="" />
+	</td>
+	<td class="windowbg2">
+		<div class="small" style="float: left; width: 59%; text-align: left;">
+		{yabb users}<br />
+		{yabb onlineusers}
+		{yabb guests}<br />
+		{yabb onlineguests}
+		{yabb bots}<br />
+		{yabb onlinebots}
+		</div>
+		<div style="float: left; width: 40%; text-align: left;">
+		{yabb groupcolors}
+		</div>
+	</td>
+</tr>
+</table>
+<br />
+<!-- ## XTC Cal Mod ## -->
+
+		{yabb caldisplay}
+
+<br />
+<!-- ## XTC Cal Mod ## -->
+	{yabb sharedlogin}
+
+<!-- Info Center block end -->
+~;
+}
+
+# Category header                          #
+
+$new_msg_bg = "windowbg";
+$new_msg_class = "small";
+
+$catheader = qq~
+
+<table cellpadding="0" cellspacing="0" border="0" width="100%" class="tabtitle">
+<tr>
+	<td class="round_top_left" width="1%" height="25">
+		&nbsp;
+	</td>
+	<td width="59%" height="25" valign="middle">
+		{yabb catimage} {yabb catlink}
+	</td>
+	<td width="8%" height="25" align="center" valign="middle">
+		$boardindex_txt{'330'}
+	</td>
+	<td width="8%" height="25" align="center" valign="middle">
+		$boardindex_txt{'21'}
+	</td>
+	<td class="round_top_right" width="24%" height="25" align="center" valign="middle">
+		$boardindex_txt{'22'}
+	</td>
+</tr>
+</table>
+<table {yabb colboardtable} cellpadding="4" cellspacing="1" border="0" width="100%" class="bordercolor">
+{yabb newmsg start}{yabb newmsg icon}{yabb newmsg}{yabb newmsg end}
+</table>
+<table {yabb boardtable} cellpadding="4" cellspacing="1" border="0" width="100%" class="bordercolor">
+~;
+
+# Looks of each board in category          #
+
+$topiccut = 25;
+$boardblock = qq~
+<tr>
+	<td class="{yabb altbrdcolor}" width="6%" align="center" valign="middle">
+		<a href="{yabb boardurl}">{yabb boardpic}</a>
+	</td>
+	<td class="{yabb altbrdcolor}" width="54%" align="left" valign="middle">
+		<div style="position: relative; height: 100%; width: 100%">
+		{yabb new} <a name="{yabb boardanchor}" href="{yabb boardurl}"><b>{yabb boardname}</b></a><br />
+		{yabb boarddesc}
+		<div class="small" style="font-style:italic;">{yabb moderators}</div>
+		{yabb subdropdown}{yabb subboardlist}
+		<div style="position: absolute; bottom: 0px; right: 0px;">
+			{yabb messagedropdown}
+		</div>
+		</div>
+	</td>
+	<td class="{yabb altbrdcolor}" valign="middle" align="center" width="8%">{yabb threadcount}</td>
+	<td class="{yabb altbrdcolor}" valign="middle" align="center" width="8%">{yabb messagecount}</td>
+	<td class="{yabb altbrdcolor}" valign="middle" align="left" width="24%">
+	<span class="small" style="float: left; margin-left: 12px;">
+	{yabb lastpostlink}<br />
+	<b>$boardindex_txt{'524'}:</b> {yabb lasttopiclink}<br />
+	<b>$boardindex_txt{'525'}:</b> {yabb lastposter}
+	</span>
+	</td>
+</tr>
+{yabb expandmessages}
+~;
+
+$nopost_boardblock = qq~
+<tr>
+	<td class="{yabb altbrdcolor}" width="6%" align="center" valign="middle">
+		<a href="{yabb boardurl}">{yabb boardpic}</a>
+	</td>
+	<td class="{yabb altbrdcolor}" width="54%" align="left" valign="middle" colspan="4">
+		{yabb new} <a name="{yabb boardanchor}" href="{yabb boardurl}"><b>{yabb boardname}</b></a><br />
+		{yabb boarddesc}
+		<div class="small" style="font-style:italic;">{yabb moderators}</div>
+		{yabb subdropdown}{yabb subboardlist}
+	</td>
+</tr>
+{yabb expandmessages}
+~;
+
+$subboard_links = qq~{yabb new} <a href="{yabb boardurl}">{yabb boardname}</a>~;
+$subboard_list = qq~<div class="small" style="display: inline-block; float: float; margin-top:5px"><b>{yabb subboardtxt}:</b> {yabb subboardlinks}</div>~;
+
+# Category footer                          #
+
+$catfooter = qq~
+</table>
+<br />~;
+
+1;

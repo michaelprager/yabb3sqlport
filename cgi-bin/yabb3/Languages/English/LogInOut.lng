@@ -1,0 +1,53 @@
+###############################################################################
+# LogInOut.lng (LogInOut text definitions)                                    #
+###############################################################################
+# YaBB: Yet another Bulletin Board                                            #
+# Open-Source Community Software for Webmasters                               #
+# Version:        YaBB 3.0 Beta                                               #
+# Packaged:       October 05, 2010                                            #
+# Distributed by: http://www.yabbforum.com                                    #
+# =========================================================================== #
+# Copyright (c) 2000-2010 YaBB (www.yabbforum.com) - All Rights Reserved.     #
+# Software by:  The YaBB Development Team                                     #
+#               with assistance from the YaBB community.                      #
+###############################################################################
+
+$loginoutlngver = 'YaBB 3.0 Beta $Revision: 100 $';
+
+%loginout_txt = (
+'34' => 'Login',
+'35' => 'Username, Displayed Name or Email address',
+'36' => 'Password',
+'130' => "Regards,\nThe $mbname team",
+'130a' => "This reminder was requested by a visitor at $mbname. If you did not submit a request to reset your password, then please ignore this email, otherwise go here to reset your password: ",
+'192' => 'Email successfully sent to:',
+'193' => 'Back',
+'194' => 'reminder',
+'241' => 'field!',
+'315' => 'Forgot password?',
+'339' => 'Send',
+'497' => 'Logged in for',
+'497a' => 'hour',
+'497b' => 'hours',
+'497c' => 'Keeps',
+'497d' => 'Until I exit the browser',
+'508' => 'Always stay logged in',
+'669' => 'Password Reminder',
+'711' => 'Dear',
+'753' => 'Need to register?',
+'837' => 'Your username is case sensitive.',
+'capslock' => 'Caps lock is activated.',
+'wrong_char' => 'This character in the Password is invalid',
+);
+
+%floodtxt=(
+'1' => 'Your Verification Code is',
+'3' => 'Verification Code',
+'casewarning' => 'Please type exactly what text appears in the image. The characters must be typed in the same order, and it is case-sensitive.',
+);
+
+%prereg_txt=(
+'5' => 'Your account is activated. You can now log in using your user id and password!',
+);
+
+1;

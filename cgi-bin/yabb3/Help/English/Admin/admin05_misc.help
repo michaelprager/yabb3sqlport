@@ -1,0 +1,97 @@
+$SectionName = "Miscellaneous_Things";
+
+### Section 1
+#############################################
+$SectionSub1 = "General_Observations";
+$SectionBody1 = qq~In the making of YaBB 2.2, we have done an overhaul to the admin panel's various sections.<br />
+As the number of functions have grown larger, we have re-grouped some of them a bit into tabs and some functions may have changed places.
+~;
+#############################################
+
+
+### Section 2
+#############################################
+$SectionSub2 = "Features_in_YaBB_2.2_and_later_versions";
+$SectionBody2 = qq~These are some features in YaBB 2.2 that naturally need some adjusting on admin level. These additions are as follows:
+<ul>
+<li><b>RSS</b><br />
+Anyone can now use RSS (Really Simple Syndication, see <a href="http://en.wikipedia.org/wiki/RSS" title="RSS on Wikipedia">this article in Wikipedia</a>) to pull the latest headlines from your forum into an external document or to a browser.</li>
+<li><b>Permalinks</b><br />
+To make forum URIs look a bit more 'normal' you can set your forum to use permalinks.<br />Be carefull when applying the settings, even smallest mistakes may make your forum unavailable!</li>
+<li><b>Separate Search Engines from ordinary users</b><br />
+In order to get a bit more accurate picture of your forum visitors, you can separate search engines spiders from ordinary guests.</li>
+<li><b>Email Templating</b><br />
+When you wish to edit the 'system emails' more fitting to your needs, you don't need to fight with the source code anymore, just use the 'Email Messages' templating tool.</li>
+<li><b>Antispam tools</b><br />
+Since the spam is here to stay, we need stronger tools against it and now we have one.<br />
+Set your preferred spam rules to trigger a warning (and eventually a ban) based on unwanted post content, specify certain circumstances of the posting process and keep viagra sellers away.</li>
+<li><b>Captcha</b><br />
+To make it a bit harder for malicious bots entering your forum, use the captcha (visual confirmation, see <a href="http://en.wikipedia.org/wiki/Captcha" title="Captcha in Wikipedia">this article in Wikipedia</a>, but be carefull, it is possible that some human users find it hard to use.</li>
+<li><b>Broadcast messages</b><br />
+Communicate with your forum staff with Broadcast Messages and send messages on group level (moderators, moderator groups, global moderators and admins).</li>
+</ul>
+<p>Then there are some smaller additions in the forum settings and in 'Referer security' which won't be further explained here but may appear as useful for you to go through.</p>
+~;
+#############################################
+
+
+### Section 3
+#############################################
+$SectionSub3 = "New_Features_in_YaBB_2.3";
+$SectionBody3 = qq~These are some completely new features to YaBB 2.3 that were added by popular request of users. These additions are:
+<ul>
+<li><b>Reverse Post in Topic Advanced Edition</b><br />
+Allows the Admin to choose the default post order (oldest to newest or newest to oldest). The Admin can also enable a setting in the Admin Center to allow/not allow the individual user to choose their own  post order. If allowed, each user can change the order of the posts by either clicking on the name of the topic on topic pages and/or set it in their own Profile/Options page.</li>
+<li><b>Top of Page Button</b><br />
+Adds a button to the bottom bar of each page that will take you back to the "Top of Page".</li>
+<li><b>Pie Charts for Polls</b><br />
+Allows users the option to see poll results as a bar graph or pie chart by clicking on the appropriate button displayed with poll results.</li>
+<li><b>Quick Reply Advanced Edition</b><br />
+This allows users to quickly post a reply or a new post. It also gives many new quoting features.<br />Admin can:
+<ul>
+  <li>Enable/Disable the Quick Post Box</li>
+  <li>Enable/Disable the Quick Reply Box</li>
+  <li>Enable/Disable Mark &amp; Quote</li>
+  <li>Enable/Disable UserQuote</li>
+  <li>Enable/Disable Jump to Quick Post/Reply Box if user clicks <b>Start New Topic</b>, <b>Reply</b> or <b>Quote Button</b></li>
+  <li>Set Max length for Quote</li>
+</ul></li>
+<li><b>Preselected Smilies</b><br />
+Allows the Admin to select which Smilie will be shown in the More Smilies block beside the Post and PM windows.</li>
+<li><b>Showcase Poll</b><br />
+Allows one poll selected by Admins/GMods to show at the top of the Board Index.</li>
+<li><b>YaBB Backup</b><br />
+Admins can make backups of the forum quickly in any of 8 different formats with or without compression. Backups are stored in a new yabb/Backups directory, and can be downloaded, emailed, or deleted. Admin can select full backup &#40;all directories&#41;, partial backups &#40;some directories&#41;, or only files newer than last backup. Also features a selectable alert to tell Admin if backup is older than <i>X</i> days.</li>
+<li><b>Category Pictures</b><br />
+Allows the Admin to use an image along with category names.</li>
+<li><b>Image Resize and Greybox</b><br />
+Admins can set limits on maximum display size for avatar pics, posted images, attachment images, and signature images. Larger images will &quot;shrink&quot; to fit within the maximum set limits.<br />
+Attached images and images inside posts can be shown on a slightly translucent surface instead in a new window.  The Administrator can select between single view or gallery style view for attached images.
+<p><font color="#0099CC"><u><b>NOTE:</b></u> An image taller than it is wide will be limited by the maximum height and will adjust the width proportionally, which will be less than maximum. An image wider than taller will be limited by the maximum width and will adjust the height proportionally, which will be less than maximum.</font></p></li>
+<li><b>Multi-Attachments</b><br />
+Admins can choose how many and what type of files a user may attach to a post. A download counter for each attached file is also provided. Files attached will show an icon symbolizing each particular file type for the most common file types.<br />
+<p><font color="#FF0000"><u><b>WARNING:</b></u> Some file types can pose risks to either the forum or the user who downloads them because they can be used to include malicious code. These include but are not limited to:</font></p>
+<ul>
+  <li><font color="#FF0000">MS Excel files &#40;.xls&#41; which can contain malicious code in macros</font></li>
+  <li><font color="#FF0000">MS PowerPoint files &#40;.ppt&#41; which can contain malicious scripts</font></li>
+  <li><font color="#FF0000">HTML files &#40;.htm, .html&#41; which can contain any number of exploits</font></li>
+</ul>
+<p><font color="#FF0000">None of these types are allowed by default. The Admin can allow them, but be warned - it is risky. HTML files can by uploaded as text files &#40;.txt&#41; that are perfectly safe. Let the user who downloads it change it back to HTML and avoid risk to your forum. Do some research and be sure it's necessary before you allow new file types.</font></p></li>
+<li><b>User Avatar Upload</b><br />
+Admins can choose to allow users to upload their own avatar image file. Files are identified with the userID in the filename for easy sorting. Users may only access their own image.</li>
+<li><b>Advanced Split and Splice</b><br />
+Allows you to move single posts, selected posts, or all posts to a new thread or into any other post in any board you are allowed access to.  You can choose to move the post or copy it, and choose whether or not to leave a split message.</li>
+<li><b>Advanced Expand&#47;Collapse</b><br />
+Allows Categories on the Board Index to be collapsed or expanded without reloading the pages.  Requires AJAX to be supported by the browser.</li>
+<li><b>Extended Profiles</b><br />
+Allows the Administrator to add additional fields to the user Profile.  The Administrator has many options with these fields, such as making them a mandatory entry during registration, making them viewable to everyone or only certain groups, allowing users to edit them, or adding the fields to the memberlist.</li>
+<li><b>E-Mail Notifications to Admin for New Member Registrations</b><br />
+Allows the Administrator to select the option to recieve notification by e-Mail if a new member registers.  It also allows the Administrator to use the forum webmaster e-Mail address or enter one of his choosing.</li>
+<li><b>Spell Checker</b><br />
+Allows the Administrator to enable a spelling checker that will check spelling in Posts and in Personal Messages.</li>
+</ul>
+~;
+#############################################
+
+
+1;

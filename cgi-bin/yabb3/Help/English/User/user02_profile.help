@@ -1,0 +1,154 @@
+$SectionName = "User_CP_and_Profile";
+
+### Section 1
+#############################################
+$SectionSub1 = "User_CP";
+$SectionBody1 = qq~YaBB's User CP (User Control Panel) is a combination of your user profile with Buddy List, Personal
+Messaging, Notifications, and Favorites.
+<p>When you enter the 'User CP', you have multiple choices of what to do:</p>
+<ul>
+<li>Above the left side pane, you see a tabbed menu containing 'Messages', 'Profile' and 'Posts'.</li>
+<li>In <b>Messages</b>, you are controlling all of your personal messages, you can sort them in your folders (if enabled) or send new messages as well as search for a particular message.</li>
+<li>In <b>Profile</b>, you can view your Profile's appearance and edit its contents. With the 'Buddy List' you can quickly check your friends' online status, send messages to them, and check their details.</li>
+<li>In <b>Posts</b>, you can check &amp; update your Notifications and Favorites as well as consult your own latest posts.</li>
+<li>On the right hand pane you'll see part of your Profile as it appears in the Display Posts page, your Buddy List, information regarding your online/offline appearance, and your Board and Topic Notifications.</li>
+</ul>
+~;
+#############################################
+
+
+### Section 2
+#############################################
+$SectionSub2 = "Profile_Overview";
+$SectionBody2 = qq~ YaBB allows you to fill out a profile which tells people about you. You can have your name, age, instant messenger information, personal avatar (picture), and more!
+<p><b>Step 1:</b> To change your Profile, click the "User_CP" option in the forum menu above. Then click "Profile" in the small tabbed
+menu below the main tabbed menu. This will bring you to the View Profile page.</p>
+<p><b>Step 2:</b> On your View Profile page, you will see several links that allow you access to each part of your user Profile, which is divided into five sections: Edit Profile, Contact Information, Options, Buddy List, and PM Preferences. Click the appropriate link to access that part of your profile.</p>
+<p><b>Step 3:</b> For security reasons, you will then be asked to enter your password. Do so, then click "Confirm Password".</p>
+<p>You now have access to all of your account settings and options for this YaBB forum. Details on each of these settings are described below.</p>
+~;
+#############################################
+
+
+### Section 3
+#############################################
+$SectionSub3 = "Edit_Profile";
+$SectionBody3 = qq~The Edit Profile section gives you quick access to your basic profile settings for your account on
+this YaBB forum.
+<p><u><b>Password</b></u><br />
+If you wish to change your password, you may do so by filling in this box. It is highly recommended that your password be at <i>least</i> 6 characters and use a combination of letters and numbers.</p>
+<p><u><b>Verify Password</b></u><br />
+To help prevent you from inadvertently being locked out of the forum, YaBB checks to be sure you/ve spelled the new password correctly by having you enter your new password again in this box.</p>
+<p><u><b>Name</b></u><br />
+This is your Displayed Name. This is your name that everyone will see throughout this YaBB forum.</p>
+<p><u><b>Gender</b></u><br />
+Optional. Optional. If you want others to know your gender, you may pick "Male" or "Female" from this drop-down box.</p>
+<p><u><b>Birthday</b></u><br />
+Optional. If you would like others to see how old you are and have a special icon in your profile on your birthday, please enter it in DD (day), MM (month), YYYY (year) format.</p>
+<p><u><b>Location</b></u><br />
+Optional. This box is available for filling in information about where you live, where your from, or anything else you choose to have displayed in your Profile.</p>
+<p><font color="#0099CC"><b><u>USER TIP:</u></b> Keep in mind that some Boards may contain an age or gender restriction for access. For example, if you don't enter an age in your profile, there will be no way to know if you should be allowed access to a Board that sets an age limit of over 21. Likewise with gender, if a Board is set up to allow Females only, you won't be allowed access if you don't enter Female as your gender in the Profile.</font></p>
+~;
+#############################################
+
+
+### Section 4
+#############################################
+$SectionSub4 = "Contact_Information";
+$SectionBody4 = qq~If you would like other members of this YaBB community to be able to contact you, this section will allow you to provide this information in your profile.
+<p><u><b>e-Mail</b></u>
+<br />This must be a valid e-Mail address. It is used for system notifications such as a forgotten password, topic notifications, and forum e-Mails.</p>
+<p><u><b>Hide e-Mail from Public</b></u> <br /> Check this box if you do not want other YaBB community members to view your e-Mail address. Note: this does not hide it from Admins.</p>
+<p><u><b>ICQ</b></u>
+<br />If you have an ICQ account, you may enter your UIN here.</p>
+<p><u><b>AIM</b></u>
+<br />If you have AOL Instant Messenger (AIM), you may enter your user name here.</p>
+<p><u><b>YIM</b></u>
+<br />If you have Yahoo! Instant Messenger, you may enter your screen name here.</p>
+<p><u><b>MSN</b></u>
+<br />If you have an MSN Messenger address, you may enter it here.</p>
+<p><u><b>Google Talk</b></u>
+<br />If you have Google Talk, you may enter your address here.</p>
+<p><u><b>Skype or VoIP</b></u><br />
+If you have a Skype or VoIP address, you may enter it here.</p>
+<p><u><b>MySpace</b></u><br />
+If you have a MySpace page, you may enter it here. Note, you only need to fill in the last part of the URL. For example, if your MySpace page is 'http://myspace.com/yourname', you only need to enter 'yourname'.</p>
+<p><u><b>Facebook</b></u><br />
+If you have a Facebook page, you may enter here. Note, you can either use your profile ID number or your username. For example, to use your profile ID number, if your Facebook URL is 'http://facebook.com/profile.php?id=123456', you only need to enter '123456', and to use your username, if your Facebook URL is 'http://facebook.com/yourname', you only need to enter 'yourname'.</p>
+<p><u><b>Website Title</b></u>
+<br />If you have a website, you can enter the title here. This will be the text the URL (below) will attached to.</p>
+<p><u><b>Website URL</b></u>
+<br />Here you can enter the URL to your website. Note, this must be a full URL. (i.e. include http:// )</p>
+~;
+#############################################
+
+
+### Section 5
+#############################################
+$SectionSub5 = "Options";
+$SectionBody5 = qq~The Options section of your YaBB profile allows you to edit forum settings that relate to your account.
+<p><u><b>Personalized_Picture</b></u>
+<br />YaBB allows you to define a small picture (called an avatar) that will display under your name to the left side your posts. This forum has a number of avatars already installed, and you may pick one from the list.  If you wish to use your own image as an avatar, please see the options below.</p>
+<p>The Administrator may also enable either or both of the following options:</p>
+<ul>
+<li><u><b>Linking to your own avatar image</b></u>
+<br />If you have your own image and would like to use it on this YaBB as an avatar, you may enter the URL here.</li>
+<li><u><b>Uploading your own avatar image</b></u>
+<br />If you would like to upload your own image and would like to use it on this YaBB as an avatar, click on the Browse button and select a file on your computer to upload.</li>
+</ul>
+<p><u><b>Personal Text</b></u>
+<br />This is a small line of text that will display below your avatar.</p>
+<p><u><b>Signature</b></u>
+<br />Your signature is displayed at the bottom of every post you make and in your profile.</p>
+<p><u><b>Preset Time Format</b></u>
+<br />This option allows you to change how the dates and time are presented to you throughout this YaBB community.</p>
+<p><u><b>Custom Time Format</b></u>
+<br />You may also create a custom time format using the special codes here.</p>
+<p><u><b>Time Offset</b></u>
+<br />Since your time may be different from the server, you can enter your correct time zone to adjust it accordingly.</p>
+<p><u><b>Enable Automatic Daylight Savings Time Change</b></u><br />
+Checking this option will add or subtract an hour from your time zone as appropriate. NOTE: Times for starting and stopping DST varies around the world, and a server located in one geographic area may not display DST corrections correctly for a user in a different geograhic zone.</p>
+<p><u><b>Template</b></u>
+<br />If the webmaster of this YaBB forum has more than one template available for use, you may choose one from this box.</p>
+<p><u><b>Language</b></u>
+<br />Here you can select your native language to view this community in if it is available.</p>
+~;
+#############################################
+
+
+### Section 6
+#############################################
+$SectionSub6 = "Buddy_List";
+$SectionBody6 = qq~The <u><b>Buddy List</b></u> section of the profile gives you the ability to add other members that your frequently contact to a list that will show in your User CP view.  Your Buddy List will display each name, their Online/Offline status, and link options to send the user a PM, an e-Mail, or visit the link to their website.<br />
+<ul>
+<li>Add users to your Buddy List by clicking on the link below the Buddy List display box.</li>
+<li>Delete users from your Buddy List by double-clicking on their user name inside the Buddy List display box.</li>
+</ul>
+~;
+#############################################
+
+
+### Section 7
+#############################################
+$SectionSub7 = "PM_Preferences";
+$SectionBody7 = qq~This section of your profile gives you the ability to customize how you view and receive Personal Pessages from other community members.
+<p><font color="#0099CC"><b><u>USER TIP:</u></b> Keep in mind that Personal Messaging is an optional feature and will only be available if the Administrator chooses to enable it.  Likewise, some of the options listed below that are underlined may not be seen in your PM Preferences list because they are also optional at the Administrator's discression and may be disabled.</font></p>
+<p><b>Ignorelist</b>
+<br />This function allows you to ignore other members by preventing you from viewing any personal messages they send. Additionally, you are given a checkbox option to disable all PMs if you wish.</p>
+<p><u><b>Notify Me of New PMs by e-Mail:</b></u>
+<br />If you would like an e-Mail when a members sends you a personal message, this options allows you to enable that feature.</p>
+<p><b>Enable Personal Message Popup?</b><br />
+Checking this box will display a small popup window to notify you of any new Personal Messages. If <u>not</u> checked, you will see new messages in the "greeting" at the top of the forum in this format: You have X message&#40;s&#41;, and Y new message&#40;s&#41;.</p>
+<p><b>PM Popup shows PMs in new Window?</b><br />
+If you have PM Popups enabled, checking this box will open your PMs in a new window when you click on the link in the popup window, otherwise, it will load in the current one.</p>
+<p><u><b>Enable the &quot;Preview&quot; Button for the PM Posting Page:</b></u>
+<br />Checking this box adds a button below the PM screen that allows you to preview your PMs just as you can with posts.</p>
+<p><u><b>View Message Text In List View of Personal Messages?:</b></u><br />
+Checking the box enables viewing the first line of message text in list views. To view only the sender/recipient and date etc., leave this box unchecked.</p>
+<p><u><b>Enable the &quot;Active&quot; Preview Option on the PM Posting Page:</b></u><br />
+Checking this box adds a button at the top of the PM screen that allows a live preview of your PM as you type it.</p>
+~;
+#############################################
+
+
+1;

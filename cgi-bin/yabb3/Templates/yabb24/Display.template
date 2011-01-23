@@ -1,0 +1,240 @@
+###############################################################################
+# Display.template                                                            #
+###############################################################################
+# YaBB: Yet another Bulletin Board                                            #
+# Open-Source Community Software for Webmasters                               #
+# Version:        YaBB 3.0 Beta                                               #
+# Packaged:       October 05, 2010                                            #
+# Distributed by: http://www.yabbforum.com                                    #
+# =========================================================================== #
+# Copyright (c) 2000-2010 YaBB (www.yabbforum.com) - All Rights Reserved.     #
+# Software by:  The YaBB Development Team                                     #
+#               with assistance from the YaBB community.                      #
+# Sponsored by: Xnull Internet Media, Inc. - http://www.ximinc.com            #
+#               Your source for web hosting, web design, and domains.         #
+###############################################################################
+# $Revision: 100 $
+
+$threadhandellist = qq~
+	{yabb reply}{yabb poll}{yabb notify}{yabb favorite}{yabb sendtopic}{yabb print}{yabb markunread}
+~;
+
+$adminhandellist = qq~
+	{yabb remove}{yabb splice}{yabb lock}{yabb hide}{yabb sticky}{yabb multidelete}
+~;
+
+$display_template = qq~
+
+<!-- Navigation Bar start -->
+
+<div class="navbarcontainer">
+<table width="100%" border="0">
+<tr>
+	<td align="left">
+	<div class="small">
+		{yabb moderators}
+	</div>
+	</td>
+	<td valign="bottom" align="right">
+	<span class="small">
+		‹ {yabb prev} | {yabb next} ›
+	</span>
+	</td>
+</tr>
+</table>
+</div>
+
+<!-- Navigation Bar end -->
+
+
+<!-- Poll start -->
+
+{yabb pollmain}
+
+<!-- Poll end -->
+
+
+<!-- Threads Button Bar start -->
+
+<div class="displaycontainer">
+<table cellpadding="4" cellspacing="0" border="0" width="100%" align="center" class="catbg">
+<tr>
+	<td align="left">
+		{yabb pageindex top}
+	</td>
+	<td align="right">
+		{yabb threadhandellist}
+	</td>
+</tr>
+</table>
+</div>
+
+<!-- Threads Button Bar end -->
+
+
+<!-- Threads Title Bar start -->
+
+<div class="displaycontainer">
+<table cellpadding="4" cellspacing="0" border="0" width="100%" align="center">
+{yabb topicviewers}
+<tr>
+	<td class="titlebg" valign="middle" align="left">
+		{yabb threadimage} {yabb threadurl} ($display_txt{'641'} {yabb views} $display_txt{'642'})
+	</td>
+</tr>
+</table>
+</div>
+
+<!-- Threads Title Bar end -->
+
+
+<!-- Threads block start, should be left as is -->
+
+	{yabb multistart}
+	{yabb postsblock}
+	{yabb multiend}
+
+<!-- Threads block end, should be left as is -->
+
+
+<!-- Threads Button Bar start -->
+
+<div class="displaycontainer">
+<table cellpadding="4" cellspacing="0" border="0" width="100%" align="center" class="catbg">
+<tr>
+	<td align="left">
+		{yabb pageindex bottom}
+	</td>
+	<td align="right">
+		{yabb threadhandellist2}
+	</td>
+</tr>
+</table>
+</div>
+
+<!-- Threads Button Bar end -->
+
+
+<!-- Navigation Bar start -->
+
+<div class="navbarcontainer">
+<table width="100%" border="0">
+<tr>
+	<td valign="top" align="right">
+	<span class="small">
+		&lsaquo; {yabb prev} | {yabb next} &rsaquo;
+	</span>
+	</td>
+</tr>
+</table>
+</div>
+
+<!-- Navigation Bar end -->
+
+
+<!-- Threads Admin Button Bar start -->
+
+<div style="margin: 4px;">
+<table cellpadding="4" cellspacing="1" border="0" width="100%">
+<tr>
+	<td align="left" valign="top">
+		<span class="small">{yabb adminhandellist}</span>
+	</td>
+</tr>
+</table>
+</div>
+
+<!-- Threads Admin Button Bar end -->
+
+~;
+
+# Member info and message block (yabb postsblock) #
+
+$posthandellist = qq~
+	{yabb modalert}{yabb quote}{yabb modify}{yabb split}{yabb delete}
+~;
+
+if($posttools) {
+	$posthandeladmin = qq~<td width="1%">{yabb admin}</td>~;
+} else {
+	$posthandellist .= qq~&nbsp;{yabb admin}~;
+}
+
+$contactlist = qq~
+	{yabb profile}{yabb email}{yabb pm}{yabb www}{yabb msn}{yabb gtalk}{yabb skype}{yabb myspace}{yabb facebook}{yabb icq}{yabb yim}{yabb aim}{yabb addbuddy}
+~;
+
+$messageclass = "message";
+
+$messageblock = qq~
+<div class="displaycontainer">
+<table cellpadding="4" cellspacing="0" border="0" width="100%" class="bordercolor" align="center" style="table-layout: fixed;">
+<tr>
+	<td align="left" class="{yabb css}" valign="top" width="140">
+		<a name="{yabb count}"></a>
+		{yabb userlink}
+		<div class="small">
+		{yabb memberinfo}<br />
+		{yabb stars}
+		{yabb useronline}<br />
+		{yabb userpic}
+		{yabb usertext}<br />
+		{yabb postinfo}
+		{yabb location}
+		{yabb gender}
+		{yabb ext_prof}
+		{yabb isbuddy}
+		</div>
+	</td>
+	<td class="{yabb css}" align="left" valign="top">
+		<div style="float: left; width: 99%; padding-top: 2px; padding-bottom: 4px; margin-bottom: 2px;" class="dividerbot">
+		<span class="small" style="float: left; width: 3%; text-align: center; padding: 2px;">{yabb msgimg}</span>
+		<span class="small" style="float: left; width: 46%; vertical-align: middle;">
+			<b>{yabb subject}</b><br />
+			<span class="small"><b>{yabb replycount}</b>{yabb msgdate}</span>
+		</span>
+		<div class="small" style="float: right; text-align: right; width: 50%">
+			<table cellpadding="0" cellspacing="0" border="0" width="100%">
+			   <tr>
+			      $posthandeladmin
+			      <td>
+					{yabb posthandellist}
+			      </td>
+			   </tr>
+			</table>
+		</div>
+		</div>
+		<div class="$messageclass" style="float: left; width: 99%; overflow: auto;">
+			{yabb message}
+		</div>
+	</td>
+</tr>
+<tr>
+	<td class="{yabb css}" valign="bottom">
+		<a href="#top">$display_txt{'643'}</a>
+	</td>
+	<td class="{yabb css}" align="left" valign="bottom">
+		<div class="small" style="float: left; width: 99%; text-align: right;">
+			{yabb modified} &nbsp;
+		</div>
+		<div class="small" style="float: left; width: 99%; text-align: left;{yabb hideatt}">
+			{yabb showatthr}{yabb att}{yabb showatt}
+		</div>
+		<div class="small" style="float: left; width: 99%; text-align: left;{yabb hidesignat}">
+			{yabb signaturehr}{yabb signature}
+		</div>
+		<div style="float: left; width: 99%; padding-top: 5px; margin-top: 5px;" class="dividertop">
+		<div class="small" style="float: left; width: 74%;">
+			{yabb contactlist} &nbsp;
+		</div>
+		<div class="small" style="float: left; text-align: right; width: 25%;">
+			<span class="small">{yabb ipimg} {yabb ip}<br />{yabb permalink} &nbsp;</span>
+		</div>
+		</div>
+	</td>
+</tr>
+</table>
+</div>
+~;
+
+1;

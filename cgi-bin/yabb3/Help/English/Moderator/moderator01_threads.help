@@ -1,0 +1,201 @@
+$SectionName = "Topic_Functions";
+
+### Section 1
+#############################################
+$SectionSub1 = "Deleting_an_entire_Topic";
+$SectionBody1 = qq~If you feel a topic is inappropriate, in violation of the member agreement of this forum, causing a problem, or is simply out of place, you have ability to remove the entire topic. 
+<p><u><b>Removing a Topic</b></u></p>
+<p>When viewing the Post View</p>
+<ul>
+<li>Scroll down to the bottom of the topic and locate your &quot;Moderator Menu&quot; below the page number.</li>
+<li>Do not check any check boxes to the right of any posts.</li>
+<li>Click on the Moderator Menu button titled &quot;Delete&quot;.</li>
+<li>A small popup will then ask you to confirm that you wish to remove this entire topic. Click &quot;OK&quot; to remove or &quot;Cancel&quot; to keep it.</li>
+</ul>
+<p>When viewing the Message Index</p>
+<ul>
+<li>If &quot;Single-Checkbox&quot; enabled in Forum Settings/Staff
+<ul><li>At the end of the row for each post, you will have a small checkbox. Check it by clicking on it. Repeat for each topic you wish to remove.</li>
+<li>Once all the topics you want to remove are checked, locate a set of radio buttons titled &quot;Lock/Unlock&quot;, &quot;Sticky&quot;, &quot;Hide&quot;, &quot;Remove&quot; and &quot;Move To:&quot;. Click on the radio for &quot;Remove&quot;.</li>
+<li>Click the button titled &quot;Go&quot;, next to the move drop-down box.</li>
+</ul></li></ul><br />
+<ul>
+<li>If &quot;Multi-Checkbox&quot; enabled in Forum Settings/Staff
+<ul><li>At the end of the row for each post, you will have 5 small checkboxs with icons above each one symbolizing  &quot;Lock&#47;;Unlock&quot;, &quot;Sticky&quot;, &quot;Hide&quot;, &quot;Move&quot; and &quot;Remove&quot;. Check the box below the &quot;Remove&quot; icon for each topic you wish to remove.</li>
+<li>If removing all topics, check the &quot;Check All&quot; box below all topics.</li>
+<li>Click the button titled &quot;Go&quot;, next to the move drop-down box.</li>
+</ul></li></ul><br />
+<ul>
+<li>If &quot;Icon View&quot; enabled in Forum Settings/Staff
+<ul><li>At the end of the row for each post, you will have 5 small icons symbolizing  &quot;Lock&#47;;Unlock&quot;, &quot;Sticky&quot;, &quot;Hide&quot;, &quot;Move&quot; and &quot;Remove&quot;.</li>
+<li>Click the icon on the far right that symbolizes &quot;Remove&quot;.</li>
+</ul></li>
+</ul>
+~;
+#############################################
+
+
+### Section 2
+#############################################
+$SectionSub2 = "Locking_or_Unlocking_a_Topic";
+$SectionBody2 = qq~When you feel a topic can no longer serve a good purpose or you would like to prevent others from adding new posts, the lock/unlock function will provide you with this ability. Clicking once locks the Topic, clicking the button again unlocks the Topic
+<p><u><b>Locking/Unlocking a Topic</b></u></p>
+<p>When viewing the Post View</p>
+<ul>
+<li>Scroll down to the bottom of the topic and locate your &quot;Moderator Menu&quot; below the page number.</li>
+<li>Do not check any check boxes to the right of any posts.</li>
+<li>Click on the Moderator Menu button titled &quot;Lock/Unlock&quot;.</li>
+</ul>
+<p>When viewing the Message Index</p>
+<ul>
+<li>If &quot;Single-Checkbox&quot; enabled in Forum Settings/Staff
+<ul><li>At the end of the row for each post, you will have a small check box. Check it by clicking on it. Repeat for each thread you wish to lock or unlock.</li>
+<li>Locate a set of radio buttons titled &quot;Lock&#47;Unlock&quot;, &quot;Sticky&quot;, &quot;Hide&quot;, &quot;Remove&quot; and &quot;Move To:&quot; at the bottom of the message list. Click on the radio for &quot;Lock/Unlock&quot;.</li>
+<li>Click the button titled &quot;Go&quot;, next to the move drop-down box.</li>
+</ul></li></ul><br />
+<ul>
+<li>If &quot;Multi-Checkbox&quot; enabled in Forum Settings/Staff
+<ul><li>At the end of the row for each post, you will have 5 small checkboxs with icons above each one symbolizing  &quot;Lock&#47;;Unlock&quot;, &quot;Sticky&quot;, &quot;Hide&quot;, &quot;Move&quot; and &quot;Remove&quot;. Check the box below the &quot;Remove&quot; icon for each topic you wish to remove.</li>
+<li>If removing all topics, check the &quot;Check All&quot; box below all topics.</li>
+<li>Click the button titled &quot;Go&quot;, next to the move drop-down box.</li>
+</ul></li></ul><br />
+<ul>
+<li>If &quot;Icon View&quot; enabled in Forum Settings/Staff
+<ul><li>At the end of the row for each post, you will have 5 small icons symbolizing  &quot;Lock&#47;;Unlock&quot;, &quot;Sticky&quot;, &quot;Hide&quot;, &quot;Move&quot; and &quot;Remove&quot;.</li>
+<li>Click the icon on the far left that symbolizes &quot;Lock&#47;Unlock&quot;.</li></ul></li>
+</ul>
+<p>When Posting</p>
+<ul>
+<li>When posting, there is a selection area above the post window that says &quot;Lock/Unlock&quot;, &quot;Sticky&quot;, and &quot;Hide&quot;. Select or unselect &quot;Lock/Unlock&quot;. (Hold the control or apple key while clicking with your mouse to select more than one choice or to de-select.)</li>
+<li>Post a message like normal. You may want to explain why the topic was locked.</li>
+</ul>
+<p><u><b>Bypassing Locked Topics</b></u></p>
+<ul>
+<li>Administrators, Global Moderators, and Moderators may be granted permission to bypass the locking feature of a post, allowing them the ability to post in a thread that remains locked to all other users.</li>
+<li>This permission is enabled by selecting the appropriate groups in the &quot;Staff&quot; tab found in the Admin Center&#47;Forum Configuration&#47;Forum Settings.</li>
+</ul>
+~;
+#############################################
+
+
+### Section 3
+#############################################
+$SectionSub3 = "Sticky_Topics";
+$SectionBody3 = qq~If you feel a topic is very important for everyone who visits the board you moderate, you may turn it into a &quot;Sticky&quot; topic. These topics will then be displayed on top of all other topics. A useful example would be for forum rules.
+<p><u><b>How to Stick a Topic</b></u></p>
+<p>When viewing the Topic</p>
+<ul>
+<li>Scroll down to the bottom of the topic and locate your &quot;Moderator Menu&quot;.</li>
+<li>Click on the button titled &quot;Sticky&quot;</li>
+</ul>
+<p>When viewing the Message Index</p>
+<ul>
+<li>If &quot;Single-Checkbox&quot; enabled in Forum Settings/Staff
+<ul><li>At the end of the row for each topic, you will have a small check box. Check it by clicking on it. Repeat for each topic you wish to sticky.</li>
+<li>Locate a set of radio buttons titled &quot;Lock/Unlock&quot;, &quot;Sticky&quot;, &quot;Hide&quot;, &quot;Remove&quot; and &quot;Move To:&quot; at the bottom of the message list. Click on the radio for &quot;Sticky&quot;.</li>
+<li>Click the button titled &quot;Go&quot;, next to the move drop-down box.</li>
+</ul></li></ul><br />
+<ul>
+<li>If &quot;Multi-Checkbox&quot; enabled in Forum Settings/Staff
+<ul><li>At the end of the row for each post, you will have 5 small checkboxs with icons above each one symbolizing  &quot;Lock&#47;;Unlock&quot;, &quot;Sticky&quot;, &quot;Hide&quot;, &quot;Move&quot; and &quot;Remove&quot;. Check the box below the &quot;Sticky&quot; icon for each topic you wish to sticky.</li>
+<li>If stickying all topics, check the &quot;Check All&quot; box below all topics.</li>
+<li>Click the button titled &quot;Go&quot;, next to the move drop-down box.</li>
+</ul></li></ul><br />
+<ul>
+<li>If &quot;Icon View&quot; enabled in Forum Settings/Staff
+<ul><li>At the end of the row for each post, you will have 5 small icons symbolizing  &quot;Lock&#47;;Unlock&quot;, &quot;Sticky&quot;, &quot;Hide&quot;, &quot;Move&quot; and &quot;Remove&quot;.</li>
+<li>Click the second icon from the left that symbolizes &quot;Sticky&quot;.</li></ul></li>
+</ul>
+<p>When Posting</p>
+<ul>
+<li>When posting, there is a selection area above the post window that says &quot;Lock/Unlock&quot;, &quot;Sticky&quot;, and &quot;Hide&quot;. Select or unselect &quot;Sticky&quot;. (Hold the control or apple key while clicking with your mouse to select more than one choice or to de-select.)</li>
+<li>Post a message like normal. You may want to explain why the topic was made sticky.</li>
+</ul>
+<p><u><b>How to Un-Stick a Topic</b></u></p>
+<p>To Un-Stick your topic, follow the same procedure you used to Stick it. Clicking on the Sticky button for a Topic that is already a Sticky Topic will Un-Stick it.</p>
+~;
+#############################################
+
+
+### Section 4
+#############################################
+$SectionSub4 = "Hide_a_Topic";
+$SectionBody4 = qq~If you don't want to delete a topic but want to keep it invisible to normal users, you can hide it. Hidden topics can only be viewed by Administrators, Global Moderators, and the Moderators of that board.
+<p><u><b>How to Hide a Topic</b></u></p>
+<p>When viewing the Topic</p>
+<ul>
+<li>Scroll down to the bottom of the topic and locate your &quot;Moderator Menu&quot;.</li>
+<li>Click on the button titled &quot;Hide&quot;</li>
+</ul>
+<p>When viewing the Message Index</p>
+<ul>
+<li>If &quot;Single-Checkbox&quot; enabled in Forum Settings/Staff
+<ul><li>At the end of the row for each topic, you will have a small check box. Check it by clicking on it. Repeat for each topic you wish to hide.</li>
+<li>Locate a set of radio buttons titled &quot;Lock/Unlock&quot;, &quot;Sticky&quot;, &quot;Hide&quot; &quot;Remove&quot; and &quot;Move To:&quot; at the bottom of the message list. Click on the radio for &quot;Hide&quot;.</li>
+<li>Click the button titled &quot;Go&quot;, next to the move drop-down box.</li>
+</ul></li></ul><br />
+<ul>
+<li>If &quot;Multi-Checkbox&quot; enabled in Forum Settings/Staff
+<ul><li>At the end of the row for each post, you will have 5 small checkboxs with icons above each one symbolizing  &quot;Lock&#47;;Unlock&quot;, &quot;Sticky&quot;, &quot;Hide&quot;, &quot;Move&quot; and &quot;Remove&quot;. Check the box below the &quot;Hide&quot; icon for each topic you wish to Hide.</li>
+<li>If hiding all topics, check the &quot;Check All&quot; box below all topics.</li>
+<li>Click the button titled &quot;Go&quot;, next to the move drop-down box.</li>
+</ul></li></ul><br />
+<ul>
+<li>If &quot;Icon View&quot; enabled in Forum Settings/Staff
+<ul><li>At the end of the row for each post, you will have 5 small icons symbolizing  &quot;Lock&#47;;Unlock&quot;, &quot;Sticky&quot;, &quot;Hide&quot;, &quot;Move&quot; and &quot;Remove&quot;.</li>
+<li>Click the center icon that symbolizes &quot;Hide&quot;.</li></ul></li>
+</ul>
+<p>When Posting</p>
+<ul>
+<li>When posting, there is a selection area above the post window that says &quot;Lock/Unlock&quot;, &quot;Sticky&quot;, and &quot;Hide&quot;. Select or unselect &quot;Hide&quot;. (Hold the control or apple key while clicking with your mouse to select more than one choice or to de-select.)</li>
+<li>Post a message like normal.  You may want to explain why you hid the Topic.</li>
+</ul>
+<p><u><b>How to Un-Hide a Topic</b></u></p>
+<p>To Un-Hide your topic, follow the same procedure you used to hide it. Clicking on the Hide button for a Topic that is already hidden will Un-Hide it.</p>
+~;
+#############################################
+
+
+### Section 5
+#############################################
+$SectionSub5 = "Move_a_Topic";
+$SectionBody5 = qq~If you don't want to delete a Topic but you think it would fit better in another Board, you can use this option to move the Topic.  This option will leave a message with a link in the listing of topics for the original Board that says &quot;This topic has been moved to (link to new board name) by (person who moved it)&quot;. This lets users who have posted in the Topic know immediately where to find it, and gives them a quick way to navigate there.
+<p><u><b>How to Move a Topic</b></u></p>
+<p>When viewing the Topic</p>
+<ul>
+<li>Scroll down to the bottom of the topic and locate your &quot;Moderator Menu&quot;.</li>
+<li>Click on the button titled &quot;Move&quot;</li>
+</ul>
+<p>When viewing the Message Index</p>
+<ul>
+<li>If &quot;Single-Checkbox&quot; enabled in Forum Settings/Staff
+<ul><li>At the end of the row for each topic, you will have a small check box. Check it by clicking on it. Repeat for each topic you wish to move.</li>
+<li>Locate a set of radio buttons titled &quot;Lock/Unlock&quot;, &quot;Sticky&quot;, &quot;Hide&quot; &quot;Remove&quot; and &quot;Move To:&quot; at the bottom of the message list. Click on the radio for &quot;Move to&quot;.</li>
+<li>In the drop-down selection box to the right of the radio buttons, select the destination board you want to sent this topic to.</li>
+<li>Click the button titled &quot;Go&quot;, next to the move drop-down selection box.</li>
+</ul></li></ul><br />
+<ul>
+<li>If &quot;Multi-Checkbox&quot; enabled in Forum Settings/Staff
+<ul><li>At the end of the row for each post, you will have 5 small checkboxs with icons above each one symbolizing  &quot;Lock&#47;;Unlock&quot;, &quot;Sticky&quot;, &quot;Hide&quot;, &quot;Move&quot; and &quot;Remove&quot;. Check the box below the &quot;Move&quot; icon for each topic you wish to Move.</li>
+<li>If moving all topics, check the &quot;Check All&quot; box below all topics.</li>
+<li>In the drop-down selection box to the right of the radio buttons, select the destination board you want to sent this topic to.</li>
+<li>Click the button titled &quot;Go&quot;, next to the move drop-down box.</li>
+</ul></li></ul><br />
+<ul>
+<li>If &quot;Icon View&quot; enabled in Forum Settings/Staff
+<ul><li>At the end of the row for each post, you will have 5 small icons symbolizing  &quot;Lock&#47;;Unlock&quot;, &quot;Sticky&quot;, &quot;Hide&quot;, &quot;Move&quot; and &quot;Remove&quot;.</li>
+<li>Click the second icon from the right that symbolizes &quot;Move&quot;.</li>
+<li>Another screen will appear where you select the board you want to send your topic(s) to. Make your selection and click on the &quot;Move&quot; button.</li></ul></li>
+</ul>
+~;
+#############################################
+
+### Section 6
+#############################################
+$SectionSub6 = "Splitting_a_Topic";
+$SectionBody6 = qq~Since Splitting a Topic is done in the Post View, the explanation of this function is provided in the next section, <b>Post Functions</b>.
+~;
+#############################################
+
+
+1;

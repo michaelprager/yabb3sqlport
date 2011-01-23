@@ -1,0 +1,684 @@
+/*--------------------------------------------------------*/
+/*                      YaBB 2010                         */
+/*--------------------------------------------------------*/
+/*      Created by: XIMinc http://www.ximinc.com          */
+/*            YaBB http://www.yabbforum.com               */
+/*--------------------------------------------------------*/
+/*    You may adapt elements of this CSS in your own      */
+/*   projects, but please give credit to yabbforum.com.   */
+/*--------------------------------------------------------*/
+/*       This is the css file for YaBB 3.0 Template       */
+/*--------------------------------------------------------*/
+/* $Revision: 100 $ */
+
+
+/* General layout */
+a {
+	font-weight: normal;
+	color: #333366;
+	font-family: Verdana, Arial, Sans-Serif;
+	text-decoration: none;
+}
+a:hover {
+	color: #000000;
+	font-family: Verdana, Arial, Sans-Serif;
+	text-decoration: underline;
+}
+a:visited {
+	font-weight: normal;
+	color: #333366;
+	font-family: Verdana, Arial, Sans-Serif;
+}
+body {
+	padding: 0;
+	background-color: #F2F6F9;
+	font-family: Verdana, Helvetica, Arial, Sans-Serif;
+	font-size: 12px;
+	margin-top: 5px;
+	margin-left: 0;
+	margin-right: 0;
+	padding-top: 0;
+	padding-left: 0;
+	padding-right: 0;
+	min-width: 770px;
+}
+form {
+	display: inline;
+	padding: 0px;
+	margin: 0px;
+}
+input, .button {
+	background-color: #F1F2F4;
+	border: 1px solid #B1BDC9;
+	color: #000000;
+	font-family: Verdana, Helvetica, Sans-Serif;
+	font-size: 12px;
+	font-weight: normal;
+}
+
+/* Post and Thread Tools */
+.post_tools {
+	height: 100%;
+	padding: 3px;
+}
+.post_tools_menu {
+	background-color: #eee;
+	position: absolute;
+	display: none;
+	margin:0px;
+	padding:1px;
+	border: 1px;
+	border-color: #000000;
+	border-style: solid;
+	list-style: none;
+	text-indent: 0px;
+	top: 11px;
+	right: 0px;
+}
+.post_tools_menu li {
+	background-color: #6f88ac;
+	white-space: nowrap;
+	font-size: 10px;
+	margin-left: 0px;
+	padding: 3px;
+	list-style: none;
+	text-indent: 0px;
+	font-style: normal;
+	font-size: 11px;
+	color: #fff;
+	font-weight: bold;
+}
+.post_tools_a a {
+	font-weight: bold;
+	font-style: normal;
+	font-size: 11px;
+	font-family: Verdana, Arial, Sans-Serif;
+	color: #333366;
+}
+.post_tools_a a:hover {
+	color: #333366;
+	text-decoration:none;
+}
+.post_tools_menu li:hover {
+	background-color:#FFFFFF;
+	color: #000;
+}
+.post_tools_menu li:hover a{
+	color: #000;
+}
+.post_tools_menu li a {
+	color: #FFFFFF;
+	text-decoration:none;
+}
+.post_tools_menu li a:hover {
+	color: #000;
+	text-decoration:none;
+}
+
+.tabtitle {
+	font-weight: bold;
+	font-style: normal;
+	font-size: 11px;
+	font-family: Verdana, Arial, Sans-Serif;
+	color : #FFFFFF;
+	background-color: #5488c1;
+	background-image: url(./yabb24/catbg.png);
+	background-repeat: repeat-x;
+}
+.tabtitle a {
+	font-weight: bold;
+	font-style: normal;
+	font-size: 11px;
+	color : #FFFFFF;
+	text-decoration: none;
+}
+.tabtitle a:hover {
+	color: #990000;
+	text-decoration: underline;
+}
+#maincontainer{
+	width: 92%;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 0px;
+	border-top: 0px;
+	margin-bottom: 10px;
+}
+#container{
+	width: 100%;
+	background-color: #9CB9F3;
+	padding: 0px;
+	border: 0px;
+	margin: 0px;
+	padding-left: 1px;
+	padding-right: 1px;
+	color: #000033;
+}
+
+/* Soft coded css buttons */
+.buttonleft {
+	padding: 0px 0px 0px 6px;
+	background-image: url(../../Buttons/Button22_left.png);
+}
+.buttonright {
+	padding: 0px 6px 0px 0px;
+	background-image: url(../../Buttons/Button22_right.png);
+}
+.buttonimage {
+	padding: 0px 0px 0px 25px;
+	background-position: 0px 0px;
+}
+.buttontext {
+	position: relative;
+	top: 5px;
+	left: 0px;
+	font-family: verdana, arial, helvetica, sans-serif;
+	font-size: 9px;
+	color: #000000;
+	font-weight: normal;
+	font-style: normal;
+}
+/* Soft coded css buttons end */
+/* Advanced Tabs start */
+.menutop {
+	height: 24px;
+	background-color: #9CB9F3;
+	background-image: url(./yabb24/menutop.png);
+	text-align: left;
+}
+.mainbottom {
+	height: 22px;
+	width: 100%;
+	background-color: #9CB9F3;
+	background-image: url(./yabb24/grad_bottom.png);
+	text-align: left;
+}
+.tabmenuleft {
+	height: 24px;
+	text-align: left;
+	background-color: #9CB9F3;
+	background-image: url(./yabb24/tableft211.png);
+	background-repeat: no-repeat;
+}
+.tabmenuright {
+	height: 24px;
+	text-align: left;
+	background-color: #9CB9F3;
+	background-image: url(./yabb24/tabright211.png);
+	background-repeat: no-repeat;
+}
+.tabmenu {
+	height: 24px;
+	background-color: #9CB9F3;
+	background-image: url(./yabb24/tab211.png);
+	text-align: left;
+}
+.tabmenu span {
+	float: left;
+	height: 24px;
+	background-color: #9CB9F3;
+	background-image: url(./yabb24/tab211.png);
+	background-repeat: repeat-x;
+	margin: 0;
+	border: 0;
+	padding: 0;
+	vertical-align: middle;
+	text-align: center;
+	cursor: pointer;
+}
+.tabmenu span a {
+	font-size: 11px;
+	font-family: Verdana, Helvetica, Arial, Sans-Serif;
+	color: #000033;
+	font-weight: normal;
+	text-decoration: none;
+	white-space: nowrap;
+}
+.tabmenu span a:hover {
+	text-decoration: none;
+	background-color: transparent;
+	background-image: url(./yabb24/tab_selected211.png);
+	background-repeat: repeat-x;
+} 
+
+.tabmenu span.selected {
+	font-weight: normal;
+	background-color: #9CB9F3;
+	background-image: url(./yabb24/tab_selected211.png);
+	background-repeat: repeat-x;
+}
+.rightbox {
+	height: 24px;
+	text-align: center;
+	background-color: #9CB9F3;
+	background-image: url(./yabb24/searchbg211.png);
+	background-repeat: repeat-x;
+	font-size: 11px;
+	font-weight: normal;
+	font-style: normal;
+	text-decoration: none;
+	font-family: Verdana, Helvetica, Arial, Sans-Serif;
+	color: #000033;
+}
+/* Advanced Tabs end */
+
+.usermenu {
+	width: 96%;
+	height: 24px;
+	margin-left: auto;
+	margin-right: auto;
+	border: 1px #88A8E0 outset;
+	border-left: 0;
+	border-top: 0;
+	border-bottom: 0;
+}
+.usercontainer{
+	width: 92%;
+	padding-left: 2%;
+	padding-right: 2%;
+	padding-top: 12px;
+	padding-bottom: 20px;
+	background-color: #88A8E0;
+	border: 1px #88A8E0 outset;
+	border-top: 0;
+	margin-left: auto;
+	margin-right: auto;
+}
+.containerbg {
+	background-color: #9CB9F3;
+}
+input {
+	background-color: #E8EBEF;
+	border: 1px solid #B1BDC9;
+	color: #000000;
+	font-family: Verdana, Helvetica, Sans-Serif;
+	font-size: 12px;
+}
+textarea {
+	background-color: #E8EBEF;
+	border: 1px solid #B1BDC9;
+	color: #000000;
+	font-family: Verdana, Helvetica, Sans-Serif;
+	font-size: 12px;
+}
+select {
+	background-color: #E8EBEF;
+	border: 1px solid #B1BDC9;
+	color: #000000;
+	font-family: Verdana, Helvetica, Sans-Serif;
+	font-size: 10px;
+}
+select optgroup {
+	color: #000000;
+	font-family: Verdana, Helvetica, Sans-Serif;
+	font-size: 10px;
+}
+.copyright {
+	font-family: Verdana, Helvetica, Arial, Sans-Serif;
+	font-size: 11px;
+	font-weight: bold;
+	text-align: center;
+	color: #62686F;
+}
+.copyright a {
+	font-family: Verdana, Helvetica, Arial, Sans-Serif;
+	font-size: 11px;
+	font-weight: bold;
+	text-align: center;
+	color: #333366;
+}
+
+
+/* News fader fore- and background colors */
+.newsfader {
+	color: #0000ff;
+	background-color: #FEFEFE;
+	font-size: 10px;
+	font-weight: normal;
+	font-style: normal;
+	font-family: Verdana, Sans-Serif;
+	text-decoration: none;
+}
+#fscroller {
+	line-height: 1.3;
+}
+
+
+/* users/members on-off-away line status */
+.useronline {
+	font-weight: bold; color: #2E8B57;
+}
+.useroffline {
+	font-weight: bold; color: #7B68EE;
+}
+.useraway {
+	font-weight: bold; color: #6078B0;
+}
+
+
+/* YaBB navigation links */
+.nav {
+	font-weight: bold;
+	font-size: 10px;
+	color : #000033;
+	text-decoration: none;
+}
+.nav a {
+	font-weight: bold;
+	font-size: 10px;
+	color : #000033;
+	text-decoration: none;
+}
+.nav a:hover {
+	color: #990000;
+	text-decoration: underline;
+}
+
+
+/* Quick-Profile-Links */
+.QuickLinks {
+	background-color: #DDDDDD;
+	position: absolute;
+	display: none;
+	margin-top: 15px;
+	margin-left: 0px;
+	padding: 0px;
+	border: 1px;
+	border-color: #000000;
+	border-style: solid;
+	list-style: none;
+	text-indent: 0px;
+}
+.QuickLinks li {
+	background-color: #EEEEEE;
+	white-space: nowrap;
+	font-size: 10px;
+	margin-left: 0px;
+	padding: 3px;
+	list-style: none;
+	text-indent: 0px;
+}
+.QuickLinks li:hover {
+	background-color:#FFFFFF;
+}
+.QuickLinks a:hover {
+	text-decoration:none;
+}
+
+
+/* YaBB alternating bgcolors */
+.windowbg {
+	background-color: #DEE4EC;
+	font-size: 12px;
+	font-weight: normal;
+	font-style: normal;
+	font-family: Verdana, Sans-Serif;
+	color: #304B58;
+}
+.windowbg2 {
+	background-color: #FEFEFE;
+	font-size: 12px;
+	font-weight: normal;
+	font-style: normal;
+	font-family: Verdana, Sans-Serif;
+	color: #304B58;
+}
+
+
+/* Misc/title/category colors */
+.dividerbot {
+	border-bottom: 1px #A7B8CC solid;
+}
+.dividertop {
+	border-top: 1px #A7B8CC solid;
+}
+.hr {
+	height: 1px;
+	color: #6078B0;
+	background-color: #6078B0;
+	border: 0px solid #6078B0;
+	border-top: 0px solid #6078B0;
+}
+.bordercolor {
+	font-size: 12px;
+	font-family: Verdana, Helvetica, Arial, Sans-Serif;
+	background-color: #B1BDC9;
+}
+.small {
+	font-size: 10px;
+	font-family: Verdana, Helvetica, Arial, Sans-Serif;
+}
+.top {
+	font-style: normal;
+	font-size: 11px;
+	color: #475F79;
+}
+.titlebg {
+	font-size: 11px;
+	font-weight: bold;
+	font-style: normal;
+	text-decoration: none;
+	font-family: Verdana, Helvetica, Arial, Sans-Serif;
+	color: #FFFFFF;
+	background-color: #6078B0;
+}
+.titlebg a {
+	font-weight: bold;
+	font-style: normal;
+	text-decoration: none;
+	color: #FFFFFF;
+}
+.titlebg a:hover {
+	text-decoration: underline;
+}
+.catbg {
+	font-size: 11px;
+	font-weight: bold;
+	font-style: normal;
+	text-decoration: none;
+	font-family: Verdana, Helvetica, Arial, Sans-Serif;
+	color: #FFFFFF;
+	background-color: #88A0C8; 
+}
+.catbg a {
+	font-weight: bold;
+	font-style: normal;
+	text-decoration: none;
+	color: #FFFFFF;
+}
+.catbg a:hover {
+	text-decoration: underline;
+}
+.message {
+	font-size: 8pt;
+	font-weight: normal;
+	font-style: normal;
+	text-decoration: none;
+	font-family: Verdana, Helvetica, Arial, Sans-Serif;
+	color: #62686F;
+}
+.message a {
+	font-weight: normal;
+	font-style: normal;
+	text-decoration: none;
+	color: #900000;
+	background-color: transparent;
+}
+.message a:hover {
+	text-decoration: underline;
+	color: #000000;
+	background-color: transparent;
+}
+.droppageindex {
+	float: left;
+	font-family: Verdana, Sans-Serif;
+	background-color: #FFFFFF;
+	color: #000000;
+	padding: 0px;
+	padding-left: 4px;
+	margin: 0px;
+	border: 2px inset;
+}
+.droppages {
+	height: 14px;
+	padding-left: 1px;
+	padding-right: 1px;
+}
+.droppages a {
+	color: #000000;
+	font-size: 9px;
+	font-weight: normal;
+}
+.highlight {
+	font-size: inherit;
+	font-family: inherit;
+	font-weight: bold;
+	font-style: inherit;
+	background-color: #FFFF33;
+	color: #000000;
+}
+
+
+/* Image fonts */
+.imgbg {
+	font-style: normal;
+	font-size: 10px;
+	color: #FFFFFF;
+}
+.imgcatbg {
+	font-style: normal;
+	font-size: 10px;
+	color: #000000;
+	font-weight: bold;
+}
+.imgtitlebg {
+	font-style: normal;
+	font-size: 10px;
+	color: #FFFFFF;
+	font-weight: bold;
+}
+.imgwindowbg {
+	font-style: normal;
+	font-size: 9px;
+	color: #005177;
+}
+.imgmenu {
+	font-style: normal;
+	font-size: 11px;
+	color: #000000;
+	font-weight: bold;
+}
+
+
+/* Post quote/code colors */
+.quote {
+	font-size: 11px;
+	font-weight: normal;
+	font-style: normal;
+	font-family: Verdana, Helvetica, Arial, Sans-Serif;
+	color: #000000;
+	background-color: #E8EBEF;
+	border: 1px #34689A solid;
+	width: 90%;
+	padding: 4px;
+}
+.code {
+	font-size: 14px;
+	font-weight: normal;
+	font-style: normal;
+	font-family: Courier, Courier New, Sans-Serif;
+	color: #000000;
+	background-color: #CCCCCC;
+	border: 1px #34689A solid;
+	width: 90%;
+	padding: 4px;
+}
+.editbg {
+	color: #000000;
+	font-size: 11px;
+	font-weight: normal;
+	font-style: normal;
+	font-family: Verdana, Helvetica, Arial, Sans-Serif;
+	background-color: #FFFEDF;
+	border: 1px #cc0000 solid;
+	width: 90%;
+	padding: 4px;
+}
+.forumjump {
+	color: #000000;
+	background-color: #F5F5DC;
+	border-bottom: 1px dashed #D6B2FF;
+	border-top: 1px dashed #D6B2FF;
+	font-weight: bold;
+}
+.forumjumpcat {
+	color: #000000;
+	background-color: #FFFEDF;
+	border-bottom: 1px dashed #D6B2FF;
+	border-top: 1px dashed #D6B2FF;
+}
+.forumjumpcatm {
+	color: #000000;
+	background-color: #EEE8AA;
+	font-style: italic;
+
+}
+.forumjumpcatmf {
+	color: #000000;
+	background-color: #EEE8AA;
+	font-style: italic;
+	border-bottom: 1px dashed #C5AAEE;
+}
+.forumcurrentboard{
+	color: #000000;
+	background-color: #F0FFF0;
+	font-weight: bold;
+}
+
+
+/* Anything below here is just for the template */
+#PMcontainer {
+	float: left;
+	background-color: #9CB9F3;
+	width: 100%;
+	padding: 0px;
+	border: 0px;
+	margin-bottom: 10px;
+}
+.topline {
+	border-top: 1px solid #34689A;
+}
+.topheader {
+	background: #4981B8;
+	margin-bottom: 10px;
+}
+.boardcontainer {
+	background-color: #BBBBBB;
+	border: 0;
+}
+.displaycontainer {
+	width: 100%;
+	padding: 1px;
+	background-color: #BBBBBB;
+}
+.navbarcontainer{
+	margin: 0px;
+}
+
+
+/* Scroller styles */
+#eventcaldata{
+	width:100%;
+	background:transparent;
+}
+#eventcaldata.hasJS{
+	height:120px;
+	overflow:hidden;
+	position:relative
+}
+#eventcaldata.hasJS div{
+	position:absolute;
+	top:120px;
+	left:0;
+	margin:0
+}

@@ -1,0 +1,40 @@
+###############################################################################
+# Debug.lng (Debugging text definitions)                                      #
+###############################################################################
+# YaBB: Yet another Bulletin Board                                            #
+# Open-Source Community Software for Webmasters                               #
+# Version:        YaBB 3.0 Beta                                               #
+# Packaged:       October 05, 2010                                            #
+# Distributed by: http://www.yabbforum.com                                    #
+# =========================================================================== #
+# Copyright (c) 2000-2010 YaBB (www.yabbforum.com) - All Rights Reserved.     #
+# Software by:  The YaBB Development Team                                     #
+#               with assistance from the YaBB community.                      #
+###############################################################################
+
+$debuglngver = 'YaBB 3.0 Beta $Revision: 100 $';
+
+%debug_txt = (
+'getpairs' => 'incoming GET pairs',
+'postpairs' => 'incoming POST pairs',
+'name' => 'name',
+'value' => 'value',
+'opened' => 'Opened',
+'closed' => 'files and Closed ',
+'equal' => 'files. (should be equal numbers)',
+'nohires' => 'Your server probably does not have',
+'nomodule' => 'installed or does not support the local module for it',
+'pagespeed' => 'Page completed in',
+'loaded' => 'seconds',
+'debugging' => 'Debugging Information',
+'benchmarking' => 'benchmarking',
+'ipaddress' => 'Your IP address is',
+'browser' => 'Your Browser Agent',
+'trace' => 'debug tracer',
+'check' => 'File Check on Open/Close',
+'filehandles' => 'Filehandle/Files Opened',
+'filehandleslegend' => 'opened FILEHANDLE (time) &nbsp; &nbsp; <i>MODE</i>filepathname &nbsp; &nbsp; closed FILEHANDLE (time)<br />[scriptpathname, line, package::subroutine]',
+'filesloaded' => 'Files loaded by',
+);
+
+1;
