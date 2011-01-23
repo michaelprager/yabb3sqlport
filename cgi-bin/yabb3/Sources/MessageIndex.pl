@@ -97,7 +97,7 @@ sub MessageIndex {
 	($cat, undef) = split(/\|/, $catinfo{$catid});
 	&ToChars($cat);
 
-	@temp_list = &read_DBorFILE(0,'',$boardsdir,$currentboard,'txt');
+	@threadlist = &read_DBorFILE(0,'',$boardsdir,$currentboard,'txt');
 	
 	$sort_subject    = qq~<a href="$scripturl?board=$currentboard;tsort=3" rel="nofollow">$messageindex_txt{'70'}</a>~;
 	$sort_starter    = qq~<a href="$scripturl?board=$currentboard;tsort=5" rel="nofollow">$messageindex_txt{'109'}</a>~;
