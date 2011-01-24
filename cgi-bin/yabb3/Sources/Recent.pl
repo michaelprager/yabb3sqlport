@@ -157,6 +157,7 @@ sub Recent_Topics_Posts {
 		my $parentboard = $board;
 		while($parentboard) {
 			my ($pboardname, undef, undef) = split(/\|/, $board{"$parentboard"});
+			&ToChars($pboardname);
 			if(${$uid.$parentboard}{'canpost'}) {
 				$pboardname = qq~<a href="$scripturl?board=$parentboard"><u>$pboardname</u></a>~;
 			} else {

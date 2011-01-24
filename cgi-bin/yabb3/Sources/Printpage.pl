@@ -150,6 +150,7 @@ sub Print {
 	($cat, $catperms) = split(/\|/, $catinfo{"$curcat"});
 
 	($boardname, $boardperms, $boardview) = split(/\|/, $board{"$currentboard"});
+	&ToChars($boardname);
 
 	&LoadCensorList;
 

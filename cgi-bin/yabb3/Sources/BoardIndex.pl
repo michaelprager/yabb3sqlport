@@ -125,7 +125,6 @@ sub BoardIndex {
 		if(!$subboard_sel) {
 			(@bdlist) = split(/\,/, $cat{$catid});
 			my ($catname, $catperms, $catallowcol) = split(/\|/, $catinfo{"$catid"});
-		
 			# Category Permissions Check
 			my $access = &CatAccess($catperms);
 			if (!$access) { next; }
@@ -1095,6 +1094,7 @@ if (confirm('$boardindex_imtxt{'11'} ${$username}{'PMstorenum'} $boardindex_imtx
 			my $parentboard = $subboard_sel;
 			while($parentboard) {
 				my ($pboardname, undef, undef) = split(/\|/, $board{"$parentboard"});
+				&ToChars($pboardname);
 				if(${$uid.$parentboard}{'canpost'}) {
 					$pboardname = qq~<a href="$scripturl?board=$parentboard" class="a"><b>$pboardname</b></a>~;
 				} else {

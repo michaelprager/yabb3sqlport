@@ -718,6 +718,7 @@ sub Register2 {
 	$language = $member{'language'};
 
 	&ToHTML($member{'regrealname'});
+	&ToChars($member{'regrealname'});
 
 	if ($birthday_on_reg) {
 		$member{'birth_month'} =~ s/\D//g;

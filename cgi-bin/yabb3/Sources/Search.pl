@@ -213,6 +213,7 @@ function searchMe(chelem) {
 					my $dash;
 					if($indent > 0) { $dash = "-"; }
 					($chldboardname, undef, undef) = split(/\|/, $board{"$childbd"});
+					&ToChars($chldboardname);
 					$checklist .= qq~<option value="$childbd" $selected>~ . ("&nbsp;" x $indent) . ($dash x ($indent / 2)) . qq~ $chldboardname</option>\n          ~;
 					if($subboard{$childbd}) {
 						&get_subboards(split(/\|/,$subboard{$childbd}));
@@ -436,7 +437,7 @@ sub plushSearch2 {
 				&ToChars($msub);
 				($msub, undef) = &Split_Splice_Move($msub,0);
 
-				&ToChars($savedmessage);
+				#&ToChars($savedmessage); # unescape utf html encoded chars only after the last call to wrap2
 				$message = $savedmessage;
 				if ($FORM{'searchyabbtags'} && $message =~ /\[\w[^\[]*?\]/) {
 					&wrap;
@@ -559,6 +560,7 @@ sub plushSearch2 {
 			if ($enable_ubbc) { &DoUBBC; }
 			&wrap2;
 		}
+		&ToChars($message);
 
 		$message = &Censor($message);
 		$msub    = &Censor($msub);
@@ -573,6 +575,7 @@ sub plushSearch2 {
 		my $parentboard = $board;
 		while($parentboard) {
 			my ($pboardname, undef, undef) = split(/\|/, $board{"$parentboard"});
+			&ToChars($pboardname);
 			if(${$uid.$parentboard}{'canpost'}) {
 				$pboardname = qq~<a href="$scripturl?board=$parentboard"><u>$pboardname</u></a>~;
 			} else {

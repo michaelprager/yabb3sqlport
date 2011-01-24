@@ -438,6 +438,7 @@ sub AddBoards {
 			my $dash;
 			if($indent > 0) { $dash = "-"; }
 			($chldboardname, undef, undef) = split(/\|/, $board{"$childbd"});
+			&ToChars($chldboardname);
 			$catboardlist{$thiscat} .= qq~$childbd|~ . (" " x $indent) . ($dash x ($indent / 2)) . qq~ $chldboardname|~;
 			if($subboard{$childbd}) {
 				&get_subboards(split(/\|/,$subboard{$childbd}));
@@ -671,6 +672,7 @@ function checkParent(id, board) {
 		if($subboard{$id}) {
 			foreach $childbd (split(/\|/, $subboard{$id})) {
 				my ($chldboardname, undef, undef) = split(/\|/, $board{"$childbd"});
+				&ToChars($chldboardname);
 				$childrenlist .= qq~$chldboardname, ~;
 			}
 			$childrenlist =~ s/, $//g;
@@ -1226,6 +1228,7 @@ sub ReorderBoards {
 					my $dash;
 					if($indent > 0) { $dash = "-"; }
 					($chldboardname, undef, undef) = split(/\|/, $board{"$childbd"});
+					&ToChars($chldboardname);
 					$catboardlist{$category} .= qq~<option value='$childbd'>~ . ("&nbsp;" x $indent) . ($dash x ($indent / 2)) . qq~ $chldboardname<\\/option>~;
 					if($subboard{$childbd}) {
 						&get_subboards2(split(/\|/,$subboard{$childbd}));

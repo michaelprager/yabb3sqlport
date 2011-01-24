@@ -709,7 +709,7 @@ sub DeleteOldMessages {
 
 		foreach $curboard (@bdlist) {
 			($boardname, $boardperms, $boardview) = split(/\|/, $board{"$curboard"});
-
+			&ToChars($boardname);
 			$selectname = $curboard . 'check';
 			$yymain .= qq~
 		<input type="checkbox" name="$selectname" id="$selectname" value="1" />&nbsp;<label for="$selectname">$boardname</label><br />~;
