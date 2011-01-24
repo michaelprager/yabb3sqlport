@@ -732,7 +732,6 @@ sub pmsearch {
 
 			&ToChars($msub);
 
-			&ToChars($savedmessage);
 			$message = $savedmessage;
 			if ($message =~ /\[\w[^\[]*?\]/) {
 				&wrap;
@@ -741,6 +740,7 @@ sub pmsearch {
 				$savedmessage = $message;
 				$message =~ s/<.+?>//g;
 			}
+			&ToChars($savedmessage);
 
 			if ($searchtype == 5) {
 				$userfound = 0;
