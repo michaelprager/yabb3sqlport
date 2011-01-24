@@ -158,11 +158,15 @@ sub Print {
 	unless (ref($thread_arrayref{$num})) {
 		&donoopen if !(@{$thread_arrayref{$num}} = &read_DBorFILE(1,'',$datadir,$num,'txt'));
 	}
+	&ToChars($cat);
 	$cat =~ s/\n//g;
 
-	($messagetitle, $poster, undef, $date, undef) = split(/\|/, ${$thread_arrayref{$num}}[0]);
-
-	$startedby = $poster;
+	($messagetitle, $poster_realname, undef, $date, $poster_username) = split(/\|/, ${$thread_arrayref{$num}}[0]);
+	if (&checkfor_DBorFILE("$memberdir/$poster_username.vars")) {
+		&LoadUser($poster_username);
+		$poster_realname = ${$uid.$poster_username}{'realname'};
+	}
+	$startedby = $poster_realname;
 	$startedon = timeformat($date, 1);
 	&ToChars($messagetitle);
 	($messagetitle, undef) = &Split_Splice_Move($messagetitle,0);
@@ -238,7 +242,11 @@ function do_images() {
 	&LoadLanguage('FA');
 	# Split the threads up so we can print them.
 	foreach $thread (@{$thread_arrayref{$num}}) {
-		($threadtitle, $threadposter, undef, $threaddate, undef, undef, undef, undef, $threadpost, undef, undef, undef, $attachments) = split(/\|/, $thread);
+		($threadtitle, $threadposter_realname, undef, $threaddate, $threadposter_username, undef, undef, undef, $threadpost, undef, undef, undef, $attachments) = split(/\|/, $thread);
+		if (&checkfor_DBorFILE("$memberdir/$threadposter_username.vars")) {
+			&LoadUser($threadposter_username);
+			$threadposter_realname = ${$uid.$threadposter_username}{'realname'};
+		}
 
 		($threadtitle, undef) = &Split_Splice_Move($threadtitle,0);
 		($threadpost, undef) = &Split_Splice_Move($threadpost,$num);
@@ -249,7 +257,7 @@ function do_images() {
 	<tr>
 		<td style="font-family: arial, sans-serif; font-size: 12px;">
 			$maintxt{'196'}: <b>$threadtitle</b><br />
-			$maintxt{'197'} <b>$threadposter</b> $maintxt{'30'} <b>$threaddate</b>
+			$maintxt{'197'} <b>$threadposter_realname</b> $maintxt{'30'} <b>$threaddate</b>
 			<hr width="100%" size="1" />
 			<div style="font-family: arial, sans-serif; font-size: 12px;">
 			$threadpost~;
