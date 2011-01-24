@@ -442,13 +442,16 @@ select optgroup {
 
 /* users/members on-off-away line status */
 .useronline {
-	font-weight: bold; color: #2E8B57;
+	font-weight: bold;
+	color: #2E8B57;
 }
 .useroffline {
-	font-weight: bold; color: #7B68EE;
+	font-weight: bold;
+	color: #7B68EE;
 }
 .useraway {
-	font-weight: bold; color: #6078B0;
+	font-weight: bold;
+	color: #6078B0;
 }
 
 
@@ -504,7 +507,7 @@ select optgroup {
 
 /* YaBB alternating bgcolors */
 .windowbg {
-	background-color: #D1DEE8; /*EEF0F3*/
+	background-color: #D1DEE8;
 	font-size: 12px;
 	font-weight: normal;
 	font-style: normal;
@@ -512,7 +515,7 @@ select optgroup {
 	color: #304B58;
 }
 .windowbg2 {
-	background-color: #E6EAEF; /*f7f7fe*/
+	background-color: #E6EAEF;
 	font-size: 12px;
 	font-weight: normal;
 	font-style: normal;
@@ -795,11 +798,11 @@ select optgroup {
 #eventcaldata.hasJS{
 	height:120px;
 	overflow:hidden;
-	position:relative
+	position:relative;
 }
 #eventcaldata.hasJS div{
 	position:absolute;
 	top:120px;
 	left:0;
-	margin:0
+	margin:0;
 }
