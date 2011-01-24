@@ -342,27 +342,22 @@ sub EventCalSet {
 
 sub EventCalSet2 {
 	&is_admin_or_gmod;
-die("SQLPORT: this still needs to be tested");#SQLPORT: TODO
+	
 	if ($FORM{'rebuiltbd'} eq "$event_cal{'54'}") {
-		unlink("$vardir/eventcalbday.db");
-
-			my @birthmembers = &read_DBorFILE(0,'',$memberdir,'memberinfo','txt');
-			fopen(FILE,">$vardir/eventcalbday.db");
-			foreach $user_name (@birthmembers) {
-			($user_xy, $dummy) = split(/	/, $user_name);
-				chomp $user_xy;
-				&LoadUser($user_xy);
-				$user_xy_bd = ${$uid.$user_xy}{'bday'};
-				if ($user_xy_bd) {
-					($user_month, $user_day, $user_year) = split(/\//, $user_xy_bd);
-					if ($user_month < 10 && length($user_month) == 1) { $user_month = "0$user_month"; }
-					if ($user_day < 10 && length($user_day) == 1) { $user_day = "0$user_day"; }
-					print FILE qq~$user_year|$user_month|$user_day|$user_xy\n~;
-					push(@eventcalbday, qq~$user_year|$user_month|$user_day|$user_xy\n~);
-
-				}
+		&delete_DBorFILE("$vardir/eventcalbday.db");
+		my @eventcalbday;
+		&ManageMemberinfo("load");
+		foreach (keys %memberinf) {
+			my (undef, undef, undef, undef, undef, undef, $membday) = split(/\|/, $memberinf{$_}, 7);
+			if ($membday) {
+				my ($user_month, $user_day, $user_year) = split(/\//, $membday);
+				if ($user_month < 10 && length($user_month) == 1) { $user_month = "0$user_month"; }
+				if ($user_day < 10 && length($user_day) == 1) { $user_day = "0$user_day"; }
+				push(@eventcalbday, qq~$user_year|$user_month|$user_day|$_\n~);				
 			}
-			fclose(FILE);
+		}
+		&write_DBorFILE(0,'',$vardir,'eventcalbday','db',@eventcalbday);
+		undef %memberinf;
 
 		$yySetLocation = qq~$adminurl?action=eventcal_set;rebok=1~;
 		&redirectexit;

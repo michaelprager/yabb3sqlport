@@ -1567,24 +1567,19 @@ sub ModifyProfile2 {
 
 		# EventCal Begin
 		if ($Update_EventCal == 1) {
-			&fatal_error('TODO: this event calendar update needs to be rewritten!'); #TODO: SQL PORT
-			fopen(FILE, "$memberdir/memberlist.txt");
-			my @birthmembers = <FILE>;
-			fclose(FILE);
-			fopen(FILE,">$vardir/eventcalbday.db");
-			foreach my $user_name (@birthmembers) {
-				my ($user_xy, $dummy) = split(/	/, $user_name);
-				&LoadUser($user_xy);
-				my $user_xy_bd = ${$uid.$user_xy}{'bday'};
-				if ($user_xy_bd) {
-					my ($user_month, $user_day, $user_year) = split(/\//, $user_xy_bd);
+			my @eventcalbday;
+			&ManageMemberinfo("load");
+			foreach (keys %memberinf) {
+				my (undef, undef, undef, undef, undef, undef, $membday) = split(/\|/, $memberinf{$_}, 7);
+				if ($membday) {
+					my ($user_month, $user_day, $user_year) = split(/\//, $membday);
 					if ($user_month < 10 && length($user_month) == 1) { $user_month = "0$user_month"; }
 					if ($user_day < 10 && length($user_day) == 1) { $user_day = "0$user_day"; }
-					print FILE qq~$user_year|$user_month|$user_day|$user_xy\n~;
-
+					push(@eventcalbday, qq~$user_year|$user_month|$user_day|$_\n~);				
 				}
 			}
-			fclose(FILE);
+			&write_DBorFILE(0,'',$vardir,'eventcalbday','db',@eventcalbday);
+			undef %memberinf;
 		}
 		# EventCal End
 		&UserAccount($user, "update");
@@ -1616,23 +1611,19 @@ sub ModifyProfile2 {
 		&MemberIndex("remove", $user);
 		
 		# EventCal Begin
-		&fatal_error('TODO: this event calendar update needs to be rewritten!'); #TODO: SQL PORT
-		fopen(FILE, "$memberdir/memberlist.txt");
-		my @birthmembers = <FILE>;
-		fclose(FILE);
-		fopen(FILE,">$vardir/eventcalbday.db");
-		foreach my $user_name (@birthmembers) {
-			my ($user_xy, $dummy) = split(/	/, $user_name);
-			&LoadUser($user_xy);
-			my $user_xy_bd = ${$uid.$user_xy}{'bday'};
-			if ($user_xy_bd) {
-				my ($user_month, $user_day, $user_year) = split(/\//, $user_xy_bd);
+		my @eventcalbday;
+		&ManageMemberinfo("load");
+		foreach (keys %memberinf) {
+			my (undef, undef, undef, undef, undef, undef, $membday) = split(/\|/, $memberinf{$_}, 7);
+			if ($membday) {
+				my ($user_month, $user_day, $user_year) = split(/\//, $membday);
 				if ($user_month < 10 && length($user_month) == 1) { $user_month = "0$user_month"; }
 				if ($user_day < 10 && length($user_day) == 1) { $user_day = "0$user_day"; }
-				print FILE qq~$user_year|$user_month|$user_day|$user_xy\n~;
+				push(@eventcalbday, qq~$user_year|$user_month|$user_day|$_\n~);				
 			}
 		}
-		fclose(FILE);
+		&write_DBorFILE(0,'',$vardir,'eventcalbday','db',@eventcalbday);
+		undef %memberinf;
 		# EventCal End
 
 
