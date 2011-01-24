@@ -860,10 +860,10 @@ sub Display {
 
 	# Insert 5
 	my ($template_remove, $template_splice, $template_lock, $template_hide, $template_sticky, $template_multidelete);
-	if ($icanbypass) {
+	if ($staff && $sessionvalid == 1) {
 		$template_remove = qq~$menusep<a href="javascript:document.removethread.submit();" onclick="return confirm('~ . ($icanbypass == 1 ? qq~$display_txt{'modifyinlocked'}\\n\\n~ : '') . qq~$display_txt{'162'}')">$img{'admin_rem'}</a>~;
 		$template_splice = qq~$menusep<a href="javascript:void(window.open('$scripturl?action=split_splice;board=$currentboard;thread=$viewnum;oldposts=all;leave=0;newcat=$curcat;newboard=$currentboard;position=end','_blank','width=800,height=650,scrollbars=yes,resizable=yes,menubar=no,toolbar=no,top=150,left=150'))"~ . ($icanbypass == 1 ? qq~ onclick="return confirm('$display_txt{'modifyinlocked'}');"~ : '') . qq~>$img{'admin_move_split_splice'}</a>~;
-		$template_lock = qq~$menusep<a href="$scripturl?action=lock;thread=$viewnum"~ . ($icanbypass == 1 ? qq~ onclick="return confirm('$display_txt{'modifyinlocked'}');"~ : '') . qq~>$img{'admin_lock'}</a>~ if &checkUserLockBypass;
+		$template_lock = qq~$menusep<a href="$scripturl?action=lock;thread=$viewnum"~ . ($icanbypass == 1 ? qq~ onclick="return confirm('$display_txt{'modifyinlocked'}');"~ : '') . qq~>$img{'admin_lock'}</a>~;
 		$template_hide = qq~$menusep<a href="$scripturl?action=hide;thread=$viewnum"~ . ($icanbypass == 1 ? qq~ onclick="return confirm('$display_txt{'modifyinlocked'}');"~ : '') . qq~>$img{'hide'}</a>~;
 		$template_sticky = qq~$menusep<a href="$scripturl?action=sticky;thread=$viewnum"~ . ($icanbypass == 1 ? qq~ onclick="return confirm('$display_txt{'modifyinlocked'}');"~ : '') . qq~>$img{'admin_sticky'}</a>~ if ${$mnum}{'board'} ne $annboard;
 		if (($iammod && $mdmod == 1) || ($iamadmin && $mdadmin == 1) || ($iamgmod && $mdglobal == 1)) {
