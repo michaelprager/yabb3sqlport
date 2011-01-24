@@ -436,9 +436,15 @@ sub IsFav {
 	my $goto = $_[1] || 0;
 	my $postcheck = $_[2];
 
-	$addrem_fav .= qq~\n
-		var addlink = '$img{'addfav'}';
-		var remlink = '$img{'remfav'}';\n~ if !$postcheck;
+	my $addfav = $img{'addfav'};
+	my $remfav = $img{'remfav'};
+	if($threadtools) {
+		$addfav =~ s~\[tool=(.+?)\](.+?)\[/tool\]~$2~g;
+		$remfav =~ s~\[tool=(.+?)\](.+?)\[/tool\]~$2~g;
+	}
+	$yyjavascript .= qq~\n
+		var addlink = '$addfav';
+		var remlink = '$remfav';\n~ if !$postcheck;
 
 	my @oldfav = split(/,/, ${$uid.$username}{'favorites'});
 	my ($button,$nofav);

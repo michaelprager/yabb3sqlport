@@ -367,9 +367,15 @@ sub Display {
 	}
 
 	if (!$iamguest) {
+		my $addnotlink = $img{'add_notify'};
+		my $remnotlink = $img{'del_notify'};
+		if($threadtools) {
+			$addnotlink =~ s~\[tool=(.+?)\](.+?)\[/tool\]~$2~g;
+			$remnotlink =~ s~\[tool=(.+?)\](.+?)\[/tool\]~$2~g;
+		}
 		$yyjavascript .= qq~
-		var addnotlink = '$img{'add_notify'}';
-		var remnotlink = '$img{'del_notify'}';
+		var addnotlink = '$addnotlink';
+		var remnotlink = '$remnotlink';
 		~;
 		if (${$uid.$username}{'thread_notifications'} =~ /\b$viewnum\b/) {
 			$notify = qq~$menusep<a href="javascript:Notify('$scripturl?action=notify3;num=$viewnum/~ . (!$ttsreverse ? $start : $mreplies - $start) . qq~','$imagesdir')" name="notifylink">$img{'del_notify'}</a>~;

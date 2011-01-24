@@ -169,16 +169,30 @@ function AddRemFav(url,imgdir) {
 		return;
 	}
 	imagedir = imgdir;
+
 	var imagealert = document.getElementById("ImageAlert");
-	imagealert.style.visibility = "visible";
+	var imagebody = document.getElementById("ImageAlertBody");
+	document.getElementById("ImageAlertIFrame").style.display = "none";
+	imagebody.style.display = "block";
+
+	var text;
 	if (url.match("addfav")) {
-		document.getElementById("ImageAlertText").innerHTML = addfavlang;
+		text = addfavlang;
 		if(document.postmodify != null) { document.postmodify.favorite.checked = 'checked'; }
 	} else {
-		document.getElementById("ImageAlertText").innerHTML = remfavlang;
+		text = remfavlang;
 		if(document.postmodify != null) { document.postmodify.favorite.checked = ''; }
 	}
-	document.getElementById("ImageAlertPic").innerHTML = '<img src="' + imagedir + '/Rotate.gif">';
+	
+	var insert = '<div class="tabtitle" style="width: 100%; height: 30%; text-align: center">'+text+'</div><div class="windowbg2" style="width: 100%; height: 70%; text-align: center"><img style="margin:4px" src="' + imagedir + '/Rotate.gif"></div>';
+	imagebody.innerHTML = insert;
+	imagebody.style.width = "200px";
+	imagebody.style.height = "60px";
+	imagealert.style.display = "block";
+	imagealert.style.visibility = "visible";
+	imagealert.style.marginLeft = "-60px";
+	imagealert.style.marginTop = "-60px";
+	
 	xmlHttp.onreadystatechange=AddRemFavFinished;
 	xmlHttp.open("GET",url,true);
 	xmlHttp.send(null);
@@ -187,8 +201,7 @@ function AddRemFav(url,imgdir) {
 
 function AddRemFavFinished() {
 	if (xmlHttp.readyState == 4 || xmlHttp.readyState == "complete") {
-		document.getElementById("ImageAlertText").innerHTML = markfinishedlang;
-		document.getElementById("ImageAlertPic").innerHTML = '<img src="' + imagedir + '/RotateStop.gif">';
+		document.getElementById("ImageAlertBody").innerHTML = '<div class="tabtitle" style="width: 100%; height: 30%; text-align: center">'+markfinishedlang+'</div><div class="windowbg2" style="width: 100%; height: 70%; text-align: center">&nbsp;</div>';
 		setTimeout("HideAlert()",1500);
 		var links = document.getElementsByName("favlink");
 		for (var i = 0; i < links.length; i++) {
@@ -212,16 +225,30 @@ function Notify(url,imgdir) {
 		return;
 	}
 	imagedir = imgdir;
+
 	var imagealert = document.getElementById("ImageAlert");
-	imagealert.style.visibility = "visible";
+	var imagebody = document.getElementById("ImageAlertBody");
+	document.getElementById("ImageAlertIFrame").style.display = "none";
+	imagebody.style.display = "block";
+
+	var text;
 	if (url.match("notify2")) {
-		document.getElementById("ImageAlertText").innerHTML = addnotelang;
+		text = addnotelang;
 		if(document.postmodify != null) { document.postmodify.notify.checked = 'checked'; }
 	} else {
-		document.getElementById("ImageAlertText").innerHTML = remnotelang;
+		text = remnotelang;
 		if(document.postmodify != null) { document.postmodify.notify.checked = ''; }
 	}
-	document.getElementById("ImageAlertPic").innerHTML = '<img src="' + imagedir + '/Rotate.gif">';
+	
+	var insert = '<div class="tabtitle" style="width: 100%; height: 30%; text-align: center">'+text+'</div><div class="windowbg2" style="width: 100%; height: 70%; text-align: center"><img style="margin:4px" src="' + imagedir + '/Rotate.gif"></div>';
+	imagebody.innerHTML = insert;
+	imagebody.style.width = "200px";
+	imagebody.style.height = "60px";
+	imagealert.style.display = "block";
+	imagealert.style.visibility = "visible";
+	imagealert.style.marginLeft = "-60px";
+	imagealert.style.marginTop = "-60px";
+
 	xmlHttp.onreadystatechange=NotifyFinished;
 	xmlHttp.open("GET",url,true);
 	xmlHttp.send(null);
@@ -229,8 +256,7 @@ function Notify(url,imgdir) {
 
 function NotifyFinished() {
 	if (xmlHttp.readyState == 4 || xmlHttp.readyState == "complete") {
-		document.getElementById("ImageAlertText").innerHTML = markfinishedlang;
-		document.getElementById("ImageAlertPic").innerHTML = '<img src="' + imagedir + '/RotateStop.gif">';
+		document.getElementById("ImageAlertBody").innerHTML = '<div class="tabtitle" style="width: 100%; height: 30%; text-align: center">'+markfinishedlang+'</div><div class="windowbg2" style="width: 100%; height: 70%; text-align: center">&nbsp;</div>';
 		setTimeout("HideAlert()",1500);
 		var links = document.getElementsByName("notifylink");
 		for (var i = 0; i < links.length; i++) {
