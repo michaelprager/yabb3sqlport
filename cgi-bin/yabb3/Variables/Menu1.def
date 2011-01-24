@@ -8,8 +8,8 @@
 # Distributed by: http://www.yabbforum.com                                    #
 # =========================================================================== #
 # Copyright (c) 2000-2010 YaBB (www.yabbforum.com) - All Rights Reserved.     #
-# Software by: The YaBB Development Team                                      #
-#              with assistance from the YaBB community.                       #
+# Software by:  The YaBB Development Team                                     #
+#               with assistance from the YaBB community.                      #
 ###############################################################################
 
 $menusep = ' | ';
@@ -55,7 +55,7 @@ $menusep = ' | ';
 'im_outbox' => qq~<span style="white-space: nowrap;" class="imgwindowbg">$img_txt{'320'}</span>~,
 'im_remove' => qq~<span style="white-space: nowrap;" class="imgwindowbg">$img_txt{'31'}</span>~,
 'im_send' => qq~<span style="white-space: nowrap;" class="imgwindowbg">$img_txt{'sendpm'}</span>~,
-'lastpost' => qq~<img src="$forumstylesurl/$usestyle/lastpost.gif" alt="$img_txt{'105'}" border="0" />~,
+'lastpost' => qq~<img src="$yyhtml_root/$templatesdir/Forum/$usestyle/lastpost.gif" alt="$img_txt{'105'}" border="0" />~,
 'lock' => qq~<span style="white-space: nowrap;" class="imgwindowbg">$img_txt{'104'}</span>~,
 'login' => qq~<span style="white-space: nowrap;" class="imgmenu">$img_txt{'34'}</span>~,
 'logout' => qq~<span style="white-space: nowrap;" class="imgmenu">$img_txt{'108'}</span>~,
@@ -77,9 +77,9 @@ $menusep = ' | ';
 'notify' => qq~<span style="white-space: nowrap;" class="imgcatbg">$img_txt{'131'}</span>~,
 'openpoll' => qq~<span style="white-space: nowrap;" class="imgcatbg">$img_polltxt{'20'}</span>~,
 'pmadmin' => qq~<span style="white-space: nowrap;" class="imgmenu">$img_txt{'pmadmin'}</span>~,
-'pollicon' => qq~<img src="$forumstylesurl/$usestyle/poll_open.gif" alt="$img_polltxt{'44'}" border="0" />~,
-'polliconclosed' => qq~<img src="$forumstylesurl/$usestyle/poll_lock.gif" alt="$img_polltxt{'46'}" border="0" />~,
-'polliconnew' => qq~<img src="$forumstylesurl/$usestyle/poll_new.gif" alt="$img_polltxt{'45'}" border="0" />~,
+'pollicon' => qq~<img src="$yyhtml_root/$templatesdir/Forum/$usestyle/poll_open.gif" alt="$img_polltxt{'44'}" border="0" />~,
+'polliconclosed' => qq~<img src="$yyhtml_root/$templatesdir/Forum/$usestyle/poll_lock.gif" alt="$img_polltxt{'46'}" border="0" />~,
+'polliconnew' => qq~<img src="$yyhtml_root/$templatesdir/Forum/$usestyle/poll_new.gif" alt="$img_polltxt{'45'}" border="0" />~,
 'print' => qq~<span style="white-space: nowrap;" class="imgcatbg">$img_txt{'465'}</span>~,
 'print_im' => qq~<span style="white-space: nowrap;" class="imgwindowbg">$img_txt{'465'}</span>~,
 'profile' => qq~<span style="white-space: nowrap;" class="imgmenu">$img_txt{'467'}</span>~,

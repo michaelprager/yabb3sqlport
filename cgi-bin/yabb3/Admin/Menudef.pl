@@ -56,7 +56,7 @@ sub SetMenu {
 		if ($mod_or_not eq 'mod') {
 			$button_imgurl = $modimgurl;
 		} else {
-			$button_imgurl = qq~$forumstylesurl/\$usestyle~;
+			$button_imgurl = qq~\$yyhtml_root/\$templatesdir/Forum/\$usestyle~;
 		}
 
 		$helpstyle = $_ eq 'help' ? " cursor: help;" : " cursor: pointer;";
@@ -82,6 +82,7 @@ sub SetMenu {
 		my @file = (
 "###############################################################################
 # Menu$deffile.def (Image text/images definitions)                                   #
+###############################################################################
 # YaBB: Yet another Bulletin Board                                            #
 # Open-Source Community Software for Webmasters                               #
 # Version:        YaBB 3.0 Beta                                               #
@@ -96,7 +97,7 @@ sub SetMenu {
 ");
 
 		if ($deffile == 0) {
-			push(@file, "my \$forumstylesurl = \"\$yyhtml_root/\$templatesdir/Forum\";\n\n\$menusep = ' &nbsp; ';\n\n\%img = (\n");
+			push(@file, "\$menusep = ' &nbsp; ';\n\n\%img = (\n");
 			foreach (sort(keys %def0)) {
 				push(@file, qq*'$_' => qq~$def0{$_}~,\n*);
 			}
@@ -106,12 +107,12 @@ sub SetMenu {
 				push(@file, qq*'$_' => qq~$def1{$_}~,\n*);
 			}
 		} elsif ($deffile == 2) {
-			push(@file, qq*\$menusep = qq~<img src="\$forumstylesurl/default/buttonsep.png" style="height: 20px; width: 1px; margin: 0px; padding: 0px; vertical-align: top; display: inline-block;" alt="" title="" border="0" />~;\n\n\%img = (\n*);
+			push(@file, qq*\$menusep = qq~<img src="\$yyhtml_root/\$templatesdir/Forum/\$usestyle/buttonsep.png" style="height: 20px; width: 1px; margin: 0px; padding: 0px; vertical-align: top; display: inline-block;" alt="" title="" border="0" />~;\n\n\%img = (\n*);
 			foreach (sort(keys %def2)) {
 				push(@file, qq*'$_' => qq~$def2{$_}~,\n*);
 			}
 		} else {
-			push(@file, "\$menusep = ' | ';\n\n\%img = (\n");
+			push(@file, "\$menusep = ' ';\n\n\%def_img = (\n");
 			foreach (sort(keys %def2)) {
 				push(@file, qq*'$_' => qq~$def3{$_}~,\n*);
 			}
