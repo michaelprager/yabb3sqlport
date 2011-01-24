@@ -897,6 +897,7 @@ sub Display {
 	$parentboard = $currentboard;
 	while($parentboard) {
 		my ($pboardname, undef, undef) = split(/\|/, $board{"$parentboard"});
+		&ToChars($pboardname);
 		if(${$uid.$parentboard}{'canpost'}) {
 			$pboardname = qq~<a href="$scripturl?board=$parentboard" class="a"><b>$pboardname</b></a>~;
 		} else {
