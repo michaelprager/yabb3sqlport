@@ -446,6 +446,7 @@ sub NotificationAlert {
 		if (exists $theboard{$username}) {
 			## grab board name
 			my $boardname = (split(/\|/, $board{$myboard}))[0];
+			&ToChars($boardname);
 
 			$board_notify{$myboard} = [ $boardname,
 			                            (split(/\|/, $theboard{$username}))[1], # boardnotifytype
@@ -505,11 +506,13 @@ sub NotificationAlert {
 				## run through the categories until we hit the match for category name
 				my ($catname,$thiscatid,$catid);
 				my $boardname = (split(/\|/, $board{$boardid}))[0]; # grab boardname from list
+				&ToChars($boardname);
 				checkboardname: foreach $catid (@categoryorder) {
 								 foreach (split(/\,/, $cat{$catid})) {
 									## find the match, grab data and jump out
 									if ($_ eq $boardid) {
 										$catname = (split(/\|/, $catinfo{$catid}))[0];
+										&ToChars($catname);
 										$thiscatid = $catid;
 										last checkboardname;
 									}
