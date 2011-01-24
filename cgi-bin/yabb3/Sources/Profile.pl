@@ -2836,6 +2836,10 @@ sub usersrecentposts {
 							@data = sort { $b <=> $a } @i;
 							if (pop(@data) < $mdate) {
 								chomp $mns;
+								if (&checkfor_DBorFILE("$memberdir/$tusername.vars")) {
+									&LoadUser($tusername);
+									$tname = ${$uid.$tusername}{'realname'};
+								}
 								$data{$mdate} = [$curboard, $tnum, $c, $tname, $msub, $mname, $memail, $mdate, $musername, $micon, $mreplyno, $mip, $message, $mns, $tstate];
 								if (!$usercheck) {
 									$numfound++;
@@ -2896,6 +2900,10 @@ sub usersrecentposts {
 										@data = sort { $b <=> $a } @i;
 										if (pop(@data) != $mdate) {
 											chomp $mns;
+											if (&checkfor_DBorFILE("$memberdir/$tusername.vars")) {
+												&LoadUser($tusername);
+												$tname = ${$uid.$tusername}{'realname'};
+											}
 											$data{$mdate} = [$curboard, $tnum, $c, $tname, $msub, $mname, $memail, $mdate, $musername, $micon, $mattach, $mip, $message, $mns, $tstate];
 											if (${$recent{$tnum}}[1] < $mdate) {
 												$save_recent = 1;
