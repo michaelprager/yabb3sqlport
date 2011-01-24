@@ -438,7 +438,7 @@ sub RebuildMemList {
 		chomp $member;
 
 		&LoadUser($member);
-		&FromChars(${$uid.$member}{'realname'});
+		#&FromChars(${$uid.$member}{'realname'}); # Michael Prager: in which format do we save real name data in memberinfo.txt? Currently it's &#12345 and not [ch12345] so we don't need this line!
 
 		$savesettings = 0;
 		@grpexist = ();
