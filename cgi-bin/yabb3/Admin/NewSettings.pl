@@ -462,10 +462,6 @@ sub SaveSettingsTo {
 			# The following is for upgrades from YaBB versions < 2.3 END
 		} # END upgrade codes
 
-		# Since these are normally in a hash, fix that here
-		$fadertext       ||= $color{'fadertext'};
-		$faderbackground ||= $color{'faderbg'};
-
 		my $templateset = join('', map { qq~'$_' => "$templateset{$_}",\n~; } keys(%templateset));
 
 		my $ext_prof_order = '"' . join('","', @ext_prof_order) . '"' if @ext_prof_order;
@@ -706,8 +702,6 @@ $use_MySQL_comment use DBI;				# Add DBI only if needed, comment out otherwise!
 \$stepdelay = $stepdelay;				# Time in miliseconds of a single step
 \$fadelinks = $fadelinks;				# Fade links as well as text?
 
-\$color{'fadertext'} = "\Q$fadertext\E";		# Color of text in the NewsFader (news color)
-\$color{'faderbg'} = "\Q$faderbackground\E";		# Color of background in the NewsFader (news color)
 \$defaultusertxt = "\Q$defaultusertxt\E";		# The dafault usertext visible in users posts
 \$timeout = $timeout;					# Minimum time between 2 postings from the same IP
 \$HotTopic = $HotTopic;					# Number of posts needed in a topic for it to be classed as "Hot"

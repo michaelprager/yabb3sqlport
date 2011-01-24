@@ -332,8 +332,6 @@ sub FixFileTemplate {
 						var stepdelay = "$stepdelay";
 						var fadelinks = $fadelinks;
 						var delay = "$fadedelay";
-						var bcolor = "$color{'faderbg'}";
-						var tcolor = "$color{'fadertext'}";
 						var fcontent = new Array();
 						var begintag = "";~;
 				fopen(NEWS, "$vardir/news.txt");

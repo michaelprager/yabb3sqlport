@@ -68,36 +68,6 @@ my $yabbnews = join('', &read_DBorFILE(0,'',$vardir,'news','txt'));
 			validate => 'boolean',
 			depends_on => ['enable_news', 'shownewsfader'],
 		},
-		{
-			description => qq~<label for="fadertext">$admin_txt{'389'}</label>~,
-			input_html => qq~<input type="text" size="7" maxlength="7" name="fadertext" id="fadertext" value="$color{'fadertext'}" onkeyup="previewColor(this.value);" /> <span id="fadertext2" style="background-color:$color{'fadertext'}">&nbsp; &nbsp; &nbsp;</span> <img align="top" src="$defaultimagesdir/palette1.gif" style="cursor: pointer" onclick="window.open('$scripturl?action=palette;task=templ', '', 'height=308,width=302,menubar=no,toolbar=no,scrollbars=no')" alt="" border="0" />
-			<script language="JavaScript1.2" type="text/javascript">
-			<!--
-			function previewColor(color) {
-				document.getElementById('fadertext2').style.background = color;
-				document.getElementsByName("fadertext")[0].value = color;
-			}
-			//-->
-			</script>~,
-			name => 'fadertext',
-			validate => 'hexadecimal,alpha',
-			depends_on => ['enable_news', 'shownewsfader'],
-		},
-		{
-			description => qq~<label for="faderbackground">$admin_txt{'389a'}</label>~,
-			input_html => qq~<input type="text" size="7" maxlength="7" name="faderbackground" id="faderbackground" value="$color{'faderbg'}" onkeyup="previewColor_0(this.value);" /> <span id="faderbackground2" style="background-color:$color{'faderbg'}">&nbsp; &nbsp; &nbsp;</span> <img align="top" src="$defaultimagesdir/palette1.gif" style="cursor: pointer" onclick="window.open('$scripturl?action=palette;task=templ_0', '', 'height=308,width=302,menubar=no,toolbar=no,scrollbars=no')" alt="" border="0" />
-			<script language="JavaScript1.2" type="text/javascript">
-			<!--
-			function previewColor_0(color) {
-				document.getElementById('faderbackground2').style.background = color;
-				document.getElementsByName("faderbackground")[0].value = color;
-			}
-			//-->
-			</script>~,
-			name => 'faderbackground',
-			validate => 'hexadecimal,alpha',
-			depends_on => ['enable_news', 'shownewsfader'],
-		},
 	],
 },
 {

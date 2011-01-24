@@ -3628,8 +3628,6 @@ sub SetInstall2 {
 		$ClickLogTime = 100;
 		$max_log_days_old = 90;
 		$fadertime = 1000;
-		$color{'fadertext'} = '#000000';
-		$color{'faderbg'} = '#FFFFFF';
 		$defaultusertxt = 'I Love YaBB 3.0!';
 		$timeout = 5;
 		$HotTopic = 10;
@@ -3870,8 +3868,6 @@ sub SetInstall2 {
 \$stepdelay = $stepdelay;                           # Time in miliseconds of a single step
 \$fadelinks = $fadelinks;                           # Fade links as well as text?
 
-\$color{'fadertext'}  = "$color{'fadertext'}";      # Color of text in the NewsFader (news color)
-\$color{'faderbg'}  = "$color{'faderbg'}";          # Color of background in the NewsFader (news color)
 \$defaultusertxt = qq~$defaultusertxt~;             # The dafault usertext visible in users posts
 \$timeout = $timeout;                               # Minimum time between 2 postings from the same IP
 \$HotTopic = $HotTopic;                             # Number of posts needed in a topic for it to be classed as "Hot"
@@ -4750,8 +4746,6 @@ sub SetupTemplate {
 						var stepdelay = "$stepdelay";
 						var fadelinks = $fadelinks;
 						var delay = "$fadedelay";
-						var bcolor = "$color{'faderbg'}";
-						var tcolor = "$color{'fadertext'}";
 						var fcontent = new Array();
 						var begintag = "";
 				~;
