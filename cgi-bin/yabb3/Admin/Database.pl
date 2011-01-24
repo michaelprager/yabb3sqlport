@@ -116,7 +116,7 @@ sub SelectDatabase {
 			$db_txt{'26'}:
 		</td>
 		<td align="left" class="windowbg2">
-			<input type="text" name="db_prefix" value="~ .($db_prefix || 'YaBB2') . qq~" /><br />
+			<input type="text" name="db_prefix" value="~ .($db_prefix || 'YaBB3_') . qq~" /><br />
 			$db_txt{'26a'}.
 		</td>
 	</tr>
@@ -286,7 +286,7 @@ sub SaveDatabase {
 	%db_user_vars_col = ();
 	%db_vars_col = ();
 
-	my $buildnew_vars = qq~CREATE TABLE `$FORM{'db_prefix'}_vars` (\n`yabbusername` char(20) default NULL,\n~;
+	my $buildnew_vars = qq~CREATE TABLE `$FORM{'db_prefix'}vars` (\n`yabbusername` char(20) default NULL,\n~;
 	foreach (@db_vars_tabs_order) {
 		&fatal_error('', $db_txt{'wrongchar'} . "'$_': $1") if $own_vars_table && $FORM{"col_$_"} =~ /(\W)/;
 
@@ -302,7 +302,7 @@ sub SaveDatabase {
 			$db_vars_col{$_} = 1;
 
 			if      ($_ eq 'realname') {
-				$buildnew_vars .= qq~`$_` char(30) default NULL,\n~;
+				$buildnew_vars .= qq~`$_` char(240) default NULL,\n~; # We allow 30 character max; but using HTML UTF8 encoded chars like &#27721; we need up to 30*8=240 bytes for international names
 			} elsif ($_ eq 'password') {
 				$buildnew_vars .= qq~`$_` char(22) binary default NULL,\n~;
 			} elsif ($_ eq 'position') {
@@ -474,7 +474,7 @@ sub SaveDatabase {
 	push(@var_colums, 'yabbuserlogname');
 	push(@db_log_array_order, 0);
 
-	my $buildnew_online = qq~CREATE TABLE `$FORM{'db_prefix'}_log` (\n`yabbuserlogname` varchar(20) binary default NULL,\n~;
+	my $buildnew_online = qq~CREATE TABLE `$FORM{'db_prefix'}log` (\n`yabbuserlogname` varchar(20) binary default NULL,\n~;
 	my $i = 0;
 	foreach (qw(date ip user_host)) {
 		&fatal_error('', $db_txt{'wrongchar'} . "'$_': $1", 1) if $own_log_table && $FORM{"col_$_"} =~ /(\W)/;
@@ -515,7 +515,7 @@ sub SaveDatabase {
 
 	# ctb
 	my $buildnew_ctb;
-	$buildnew_ctb = qq~CREATE TABLE `$FORM{'db_prefix'}_ctb` (\n`threadnum` bigint(11) NOT NULL,\n~;
+	$buildnew_ctb = qq~CREATE TABLE `$FORM{'db_prefix'}ctb` (\n`threadnum` bigint(11) NOT NULL,\n~;
 	$buildnew_ctb .= qq~`board` char(20) default NULL,\n~;
 	$buildnew_ctb .= qq~`replies` int(5) default NULL,\n~;
 	$buildnew_ctb .= qq~`views` int(5) default NULL,\n~;
@@ -531,7 +531,7 @@ sub SaveDatabase {
 
 	# messages.txt
 	my $buildnew_message_txt;
-	$buildnew_message_txt = qq~CREATE TABLE `$FORM{'db_prefix'}_messages` (\n`mess_threadnum` bigint(11) NOT NULL,\n~;
+	$buildnew_message_txt = qq~CREATE TABLE `$FORM{'db_prefix'}messages` (\n`mess_threadnum` bigint(11) NOT NULL,\n~;
 	$buildnew_message_txt .= qq~`subject` varchar(100) default NULL,\n~;
 	$buildnew_message_txt .= qq~`displayname` char(30) default NULL,\n~;
 	$buildnew_message_txt .= qq~`email` varchar(100) default NULL,\n~;
@@ -554,7 +554,7 @@ sub SaveDatabase {
 
 	require DBI;
 	# remove old tables
-	&mysql_process(0,'do',"DROP TABLE IF EXISTS `$FORM{'db_prefix'}_vars`, `$FORM{'db_prefix'}_log`, `$FORM{'db_prefix'}_ctb`, `$FORM{'db_prefix'}_messages`");
+	&mysql_process(0,'do',"DROP TABLE IF EXISTS `$FORM{'db_prefix'}vars`, `$FORM{'db_prefix'}log`, `$FORM{'db_prefix'}ctb`, `$FORM{'db_prefix'}messages`");
 
 	# build new tables
 	&mysql_process(0,'do',$buildnew_vars);
@@ -853,7 +853,7 @@ sub ReturnFileDB {
 
 		if (!@contents) {
 			# Get the list
-			@contents = map { "$$_[0]\n"; } @{&mysql_process(0,'selectall_arrayref',"SELECT `" . ($db_user_vars_table ? $db_user_vars_key : "yabbusername") . "` FROM `" . ($db_user_vars_table ? $db_user_vars_table : "$db_prefix\_vars") . "`")};
+			@contents = map { "$$_[0]\n"; } @{&mysql_process(0,'selectall_arrayref',"SELECT `" . ($db_user_vars_table ? $db_user_vars_key : "yabbusername") . "` FROM `" . ($db_user_vars_table ? $db_user_vars_table : "$db_prefix"."vars") . "`")};
 
 			$start_time = $begin_time;
 			$sumuser = @contents;
@@ -907,7 +907,7 @@ sub ReturnFileDB {
 
 	if (!@contents) {
 		# Get the list
-		@contents = map { "$$_[0]\n"; } @{&mysql_process(0,'selectall_arrayref',"SELECT `threadnum` FROM `$db_prefix\_ctb`")};
+		@contents = map { "$$_[0]\n"; } @{&mysql_process(0,'selectall_arrayref',"SELECT `threadnum` FROM `$db_prefix"."ctb`")};
 
 		$sumuser = @contents;
 		&write_DBorFILE(0,'',$datadir,'ctbcalc','dbconvert',("$start_time\n$sumuser\n"));

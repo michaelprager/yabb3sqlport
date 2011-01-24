@@ -1342,9 +1342,9 @@ sub RemoveUserOnline {
 		if ($user) {
 			if ($user eq $username) {
 				&mysql_process(0,'do',qq~UPDATE `$db_user_log_table` SET `$db_user_log_key`="$user_ip" WHERE `$db_user_log_key`="$user"~) if $db_user_log_table;
-				&mysql_process(0,'do',qq~UPDATE `$db_prefix\_log` SET `yabbuserlogname`="$user_ip" WHERE `yabbuserlogname`="$user"~);
+				&mysql_process(0,'do',qq~UPDATE `$db_prefix~.qq~log` SET `yabbuserlogname`="$user_ip" WHERE `yabbuserlogname`="$user"~);
 			} else {
-				&mysql_process(0,'do',"DELETE FROM `$db_prefix\_log`" . ($db_user_log_table ? ",`$db_user_log_table`" : "") . " USING `$db_prefix\_log`" . ($db_user_log_table ? ",`$db_user_log_table`" : "") . qq~ WHERE `yabbuserlogname`="$user"~ . ($db_user_log_table ? qq~ OR `$db_user_log_key`="$user"~ : ""));
+				&mysql_process(0,'do',"DELETE FROM `$db_prefix"."log`" . ($db_user_log_table ? ",`$db_user_log_table`" : "") . " USING `$db_prefix"."log`" . ($db_user_log_table ? ",`$db_user_log_table`" : "") . qq~ WHERE `yabbuserlogname`="$user"~ . ($db_user_log_table ? qq~ OR `$db_user_log_key`="$user"~ : ""));
 			}
 			my $x = -1;
 			for (my $i = 0; $i < @logentries; $i++) {
@@ -1355,7 +1355,7 @@ sub RemoveUserOnline {
 			splice(@logentries,$x,1) if $x > -1;
 		} else {
 			&mysql_process(0,'do',"TRUNCATE TABLE `$db_user_log_table`") if $db_user_log_table;
-			&mysql_process(0,'do',"TRUNCATE TABLE `$db_prefix\_log`");
+			&mysql_process(0,'do',"TRUNCATE TABLE `$db_prefix"."log`");
 			@logentries = ();
 		}
 
@@ -2032,86 +2032,86 @@ sub CheckUserPM_Level {
 		# Post.pl -> sub Post2 -> my @tag = ...
 		$datadir."ctb" =>
 		[
-			"$db_prefix\_ctb",
+			"$db_prefix"."ctb",
 			'threadnum',
 			[qw[board replies views lastposter lastpostdate threadstatus repliers]],
 		],
 		$datadir."mail" =>
 		[
-			"$db_prefix\_ctb",
+			"$db_prefix"."ctb",
 			'threadnum',
 			[qw[mail]],
 		],
 		$datadir."poll" =>
 		[
-			"$db_prefix\_ctb",
+			"$db_prefix"."ctb",
 			'threadnum',
 			[qw[poll]],
 		],
 		$datadir."polled" =>
 		[
-			"$db_prefix\_ctb",
+			"$db_prefix"."ctb",
 			'threadnum',
 			[qw[polled]],
 		],
 		$datadir."txt" =>
 		[
-			"$db_prefix\_messages",
+			"$db_prefix"."messages",
 			'mess_threadnum',
 			[qw[subject displayname email date username icon post_number user_ip message no_smilies modified_date modified_by attachments]],
 		],
 
 		$memberdir."vars" =>
 		[ # setting are in Settings.pl
-			"$db_prefix\_vars",
+			"$db_prefix"."vars",
 			'yabbusername',
 			[qw[yabbusername realname]],
 		],
 		$memberdir."lastonline" =>
 		[
-			($db_vars_laston_table || "$db_prefix\_vars"),
+			($db_vars_laston_table || "$db_prefix"."vars"),
 			($db_vars_laston_table ? $db_user_vars_key : 'yabbusername'),
 			[($db_vars_laston || 'lastonline')],
 		],
 		$memberdir."imdraft" =>
 		[
-			"$db_prefix\_vars",
+			"$db_prefix"."vars",
 			'yabbusername',
 			[qw[imdraft]],
 		],
 		$memberdir."ims" =>
 		[
-			"$db_prefix\_vars",
+			"$db_prefix"."vars",
 			'yabbusername',
 			[qw[ims]],
 		],
 		$memberdir."imstore" =>
 		[
-			"$db_prefix\_vars",
+			"$db_prefix"."vars",
 			'yabbusername',
 			[qw[imstore]],
 		],
 		$memberdir."log" =>
 		[
-			"$db_prefix\_vars",
+			"$db_prefix"."vars",
 			'yabbusername',
 			[qw[log]],
 		],
 		$memberdir."msg" =>
 		[
-			"$db_prefix\_vars",
+			"$db_prefix"."vars",
 			'yabbusername',
 			[qw[msg]],
 		],
 		$memberdir."outbox" =>
 		[
-			"$db_prefix\_vars",
+			"$db_prefix"."vars",
 			'yabbusername',
 			[qw[outbox]],
 		],
 		$memberdir."rlog" =>
 		[
-			"$db_prefix\_vars",
+			"$db_prefix"."vars",
 			'yabbusername',
 			[qw[rlog]],
 		],
@@ -2146,19 +2146,19 @@ sub CheckUserPM_Level {
 
 	# get array with all member names
 	sub get_members_array {
-		map { $$_[0] } @{&mysql_process(0,'selectall_arrayref',qq~SELECT `yabbusername` FROM `$db_prefix\_vars`~)};
+		map { $$_[0] } @{&mysql_process(0,'selectall_arrayref',qq~SELECT `yabbusername` FROM `$db_prefix~.qq~vars`~)};
 	}
 	# get array with all thread numbers from table messages
 	sub get_messages_array {
-		map { $$_[0] } @{&mysql_process(0,'selectall_arrayref',qq~SELECT `mess_threadnum` FROM `$db_prefix\_messages` WHERE `post_number`=0 ORDER BY `mess_threadnum` ASC~)};
+		map { $$_[0] } @{&mysql_process(0,'selectall_arrayref',qq~SELECT `mess_threadnum` FROM `$db_prefix~.qq~messages` WHERE `post_number`=0 ORDER BY `mess_threadnum` ASC~)};
 	}
 	# get array with all thread numbers from table ctb
 	sub get_ctb_array {
-		map { $$_[0] } @{&mysql_process(0,'selectall_arrayref',qq~SELECT `threadnum` FROM `$db_prefix\_ctb`~)};
+		map { $$_[0] } @{&mysql_process(0,'selectall_arrayref',qq~SELECT `threadnum` FROM `$db_prefix~.qq~ctb`~)};
 	}
 	# get array with all thread numbers from table ctb with mail entrys
 	sub get_mail_array {
-		map { $$_[0] } @{&mysql_process(0,'selectall_arrayref',qq~SELECT `threadnum` FROM `$db_prefix\_ctb` WHERE `mail`<>''~)};
+		map { $$_[0] } @{&mysql_process(0,'selectall_arrayref',qq~SELECT `threadnum` FROM `$db_prefix~.qq~ctb` WHERE `mail`<>''~)};
 	}
 
 	# read from DB or file
@@ -2278,7 +2278,7 @@ sub CheckUserPM_Level {
 			my $DBfile = $db_table{$folder.$ext}[0] ? $folder.$ext : $folder.$name.$ext;
 
 			if ($DBfile eq $vardir."log"."txt") { # only for Variables/log.txt
-				&mysql_process(0,'do',"DELETE FROM `$db_prefix\_log`" . ($db_user_log_table ? ",`$db_user_log_table` WHERE `yabbuserlogname`=`$db_user_log_key` AND" : " WHERE") . qq~ (`yabbuserlogname`="$where[0]" OR `yabbuserlogname`="$where[1]" OR $db_log_date<$where[2])~);
+				&mysql_process(0,'do',"DELETE FROM `$db_prefix"."log`" . ($db_user_log_table ? ",`$db_user_log_table` WHERE `yabbuserlogname`=`$db_user_log_key` AND" : " WHERE") . qq~ (`yabbuserlogname`="$where[0]" OR `yabbuserlogname`="$where[1]" OR $db_log_date<$where[2])~);
 
 			} else {
 				&mysql_process(0,'do',qq~DELETE FROM `$db_table{$DBfile}[0]` WHERE `$db_table{$DBfile}[1]`="~ . join('" OR `$db_table{$DBfile}[1]`="', @where) . qq~"~);
@@ -2327,18 +2327,18 @@ sub CheckUserPM_Level {
 	sub members_DB_r {
 		my ($LOCKHANDLE, $name, $DBfile) = @_;
 
-		&mysql_process(0,'do',"LOCK TABLES `" . ($db_user_vars_table ? "$db_user_vars_table` WRITE, `$db_prefix\_vars" : "$db_prefix\_vars") . "` WRITE") if $LOCKHANDLE;
+		&mysql_process(0,'do',"LOCK TABLES `" . ($db_user_vars_table ? "$db_user_vars_table` WRITE, `$db_prefix"."vars" : "$db_prefix"."vars") . "` WRITE") if $LOCKHANDLE;
 
 		if (!$sth_r{$DBfile.$db_table{$DBfile}[0]}) {
 			if (@{$db_table{$DBfile}[2]} > 1) {
 				$sth_r{$DBfile.$db_table{$DBfile}[0]} = 
 					&mysql_process(0,'prepare',"SELECT $db_vars_order FROM `" .
-						($db_user_vars_table ? "$db_user_vars_table`,`$db_prefix\_vars" : "$db_prefix\_vars") .
+						($db_user_vars_table ? "$db_user_vars_table`,`$db_prefix"."vars" : "$db_prefix"."vars") .
 						"` WHERE " .
 						($db_user_vars_table ? qq~`$db_user_vars_key`=`yabbusername` AND ~ : "") . qq~`yabbusername`=?~);
 			} else {
 				$sth_r{$DBfile.$db_table{$DBfile}[0]} = 
-					&mysql_process(0,'prepare',"SELECT `${$db_table{$DBfile}[2]}[0]` FROM `$db_prefix\_vars` WHERE `yabbusername`=?");
+					&mysql_process(0,'prepare',"SELECT `${$db_table{$DBfile}[2]}[0]` FROM `$db_prefix"."vars` WHERE `yabbusername`=?");
 			}
 		}
 		&mysql_process($sth_r{$DBfile.$db_table{$DBfile}[0]},'execute',$name);
@@ -2353,9 +2353,9 @@ sub CheckUserPM_Level {
 		my ($LOCKHANDLE, $name, $DBfile) = @_;
 
 		if ($DBfile eq $vardir."log"."txt") { # only for Variables/log.txt
-			&mysql_process(0,'do',"LOCK TABLES `$db_prefix\_log` WRITE" . ($db_user_log_table ? ",`$db_user_log_table` WRITE" : "")) if $LOCKHANDLE;
+			&mysql_process(0,'do',"LOCK TABLES `$db_prefix"."log` WRITE" . ($db_user_log_table ? ",`$db_user_log_table` WRITE" : "")) if $LOCKHANDLE;
 
-			return map { $$_[0] } @{&mysql_process(0,'selectall_arrayref',qq~SELECT CONCAT_WS('|', ~ . join(',', split(/,/, $db_log_order)) . qq~) FROM `$db_prefix\_log`~ . ($db_user_log_table ? ",`$db_user_log_table` WHERE `yabbuserlogname`=`$db_user_log_key`" : "") . " ORDER BY $db_log_date DESC")};
+			return map { $$_[0] } @{&mysql_process(0,'selectall_arrayref',qq~SELECT CONCAT_WS('|', ~ . join(',', split(/,/, $db_log_order)) . qq~) FROM `$db_prefix~.qq~log`~ . ($db_user_log_table ? ",`$db_user_log_table` WHERE `yabbuserlogname`=`$db_user_log_key`" : "") . " ORDER BY $db_log_date DESC")};
 
 		} else {
 			&mysql_process(0,'do',"LOCK TABLES `$db_table{$DBfile}[0]` WRITE") if $LOCKHANDLE;
@@ -2417,7 +2417,7 @@ sub CheckUserPM_Level {
 
 			} else { # update all .vars colums
 				&mysql_process(0,'do',"UPDATE `$db_user_vars_table` SET " . join(',', map { qq~`$_`=~ . $vari{"dbh"}->quote(${$uid.$name}{ $db_user_vars_col{$_} }); } keys %db_user_vars_col) . qq~ WHERE `$db_user_vars_key`="$name"~) if $db_user_vars_table;
-				&mysql_process(0,'do',"UPDATE `$db_prefix\_vars` SET " . join(',', map { qq~`$_`=~ . $vari{"dbh"}->quote(${$uid.$name}{ $_ }) } keys %db_vars_col) . qq~ WHERE `yabbusername`="$name"~);
+				&mysql_process(0,'do',"UPDATE `$db_prefix"."vars` SET " . join(',', map { qq~`$_`=~ . $vari{"dbh"}->quote(${$uid.$name}{ $_ }) } keys %db_vars_col) . qq~ WHERE `yabbusername`="$name"~);
 			}
 
 		} else { # INSERT table(s)
@@ -2427,9 +2427,9 @@ sub CheckUserPM_Level {
 					@keys = keys %db_user_vars_col;
 					&mysql_process(0,'do',"INSERT INTO `$db_user_vars_table` (`$db_user_vars_key`,`" . join('`,`', @keys) . qq~`) VALUES ("$name",~ . join(',', map { $vari{"dbh"}->quote(${$uid.$name}{ $db_user_vars_col{$_} }) } @keys) . ')');
 				}
-				# INSERT new values into `$db_prefix\_vars`
+				# INSERT new values into `$db_prefix"."vars`
 				@keys = keys %db_vars_col;
-				&mysql_process(0,'do',"INSERT INTO `$db_prefix\_vars` (`yabbusername`,`" . join('`,`', @keys) . qq~`) VALUES ("$name",~ . join(',', map { $vari{"dbh"}->quote(${$uid.$name}{ $_ }) } @keys) . ')');
+				&mysql_process(0,'do',"INSERT INTO `$db_prefix"."vars` (`yabbusername`,`" . join('`,`', @keys) . qq~`) VALUES ("$name",~ . join(',', map { $vari{"dbh"}->quote(${$uid.$name}{ $_ }) } @keys) . ')');
 		}
 	}
 
@@ -2439,7 +2439,7 @@ sub CheckUserPM_Level {
 		if ($DBfile eq $vardir."log"."txt") { # only for Variables/log.txt
 			my @temp_array = split(/\|/, $$data[0]);
 			&mysql_process(0,'do',qq~INSERT INTO `$db_user_log_table` (`$db_user_log_key`,`$db_user_log_col`) VALUES ("$name","~ . join(',', map { $vari{"dbh"}->quote($temp_array[$_]) } @db_user_log_array_order) . qq~")~) if $db_user_log_table;
-			&mysql_process(0,'do',qq~INSERT INTO `$db_prefix\_log` (`$db_log_col`) VALUES (~ . join(',', map { $vari{"dbh"}->quote($temp_array[$_]) } @db_log_array_order) . qq~)~);
+			&mysql_process(0,'do',qq~INSERT INTO `$db_prefix~.qq~log` (`$db_log_col`) VALUES (~ . join(',', map { $vari{"dbh"}->quote($temp_array[$_]) } @db_log_array_order) . qq~)~);
 
 		} else {
 			# to be done
@@ -2750,33 +2750,33 @@ sub CheckUserPM_Level {
 
 		# the return value sometimes is required (0|'' or something)
 		if ($file =~ /$datadir\/([^\/]+)\.txt$/) {
-			&mysql_process(0,'do',qq~DELETE FROM `$db_prefix\_messages` WHERE `mess_threadnum`='$1'~);
+			&mysql_process(0,'do',qq~DELETE FROM `$db_prefix~.qq~messages` WHERE `mess_threadnum`='$1'~);
 		} elsif ($file =~ /$datadir\/([^\/]+)\.mail$/) {
-			&mysql_process(0,'do',qq~UPDATE `$db_prefix\_ctb` SET `mail`='' WHERE `threadnum`="$1"~);
+			&mysql_process(0,'do',qq~UPDATE `$db_prefix~.qq~ctb` SET `mail`='' WHERE `threadnum`="$1"~);
 		} elsif ($file =~ /$datadir\/([^\/]+)\.poll$/) {
-			&mysql_process(0,'do',qq~UPDATE `$db_prefix\_ctb` SET `poll`='' WHERE `threadnum`="$1"~);
+			&mysql_process(0,'do',qq~UPDATE `$db_prefix~.qq~ctb` SET `poll`='' WHERE `threadnum`="$1"~);
 		} elsif ($file =~ /$datadir\/([^\/]+)\.polled$/) {
-			&mysql_process(0,'do',qq~UPDATE `$db_prefix\_ctb` SET `polled`='' WHERE `threadnum`="$1"~);
+			&mysql_process(0,'do',qq~UPDATE `$db_prefix~.qq~ctb` SET `polled`='' WHERE `threadnum`="$1"~);
 		} elsif ($file =~ /(\d+)\.ctb$/) {
-			&mysql_process(0,'do',"DELETE FROM `$db_prefix\_ctb` WHERE `threadnum`='$1'");
+			&mysql_process(0,'do',"DELETE FROM `$db_prefix"."ctb` WHERE `threadnum`='$1'");
 
 		} elsif ($file =~ /$memberdir\/([^\/]+)\.vars$/) {
 			&mysql_process(0,'do',qq~DELETE FROM `$db_user_vars_table` WHERE `$db_user_vars_key`="$1"~) if $db_user_vars_table;
-			&mysql_process(0,'do',qq~DELETE FROM `$db_prefix\_vars` WHERE `yabbusername`="$1"~);
+			&mysql_process(0,'do',qq~DELETE FROM `$db_prefix~.qq~vars` WHERE `yabbusername`="$1"~);
 		} elsif ($file =~ /$memberdir\/([^\/]+)\.msg$/) {
-			&mysql_process(0,'do',qq~UPDATE `$db_prefix\_vars` SET `msg`='' WHERE `yabbusername`="$1"~);
+			&mysql_process(0,'do',qq~UPDATE `$db_prefix~.qq~vars` SET `msg`='' WHERE `yabbusername`="$1"~);
 		} elsif ($file =~ /$memberdir\/([^\/]+)\.ims$/) {
-			&mysql_process(0,'do',qq~UPDATE `$db_prefix\_vars` SET `ims`='' WHERE `yabbusername`="$1"~);
+			&mysql_process(0,'do',qq~UPDATE `$db_prefix~.qq~vars` SET `ims`='' WHERE `yabbusername`="$1"~);
 		} elsif ($file =~ /$memberdir\/([^\/]+)\.imstore$/) {
-			&mysql_process(0,'do',qq~UPDATE `$db_prefix\_vars` SET `imstore`='' WHERE `yabbusername`="$1"~);
+			&mysql_process(0,'do',qq~UPDATE `$db_prefix~.qq~vars` SET `imstore`='' WHERE `yabbusername`="$1"~);
 		} elsif ($file =~ /$memberdir\/([^\/]+)\.imdraft$/) {
-			&mysql_process(0,'do',qq~UPDATE `$db_prefix\_vars` SET `imdraft`='' WHERE `yabbusername`="$1"~);
+			&mysql_process(0,'do',qq~UPDATE `$db_prefix~.qq~vars` SET `imdraft`='' WHERE `yabbusername`="$1"~);
 		} elsif ($file =~ /$memberdir\/([^\/]+)\.log$/) {
-			&mysql_process(0,'do',qq~UPDATE `$db_prefix\_vars` SET `log`='' WHERE `yabbusername`="$1"~);
+			&mysql_process(0,'do',qq~UPDATE `$db_prefix~.qq~vars` SET `log`='' WHERE `yabbusername`="$1"~);
 		} elsif ($file =~ /$memberdir\/([^\/]+)\.outbox$/) {
-			&mysql_process(0,'do',qq~UPDATE `$db_prefix\_vars` SET `outbox`='' WHERE `yabbusername`="$1"~);
+			&mysql_process(0,'do',qq~UPDATE `$db_prefix~.qq~vars` SET `outbox`='' WHERE `yabbusername`="$1"~);
 		} elsif ($file =~ /$memberdir\/([^\/]+)\.rlog$/) {
-			&mysql_process(0,'do',qq~UPDATE `$db_prefix\_vars` SET `rlog`='' WHERE `yabbusername`="$1"~);
+			&mysql_process(0,'do',qq~UPDATE `$db_prefix~.qq~vars` SET `rlog`='' WHERE `yabbusername`="$1"~);
 
 		#} elsif ($file =~ /\/([^\/]+)\.$/) {
 		#	&mysql_process(0,'do',qq~DELETE FROM `` WHERE ``="$1"~);

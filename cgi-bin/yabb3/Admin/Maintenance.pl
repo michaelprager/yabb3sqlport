@@ -192,7 +192,7 @@ sub RebuildMessageIndex {
 
 	if ($INFO{'rebuild'} == 3) { # remove 1234567890.ctb without 1234567890.txt
 		if ($use_MySQL) {
-			foreach (@{&mysql_process(0,'selectall_arrayref',"SELECT threadnum FROM $db_prefix\_ctb")}) {
+			foreach (@{&mysql_process(0,'selectall_arrayref',"SELECT threadnum FROM $db_prefix"."ctb")}) {
 				&delete_DBorFILE("$datadir/$$_[0].ctb") if !&checkfor_DBorFILE("$datadir/$$_[0].txt");
 			}
 		} else {
@@ -593,7 +593,7 @@ sub RebuildMemHistory {
 	if (!@contents) {
 		# Delete all rlog
 		if ($use_MySQL) {
-			&mysql_process(0,'do',qq~UPDATE `$db_prefix\_vars` SET `rlog`=""~);
+			&mysql_process(0,'do',qq~UPDATE `$db_prefix~.qq~vars` SET `rlog`=""~);
 		} else {
 			opendir(MEMBERS, $memberdir) || die "$txt{'230'} ($memberdir) :: $!";
 			@contents = grep { /\.rlog$/ } readdir(MEMBERS);
@@ -619,7 +619,7 @@ sub RebuildMemHistory {
 
 	my $rlog_sth;
 	if ($use_MySQL) {
-		$rlog_sth = &mysql_process(0,'prepare',qq~UPDATE `$db_prefix\_vars` SET `rlog`=CONCAT(`rlog`,?) WHERE `yabbusername`=?~);
+		$rlog_sth = &mysql_process(0,'prepare',qq~UPDATE `$db_prefix~.qq~vars` SET `rlog`=CONCAT(`rlog`,?) WHERE `yabbusername`=?~);
 	}
 
 	# Loop through each -rest- topic
