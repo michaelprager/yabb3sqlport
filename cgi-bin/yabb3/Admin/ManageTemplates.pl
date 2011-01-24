@@ -89,15 +89,13 @@ sub ModifyTemplate {
 		}
 	}
 
-	fopen(TMPL, "$templatesdir/$templatefile");
-	while ($line = <TMPL>) {
+	foreach my $line (&read_DBorFILE(0,'',$templatesdir,split(/\./, $templatefile))) {
 		$line =~ s~[\r\n]~~g;
 		$line =~ s~&nbsp;~&#38;nbsp;~g;
 		$line =~ s~&amp;~&#38;amp;~g;
 		&FromHTML($line);
 		$fulltemplate .= qq~$line\n~;
 	}
-	fclose(TMPL);
 
 	$yymain .= qq~
  <div class="bordercolor" style="padding: 0px; width: 99%; margin-left: 0px; margin-right: auto;">
@@ -148,10 +146,9 @@ sub ModifyTemplate2 {
 	$FORM{'template'} =~ s~\n\Z~~;
 	if ($FORM{'filename'}) { $templatefile = $FORM{'filename'}; }
 	else { $templatefile = "default.html"; }
-	fopen(TMPL, ">$templatesdir/$templatefile");
 
-	print TMPL "$FORM{'template'}\n";
-	fclose(TMPL);
+	&write_DBorFILE(0,'',$templatesdir,split(/\./, $templatefile),("$FORM{'template'}\n"));
+
 	$yySetLocation = qq~$adminurl?action=modtemp;templatefile=$templatefile~;
 	&redirectexit;
 }
@@ -160,15 +157,14 @@ sub ModifyStyle {
 	&is_admin_or_gmod;
 	my ($fullcss, $line, $csstype);
 	$admincs = 0;
-	if ($FORM{'cssfile'}) { $cssfile = $FORM{'cssfile'}; $csstype = qq~$forumstylesdir/$cssfile~; }
-	elsif ($FORM{'admcssfile'}) { $cssfile = $FORM{'admcssfile'}; $csstype = qq~$adminstylesdir/$cssfile~; $admincs = 1; }
-	else { $cssfile = "default.css"; $csstype = qq~$forumstylesdir/$cssfile~; }
+	if ($FORM{'cssfile'}) { $cssfile = $FORM{'cssfile'}; $csstype = qq~$forumstylesdir~; }
+	elsif ($FORM{'admcssfile'}) { $cssfile = $FORM{'admcssfile'}; $csstype = qq~$adminstylesdir~; $admincs = 1; }
+	else { $cssfile = "default.css"; $csstype = qq~$forumstylesdir~; }
+
 	opendir(TMPLDIR, "$forumstylesdir");
 	@styles = readdir(TMPLDIR);
 	closedir(TMPLDIR);
-	$forumcss = "";
 	$forumcss = qq~<option value=""></option>\n~;
-
 	foreach $file (sort @styles) {
 		($name, $ext) = split(/\./, $file);
 		$selected = "";
@@ -181,7 +177,6 @@ sub ModifyStyle {
 	opendir(TMPLDIR, "$adminstylesdir");
 	@astyles = readdir(TMPLDIR);
 	closedir(TMPLDIR);
-	$admincss = "";
 	$admincss = qq~<option value=""></option>\n~;
 	foreach $file (sort @astyles) {
 		($name, $ext) = split(/\./, $file);
@@ -192,15 +187,13 @@ sub ModifyStyle {
 		}
 	}
 
-	fopen(CSS, "$csstype") or &admin_fatal_error("cannot_open","$csstype");
-	while ($line = <CSS>) {
+	foreach $line (&read_DBorFILE(0,'',$csstype,split(/\./, $cssfile))) {
 		$line =~ s~[\r\n]~~g;
 		$line =~ s~&nbsp;~&#38;nbsp;~g;
 		$line =~ s~&amp;~&#38;amp;~g;
 		&FromHTML($line);
 		$fullcss .= qq~$line\n~;
 	}
-	fclose(CSS);
 
 	$yymain .= qq~
  <div class="bordercolor" style="padding: 0px; width: 99%; margin-left: 0px; margin-right: auto;">
@@ -268,12 +261,10 @@ sub ModifyStyle2 {
 	if ($FORM{'filename'}) { $cssfile = $FORM{'filename'}; }
 	else { $cssfile = "default.css"; }
 	if ($FORM{'type'}) {
-		fopen(CSS, ">$adminstylesdir/$cssfile") || &admin_fatal_error("cannot_open","$adminstylesdir/$cssfile", 1);
+		&write_DBorFILE(0,'',$adminstylesdir,split(/\./, $cssfile),("$FORM{'css'}\n"));
 	} else {
-		fopen(CSS, ">$forumstylesdir/$cssfile") || &admin_fatal_error("cannot_open","$forumstylesdir/$cssfile", 1);
+		&write_DBorFILE(0,'',$forumstylesdir,split(/\./, $cssfile),("$FORM{'css'}\n"));
 	}
-	print CSS "$FORM{'css'}\n";
-	fclose(CSS);
 	$yySetLocation = qq~$adminurl?action=modcss;cssfile=$cssfile~;
 	&redirectexit;
 }
@@ -297,8 +288,6 @@ sub ModifyCSS {
 	$tempimages = qq~$forumstylesurl/$aktimages~;
 	my $istabbed = 0;
 
-	$stylestr = "";
-
 	opendir(TMPLDIR, "$forumstylesdir");
 	@styles = readdir(TMPLDIR);
 	closedir(TMPLDIR);
@@ -313,16 +302,15 @@ sub ModifyCSS {
 		}
 	}
 
-	fopen(CSS, "$forumstylesdir/$cssfile") or &admin_fatal_error("cannot_open","$forumstylesdir/$cssfile");
-	@thecss = <CSS>;
-	fclose(CSS);
-	foreach $style_sgl (@thecss) {
+	$stylestr = "";
+	foreach $style_sgl (&read_DBorFILE(0,'',$forumstylesdir,split(/\./, $cssfile))) {
 		$style_sgl =~ s/[\n\r]//g;
 		$style_sgl =~ s/\A\s*//;
 		$style_sgl =~ s/\s*\Z//;
 		$style_sgl =~ s/\t//g;
 		$style_sgl =~ s/\.\/default/$forumstylesurl\/default/g;
 		$style_sgl =~ s/\.\/$viewcss/$forumstylesurl\/$viewcss/g;
+		$style_sgl =~ s/\.\.\/\.\.\/Buttons/$yyhtml_root\/Buttons/g;
 		$stylestr .= qq~$style_sgl ~;
 	}
 	$stylestr =~ s/\s{2,}/ /g;
@@ -363,7 +351,7 @@ sub ModifyCSS {
 	}
 	if ($stylestr =~ /\#container/) {
 		$containerstyle = $stylestr;
-		$containerstyle =~ s/.*?(\#container\s*?\{.+?\}).*/$1/ig;
+		$containerstyle =~ s/.*?(\#container.*?\{.+?\}).*/$1/ig;
 		$selstyl .= qq~<option value='$containerstyle'>$templ_txt{'26'}</option>\n~;
 	}
 	if ($stylestr =~ /\.tabmenu/) {
@@ -380,6 +368,52 @@ sub ModifyCSS {
 			$selstyl .= qq~<option value='$tabtitlestyle_a'>$templ_txt{'tabtitlea'}</option>\n~;
 		}
 	}
+
+	$buttonstyle = $stylestr;
+	$buttonstyle =~ s/.*?(\.buttontext\s*?\{.+?\}).*/$1/ig;
+	$selstyl .= qq~<option value='$buttonstyle'>$templ_txt{'buttontext'}</option>\n~;
+	$prevtext = $buttonstyle;
+	$prevtext =~ s/\.buttontext\s*?\{(.+?)\}/$1/ig;
+	$drawtxtpos = $prevtext;
+	$drawtxtpos =~ m/.*?top\s*?\:\s*?(\d{1,2})px.*/i;
+	$viewtxty = $1;
+	$viewtxty .= "px";
+	$drawpos4 = ($1 * 5) + 213;
+	$drawpos4 .= "px";
+	$buttonleftstyle = $stylestr;
+	$buttonleftstyle =~ s/.*?(\.buttonleft\s*?\{.+?\}).*/$1/ig;
+	$buttonleftbg = qq~<input type="hidden" id="buttonleftbg" name="buttonleftbg" value="$buttonleftstyle" />\n~;
+	$buttonbg = $buttonleftstyle;
+	$buttonbg =~ s~.*?($yyhtml_root/Buttons/)(.*?)\.(.*)~$2~g;
+	$prevleft = $buttonleftstyle;
+	$prevleft =~ s/\.buttonleft\s*?\{(.+?)\}/$1/ig;
+	$buttonrightstyle = $stylestr;
+	$buttonrightstyle =~ s/.*?(\.buttonright\s*?\{.+?\}).*/$1/ig;
+	$buttonrightbg = qq~<input type="hidden" id="buttonrightbg" name="buttonrightbg" value="$buttonrightstyle" />\n~;
+	$prevright = $buttonrightstyle;
+	$prevright =~ s/\.buttonright\s*?\{(.+?)\}/$1/ig;
+	$buttonimagestyle = $stylestr;
+	$buttonimagestyle =~ s/.*?(\.buttonimage\s*?\{.+?\}).*/$1/ig;
+	$buttonimagebg = qq~<input type="hidden" id="buttonimagebg" name="buttonimagebg" value="$buttonimagestyle" />\n~;
+	$previmage = $buttonimagestyle;
+	$previmage =~ s/\.buttonimage\s*?\{(.+?)\}/$1/ig;
+	$drawimgpos = $previmage;
+	$drawimgpos =~ m/.*?background\-position\s*?\:\s*?(\d{1,2})px\s*?(\d{1,2})px.*/i;
+	$viewimgy = $2;
+	$viewimgy .= "px";
+	$drawpos1 = ($2 * 5) + 213;
+	$drawpos1 .= "px";
+	$viewimgx = $1;
+	$viewimgx .= "px";
+	$drawpos2 = $1 + 213;
+	$drawpos2 .= "px";
+	$drawimgwd = $previmage;
+	$drawimgwd =~ m/.*?padding\s*?\:\s*?\d{1,2}px\s*?\d{1,2}px\s*?\d{1,2}px\s*?(\d{1,2})px.*/i;
+	$viewimgpad = $1;
+	$viewimgpad .= "px";
+	$drawpos3 = $1 + 213;
+	$drawpos3 .= "px";
+
 	if ($stylestr =~ /\.seperator/) {
 		$seperatorstyle = $stylestr;
 		$seperatorstyle =~ s/.*?(\.seperator\s*?\{.+?\}).*/$1/ig;
@@ -424,7 +458,7 @@ sub ModifyCSS {
 	}
 	if ($stylestr =~ /\.windowbg2/) {
 		$window2style = $stylestr;
-		$window2style =~ s/.*?(\.windowbg2\s*?\{.+?\}).*/$1/ig;
+		$window2style =~ s/.*?(\.windowbg2.*?\{.+?\}).*/$1/ig;
 		$windowcol2 = $window2style;
 		$windowcol2 =~ s/.*?(\#[a-f0-9]{3,6}).*/$1/i;
 		$selstyl .= qq~<option value='$window2style'>$templ_txt{'33'}</option>\n~;
@@ -603,8 +637,183 @@ sub ModifyCSS {
 		</div>
 		</div>
 		</td>
+	</tr>~;
+
+	$thisbutton = "";
+	opendir(DIR, "$htmldir/Buttons");
+	@contents = readdir(DIR);
+	closedir(DIR);
+	$optbuttons = "";
+	$x = 1;
+	foreach $line (sort @contents){
+		($name, $extension) = split (/\./, $line);
+		($tmpname, $tmpside) = split (/\_/, $name);
+		$checked = "";
+		if ($name eq $buttonbg) { $checked = qq~ checked = "checked"~; }
+		if (($extension =~ /gif/i || $extension =~ /png/i) && $tmpside eq "left") {
+			$bleft = qq~_left.$extension~;
+			$bright = qq~_right.$extension~;
+			$thisbutton .= qq~<div style="float: left; width: 99%; margin: 2px; vertical-align: bottom;"><div style="float: left; height: 20px; width: 112px; padding: 0 0 0 6px; background-image: url($yyhtml_root/Buttons/$tmpname$bleft); background-repeat: no-repeat; vertical-align: bottom; cursor: pointer;" onclick="updateButtons('$line');">~;
+			$thisbutton .= qq~<div style="float: left; height: 20px; padding: 0 80px 0 0; background-image: url($yyhtml_root/Buttons/$tmpname$bright); background-position: right; background-repeat: no-repeat; vertical-align: bottom;"><div style="float: left; height: 20px; padding: 0 0 0 25px;"></div></div></div>~;
+			$thisbutton .= qq~<div style="float: left; height: 20px;"><input type="radio" name="selbutton" id="selbutton$x" value="$line" class="windowbg2" style="border: 0px; vertical-align: middle;"$checked onclick="updateButtons(this.value);" /> <label for="selbutton$x" style="vertical-align: middle;"><b>$tmpname</b></label></div></div>\n~;
+			$x++;
+		}
+	}
+
+	$yymain .= qq~
+
+	<tr>
+		<td align="left" class="windowbg2">
+		<div style="float: left; width: 99%; padding: 3px;">
+			<b>$templ_txt{'buttontext'}</b><br /><span class="small">$templ_txt{'buttondescription'}<br /><br /></span>
+		</div>
+		<div style="float: left; width: 330px; height: 136px; padding: 3px;">
+		<div class="catbg" style="position: relative; top: 0px; left: 5px; width: 280px; text-align: center; border-width: 1px; border-style: outset; padding: 3px 0px;">
+		<img src="$forumstylesurl/default/buttonsep.png" style="height: 20px; width: 1px; margin: 0px; padding: 0px; vertical-align: top; display: inline-block;" alt="" border="0" />
+		<span id="butleft" style="height: 20px; border: 0px; margin: 1px 1px; background-position: top left; background-repeat: no-repeat; text-decoration: none; font-size: 18px; vertical-align: top; display: inline-block; $prevleft">
+		<span id="butright" style="height: 20px; border: 0px; margin: 0px; background-position: top right; background-repeat: no-repeat; text-decoration: none; font-size: 18px; vertical-align: top; display: inline-block; $prevright">
+		<span id="butimage" style="$previmage background-image: url($forumstylesurl/default/home.gif); height: 20px; border: 0px; margin: 0px; background-repeat: no-repeat; vertical-align: top; text-decoration: none; font-size: 18px; display: inline-block;">
+		<span id="buttext" style="height: 20px; border: 0px; margin: 0px; padding: 0px; text-align: left; text-decoration: none; vertical-align: top; white-space: nowrap; display: inline-block; $prevtext">$img_txt{'103'}</span>
+		</span></span></span>
+		<img src="$forumstylesurl/default/buttonsep.png" style="height: 20px; width: 1px; margin: 0px; padding: 0px; vertical-align: top; display: inline-block;" alt="" border="0" />
+		</div>
+		<div class="catbg" style="position: relative; top: 4px; left: 5px; width: 280px; height: 18px; border-width: 1px; border-style: outset;">
+		<span class="small" style="position: absolute; top: 3px; left: 6px;"><b>$templ_txt{'moveicon1'}</b>
+		<input class="catbg" name="viewimgy" id="viewimgy" type="text" value="$viewimgy" style="position: absolute; top: 0px; left: 165px; text-align: right; width: 30px; margin: 0px; padding: 0px; border: 0px; font-size: 10px; font-weight: bold; display: inline;" readonly="readonly" /></span>
+		<img src="$defaultimagesdir/knapbagrms02.gif" style="position: absolute; top: 0px; left: 209px; z-index: 1; width: 69px; height: 16px;" />
+		<img id="knapImg1" src="$defaultimagesdir/knapyellow.gif" class="skyd" style="position: absolute; left: $drawpos1; top: 2px; cursor: pointer; z-index: 2; width: 13px; height: 15px;" />
+		</div>
+		<div class="catbg" style="position: relative; top: 8px; left: 5px; width: 280px; height: 18px; border-width: 1px; border-style: outset;">
+		<span class="small" style="position: absolute; top: 3px; left: 6px;"><b>$templ_txt{'moveicon2'}</b>
+		<input class="catbg" name="viewimgx" id="viewimgx" type="text" value="$viewimgx" style="position: absolute; top: 0px; left: 165px; text-align: right; width: 30px; margin: 0px; padding: 0px; border: 0px; font-size: 10px; font-weight: bold; display: inline;" readonly="readonly" /></span>
+		<img src="$defaultimagesdir/knapbagrms02.gif" style="position: absolute; top: 0px; left: 209px; z-index: 1; width: 69px; height: 16px;" />
+		<img id="knapImg2" src="$defaultimagesdir/knapyellow.gif" class="skyd" style="position: absolute; left: $drawpos2; top: 2px; cursor: pointer; z-index: 2; width: 13px; height: 15px;" />
+		</div>
+		<div class="catbg" style="position: relative; top: 12px; left: 5px; width: 280px; height: 18px; border-width: 1px; border-style: outset;">
+		<span class="small" style="position: absolute; top: 3px; left: 6px;"><b>$templ_txt{'iconspace'}</b>
+		<input class="catbg" name="viewimgpad" id="viewimgpad" type="text" value="$viewimgpad" style="position: absolute; top: 0px; left: 165px; text-align: right; width: 30px; margin: 0px; padding: 0px; border: 0px; font-size: 10px; font-weight: bold; display: inline;" readonly="readonly" /></span>
+		<img src="$defaultimagesdir/knapbagrms02.gif" style="position: absolute; top: 0px; left: 209px; z-index: 1; width: 69px; height: 16px;" />
+		<img id="knapImg3" src="$defaultimagesdir/knapyellow.gif" class="skyd" style="position: absolute; left: $drawpos3; top: 2px; cursor: pointer; z-index: 2; width: 13px; height: 15px;" />
+		</div>
+		<div class="catbg" style="position: relative; top: 16px; left: 5px; width: 280px; height: 18px; border-width: 1px; border-style: outset;">
+		<span class="small" style="position: absolute; top: 3px; left: 6px;"><b>$templ_txt{'movetext'}</b>
+		<input class="catbg" name="viewtxty" id="viewtxty" type="text" value="$viewtxty" style="position: absolute; top: 0px; left: 165px; text-align: right; width: 30px; margin: 0px; padding: 0px; border: 0px; font-size: 10px; font-weight: bold; display: inline;" readonly="readonly" /></span>
+		<img src="$defaultimagesdir/knapbagrms02.gif" style="position: absolute; top: 0px; left: 209px; z-index: 1; width: 69px; height: 16px;" />
+		<img id="knapImg4" src="$defaultimagesdir/knapyellow.gif" class="skyd" style="position: absolute; left: $drawpos4; top: 2px; cursor: pointer; z-index: 2; width: 13px; height: 15px;" />
+		</div>
+		</div>
+		<div style="float: left; width: 300px; padding: 3px; padding-left: 13px;">
+			$thisbutton
+		</div>
+		$buttonleftbg
+		$buttonrightbg
+		$buttonimagebg
+		</td>
 	</tr>
-	~;
+
+	<script type="text/javascript" language="JavaScript1.2">
+	<!--
+
+	var skydobject={
+	x: 0, temp2 : null, targetobj : null, skydNu : 0, delEnh : 0,
+	initialize:function() {
+		document.onmousedown = this.skydeKnap
+		document.onmouseup=function(){
+			if(this.skydNu) updateStyles();
+			this.skydNu = 0;
+		}
+	},
+	changeStyle:function(deleEnh, knapId) {
+		if (knapId == "knapImg1") {
+			newypos = parseInt(deleEnh/5);
+			thenewstyle = document.allstyles.stylelink.value;
+			cssoption = document.allstyles.buttonimagebg.value;
+			oldxpos=cssoption.replace(/\.*?background\\-position\\s*?\\:\\s*?(\\d{1,2})\.*/i, "\$1");
+			newcssoption=cssoption.replace(/(background\\-position\\s*?\\:\.*?\\d{1,2}px\\s*?)\\d{1,2}(px\\;)/i, "\$1" + newypos + "\$2");
+			document.allstyles.buttonimagebg.value = newcssoption;
+			re=cssoption.replace(/(.*)/, "\$1");
+			thenewstyle=thenewstyle.replace(re, newcssoption);
+			document.allstyles.stylelink.value = thenewstyle;
+			document.getElementById('butimage').style.backgroundPosition = oldxpos+'px '+newypos+'px';
+			document.getElementById('viewimgy').value = newypos+'px';
+		}
+		if (knapId == "knapImg2") {
+			newxpos = parseInt(deleEnh);
+			thenewstyle = document.allstyles.stylelink.value;
+			cssoption = document.allstyles.buttonimagebg.value;
+			oldypos=cssoption.replace(/\.*?background\\-position\\s*?\\:\\s*?\\d{1,2}px\\s*?(\\d{1,2})\.*/i, "\$1");
+			newcssoption=cssoption.replace(/(background\\-position\\s*?\\:\.*?)\\d{1,2}(px\\s*?\\d{1,2}px\\;)/i, "\$1" + newxpos + "\$2");
+			document.allstyles.buttonimagebg.value = newcssoption;
+			re=cssoption.replace(/(.*)/, "\$1");
+			thenewstyle=thenewstyle.replace(re, newcssoption);
+			document.allstyles.stylelink.value = thenewstyle;
+			document.getElementById('butimage').style.backgroundPosition = newxpos+'px '+oldypos+'px';
+			document.getElementById('viewimgx').value = newxpos+'px';
+		}
+		if (knapId == "knapImg3") {
+			newimgpad = parseInt(deleEnh);
+			thenewstyle = document.allstyles.stylelink.value;
+			cssoption = document.allstyles.buttonimagebg.value;
+			newcssoption=cssoption.replace(/(padding\\s*?\\:\.*?\\d{1,2}px\\s*?\\d{1,2}px\\s*?\\d{1,2}px\\s*?)\\d{1,2}(px\\;)/i, "\$1" + newimgpad + "\$2");
+			document.allstyles.buttonimagebg.value = newcssoption;
+			re=cssoption.replace(/(.*)/, "\$1");
+			thenewstyle=thenewstyle.replace(re, newcssoption);
+			document.allstyles.stylelink.value = thenewstyle;
+			document.getElementById('butimage').style.padding = '0px 0px 0px '+newimgpad+'px';
+			document.getElementById('viewimgpad').value = newimgpad+'px';
+		}
+		if (knapId == "knapImg4") {
+			newtxtpad = parseInt(deleEnh/5);
+			thenewstyle = document.allstyles.stylelink.value;
+			allstyleslen = document.allstyles.csselement.length;
+			for (i = 0; i < allstyleslen; i++) {
+				tmpselelement = document.allstyles.csselement[i].value;
+				if (tmpselelement.match(/\\.buttontext/)) {
+					cssoption = document.allstyles.csselement.options[i].value;
+					newcssoption=cssoption.replace(/(top\\s*?\\:\.*?)\\d{1,2}(px\\s*?\\;)/i, "\$1" + newtxtpad + "\$2");
+					document.allstyles.csselement.options[i].value = newcssoption;
+				}
+			}
+			re=cssoption.replace(/(.*)/, "\$1");
+			thenewstyle=thenewstyle.replace(re, newcssoption);
+			document.allstyles.stylelink.value = thenewstyle;
+			document.getElementById('buttext').style.top = newtxtpad+'px';
+			document.getElementById('viewtxty').value = newtxtpad+'px';
+		}
+	},
+	flytKnap:function(e) {
+		var evtobj = window.event ? window.event : e
+		if (this.skydNu == 1) {
+			glX = parseInt(this.targetobj.style.left)
+			this.targetobj.style.left = this.temp2 + evtobj.clientX - this.x + "px"
+			nyX = parseInt(this.temp2 + evtobj.clientX - this.x)
+			if (nyX > glX) retning = "vn"; else retning = "hj";
+			if (nyX < 213 && retning == "hj") { this.targetobj.style.left = 213 + "px"; nyX = 213; retning = "vn"; }
+			if (nyX > 263 && retning == "vn") { this.targetobj.style.left = 263 + "px"; nyX = 263; retning = "hj"; }
+			delEnh = parseInt(nyX)-213
+			var knapObj = this.targetobj.id
+			skydobject.changeStyle(delEnh, knapObj)
+			return false
+		}
+	},
+	skydeKnap:function(e) {
+		var evtobj = window.event ? window.event : e
+		this.targetobj = window.event ? event.srcElement : e.target
+		if (this.targetobj.className == "skyd") {
+			this.skydNu = 1
+			this.knapObj = this.targetobj
+			if (isNaN(parseInt(this.targetobj.style.left))) this.targetobj.style.left = 0
+			this.temp2 = parseInt(this.targetobj.style.left)
+			this.x = evtobj.clientX
+			if (evtobj.preventDefault) evtobj.preventDefault()
+			document.onmousemove = skydobject.flytKnap
+		}
+	}
+	}
+
+	skydobject.initialize()
+	//-->
+	</script>\n~;
 
 	$viewstylestart = qq~<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
@@ -733,6 +942,30 @@ $templ_txt{'31'}
 </td>
 </tr>
 </table>
+~;
+
+	$menusep = qq~<img src="$forumstylesurl/default/buttonsep.png" style="height: 20px; width: 1px; margin: 0px; padding: 0px; vertical-align: top; display: inline-block;" alt="" border="0" />~;
+	$viewstyleleft = qq~style="height: 20px; border: 0px; margin: 1px 1px; background-position: top left; background-repeat: no-repeat; text-decoration: none; font-size: 18px; vertical-align: top; display: inline-block;"~;
+	$viewstyleright = qq~style="height: 20px; border: 0px; margin: 0px; background-position: top right; background-repeat: no-repeat; text-decoration: none; font-size: 18px; vertical-align: top; display: inline-block;"~;
+	$viewstyleimage = qq~height: 20px; border: 0px; margin: 0px; background-repeat: no-repeat; vertical-align: top; text-decoration: none; font-size: 18px; display: inline-block;~;
+	$viewstyletext = qq~style="height: 20px; border: 0px; margin: 0px; padding: 0px; text-align: left; text-decoration: none; vertical-align: top; white-space: nowrap; display: inline-block;"~;
+
+	$viewstyle .= qq~
+<table class="bordercolor" cellpadding="4" cellspacing="1" border="0" width="100%">
+<tr>
+<td id="cssbuttons" class="windowbg2" width="100%" align="left" valign="top">
+<div style="float: left; padding: 4px 0 0 0;">$templ_txt{'buttontext'}</div>
+<div style="float: right;">
+<a href="javascript:;"><span id="button1l" class="buttonleft" $viewstyleleft title="$img_txt{'145'}"><span id="button1r" class="buttonright" $viewstyleright><span class="buttonimage" style="background-image: url($forumstylesurl/default/quote.gif); $viewstyleimage"><span class="buttontext" $viewstyletext>$img_txt{'145'}</span></span></span></span></a>$menusep
+<a href="javascript:;"><span id="button2l" class="buttonleft" $viewstyleleft title="$img_txt{'66'}"><span id="button2r" class="buttonright" $viewstyleright><span class="buttonimage" style="background-image: url($forumstylesurl/default/modify.gif); $viewstyleimage"><span class="buttontext" $viewstyletext>$img_txt{'66'}</span></span></span></span></a>$menusep
+<a href="javascript:;"><span id="button3l" class="buttonleft" $viewstyleleft title="$img_txt{'620'}"><span id="button3r" class="buttonright" $viewstyleright><span class="buttonimage" style="background-image: url($forumstylesurl/default/admin_split.gif); $viewstyleimage"><span class="buttontext" $viewstyletext>$img_txt{'620'}</span></span></span></span></a>$menusep
+<a href="javascript:;"><span id="button4l" class="buttonleft" $viewstyleleft title="$img_txt{'121'}"><span id="button4r" class="buttonright" $viewstyleright><span class="buttonimage" style="background-image: url($forumstylesurl/default/delete.gif); $viewstyleimage"><span class="buttontext" $viewstyletext>$img_txt{'121'}</span></span></span></span></a>
+</div>
+</td>
+</tr>
+</table>~;
+
+	$viewstyle .= qq~
 
 <table class="bordercolor" cellpadding="4" cellspacing="1" border="0" width="100%">
 <tr>
@@ -766,6 +999,7 @@ $ahighlight
 </tr>
 </table>
 ~;
+
 	if ($seperatorstyle) {
 		$viewstyle .= qq~</div>~;
 	}
@@ -800,6 +1034,12 @@ $viewstyle .= qq~
 	$viewstyle =~ s~[\n\r]~~g;
 	&ToHTML($viewstyle);
 
+	if ($viewcss eq "default") {
+		$savecss = "";
+	} else {
+		$savecss = $viewcss;
+	}
+
 	$yymain .= qq~
 	<tr valign="middle">
 		<td align="left" class="windowbg2">
@@ -823,7 +1063,7 @@ var cssbold;
 var cssitalic;
 var stylesurl = '$forumstylesurl';
 
-function initStyles() {
+function updateStyles() {
 	var thestylestart = document.allstyles.stylestart.value;
 	var thestyles = document.allstyles.stylelink.value;
 	var thestylebody = document.allstyles.stylebody.value;
@@ -840,10 +1080,33 @@ function initStyles() {
 	StyleManager.document.close();
 }
 
-function updateStyles() {
-	var currentTop = document.getElementById('StyleManager').contentWindow.document.documentElement.scrollTop;
-	initStyles();
-	document.getElementById('StyleManager').contentWindow.document.documentElement.scrollTop = currentTop;
+var buttonurl = '$yyhtml_root/Buttons/';
+
+function updateButtons(thebg) {
+	len = document.allstyles.selbutton.length;
+	for (i = 0; i <len; i++) {
+ 		document.allstyles.selbutton[i].checked = false;
+		if (document.allstyles.selbutton[i].value == thebg) document.allstyles.selbutton[i].checked = true;
+	}
+	thenewstyle = document.allstyles.stylelink.value;
+	cssoption = document.allstyles.buttonleftbg.value;
+	newcssoption=cssoption.replace(/(background\\-image\\s*?\\:\.*?\\/Buttons\\/).*?(\\)\\;)/i, "\$1" + thebg + "\$2");
+	document.getElementById('butleft').style.backgroundImage = 'url(' + buttonurl + thebg + ')';
+	document.allstyles.buttonleftbg.value = newcssoption;
+	re=cssoption.replace(/(.*)/, "\$1");
+	thenewstyle=thenewstyle.replace(re, newcssoption);
+	document.allstyles.stylelink.value = thenewstyle;
+	updateStyles();
+	btside = '_right';
+	cssoption = document.allstyles.buttonrightbg.value;
+	newthebg = thebg.replace(/(.*?)\\_left(.*)/i, "\$1" + btside + "\$2");
+	newcssoption=cssoption.replace(/(background\\-image\\s*?\\:\.*?\\/Buttons\\/).*?(\\)\\;)/i, "\$1" + newthebg + "\$2");
+	document.getElementById('butright').style.backgroundImage = 'url(' + buttonurl + newthebg + ')';
+	document.allstyles.buttonrightbg.value = newcssoption;
+	re=cssoption.replace(/(.*)/, "\$1");
+	thenewstyle=thenewstyle.replace(re, newcssoption);
+	document.allstyles.stylelink.value = thenewstyle;
+	updateStyles();
 }
 
 function previewColor(thecolor) {
@@ -859,6 +1122,7 @@ function previewColor(thecolor) {
 			thenewstyle=thenewstyle.replace(/(\\.tabmenu span a\\s*?\\{.*?color\\s*?\\:).+?(\\;)/ig, "\$1 " + thecolor + "\$2");
 		}
 	}
+	if(cssoption.match(/\\.buttontext/)) document.getElementById('buttext').style.color = thecolor;
 	if(cssback.checked) {
 		newcssoption=cssoption.replace(/(background-color\\s*?\\:).+?(\\;)/i, "\$1 " + thecolor + "\$2");
 		document.allstyles.backcol.value = thecolor;
@@ -988,6 +1252,7 @@ function previewFont() {
 	re=cssoption.replace(/(.*)/, "\$1");
 	thenewstyle=thenewstyle.replace(re, newcssoption);
 	document.allstyles.stylelink.value = thenewstyle;
+	if(cssoption.match(/\\.buttontext/)) document.getElementById('buttext').style.fontSize = thesize;
 	updateStyles();
 }
 
@@ -1010,6 +1275,7 @@ function previewFontface() {
 	re=cssoption.replace(/(.*)/, "\$1");
 	thenewstyle=thenewstyle.replace(re, newcssoption);
 	document.allstyles.stylelink.value = thenewstyle;
+	if(cssoption.match(/\\.buttontext/)) document.getElementById('buttext').style.fontFamily = theface;
 	updateStyles();
 }
 
@@ -1032,6 +1298,7 @@ function previewFontweight() {
 	re=cssoption.replace(/(.*)/, "\$1");
 	thenewstyle=thenewstyle.replace(re, newcssoption);
 	document.allstyles.stylelink.value = thenewstyle;
+	if(cssoption.match(/\\.buttontext/)) document.getElementById('buttext').style.fontWeight = thefontweight;
 	updateStyles();
 }
 
@@ -1054,6 +1321,7 @@ function previewFontstyle() {
 	re=cssoption.replace(/(.*)/, "\$1");
 	thenewstyle=thenewstyle.replace(re, newcssoption);
 	document.allstyles.stylelink.value = thenewstyle;
+	if(cssoption.match(/\\.buttontext/)) document.getElementById('buttext').style.fontStyle = thefontstyle;
 	updateStyles();
 }
 
@@ -1231,7 +1499,7 @@ function setElement() {
 	manSelect();
 }
 
-initStyles();
+updateStyles();
 setElement();
 
 // Palette
@@ -1305,33 +1573,37 @@ sub ModifyCSS2 {
 
 	} elsif ($FORM{'button'} == 2) {
 		$style_name = $FORM{'savecssas'};
-		if ($style_name eq "default") { &admin_fatal_error("no_delete_default"); }
-		if ($style_name !~ m^\A[0-9a-zA-Z_\.\#\%\-\:\+\?\$\&\~\.\,\@/]+\Z^ || $style_name eq "") { &admin_fatal_error("invalid_template"); }
+		if ($style_name eq "default") {
+			require "$admindir/Menudef.pl";
+			&SetMenu;
+			#&fatal_error("no_delete_default");
+		}
+		if ($style_name !~ m^\A[0-9a-zA-Z_\.\#\%\-\:\+\?\$\&\~\.\,\@/]+\Z^ || $style_name eq "") { &fatal_error("invalid_template"); }
 		$style_cnt = $FORM{'stylelink'};
 		&FromHTML($style_cnt);
-		$style_cnt =~ s~(\*\/)~$1\n\n~g;
-		$style_cnt =~ s~(\/\*)~\n$1~g;
+		$style_cnt =~ s~(\*\/)~$1\n~g;
 		$style_cnt =~ s~(\{)~$1\n~g;
 		$style_cnt =~ s~(\})~$1\n~g;
 		$style_cnt =~ s~(\;)~$1\n~g;
 		@style_arr = split(/\n/, $style_cnt);
 
-		fopen(TMPCSS, ">$forumstylesdir/$style_name.css") || &admin_fatal_error("cannot_open","$forumstylesdir/$style_name.css", 1);
+		my @temp;
 		foreach $style_sgl (@style_arr) {
 			$style_sgl =~ s~\A\s+?~~g;
-			if($style_sgl =~ m~\;+\Z~) { $style_sgl = qq~\t$style_sgl~; }
+			if ($style_sgl =~ m~\;+\Z~) { $style_sgl = qq~\t$style_sgl~; }
 			$style_sgl =~ s/$forumstylesurl/\./g;
-			print TMPCSS "$style_sgl\n";
+			$style_sgl =~ s/$yyhtml_root/\.\.\/\.\./g;
+			push(@temp, "$style_sgl\n");
 		}
-		fclose(TMPCSS);
+		&write_DBorFILE(0,'',$forumstylesdir,$style_name,'css',@temp);
 
 		$yySetLocation = qq~$adminurl?action=modcss;cssfile=$style_name.css~;
 		&redirectexit;
 
 	} elsif ($FORM{'button'} == 3) {
 		$style_name = $FORM{'cssfile'};
-		if ($style_name eq "default.css") { &admin_fatal_error("no_delete_default"); }
-		unlink "$forumstylesdir/$style_name";
+		if ($style_name eq "default.css") { &fatal_error("no_delete_default"); }
+		&delete_DBorFILE("$forumstylesdir/$style_name");
 		$yySetLocation = qq~$adminurl?action=modcss;cssfile=default.css~;
 		&redirectexit;
 	}
@@ -1401,13 +1673,11 @@ sub ModifySkin {
 		}
 	}
 
-	fopen(CSS, "$forumstylesdir/$cssfile") or &admin_fatal_error("cannot_open","$forumstylesdir/$cssfile");
-	while ($line = <CSS>) {
+	foreach $line (&read_DBorFILE(0,'',$forumstylesdir,split(/\./, $cssfile))) {
 		$line =~ s~[\r\n]~~g;
 		&FromHTML($line);
 		$fullcss .= qq~$line\n~;
 	}
-	fclose(CSS);
 
 	opendir(TMPLDIR, "$templatesdir");
 	@temptemplates = readdir(TMPLDIR);
@@ -1421,9 +1691,11 @@ sub ModifySkin {
 		}
 	}
 
-	if ($UseMenuType == 0) { $menutype0 = ' selected="selected" ';  }
+	if    ($UseMenuType == 0) { $menutype0 = ' selected="selected" ';  }
 	elsif ($UseMenuType == 1) { $menutype1 = ' selected="selected" '; }
 	elsif ($UseMenuType == 2) { $menutype2 = ' selected="selected" '; }
+	$fullcss =~ s/\s{2,}/ /g;
+
 	require "$vardir/Menu$UseMenuType.def";
 
 	$boardtemplates   = "";
@@ -1465,12 +1737,10 @@ sub ModifySkin {
 		}
 	}
 
-	fopen(TMPL, "$templatesdir/$viewhead/$viewhead.html");
-	while ($line = <TMPL>) {
+	foreach $line (&read_DBorFILE(0,'',"$templatesdir/$viewhead",$viewhead,'html')) {
 		$line =~ s~[\r\n]~~g;
 		$fulltemplate .= qq~$line\n~;
 	}
-	fclose(TMPL);
 
 	$tabsep = qq~<img src="$imagesdir/tabsep211.png" border="0" alt="" style="float: left; vertical-align: middle;" />~;
 	$tabfill = qq~<img src="$imagesdir/tabfill.gif" border="0" alt="" style="vertical-align: middle;" />~;
@@ -1497,8 +1767,7 @@ sub ModifySkin {
 	my $tempsearchbox = qq~<input type="text" name="search" size="16" style="font-size: 11px; vertical-align: middle;" />~;
 	$tempsearchbox .= qq~<img src="$imagesdir/search.gif" alt="" style="border: 0; background-color: transparent; margin-right: 5px; vertical-align: middle;" />~;
 
-	$templatejump = 1;
-	$tempforumjump = &jumpto;
+	$tempforumjump = &jumpto(1);
 
 	$fulltemplate =~ s/({|<)yabb charset(}|>)/$yycharset/g;
 	$fulltemplate =~ s/({|<)yabb title(}|>)/$temptitle/g;
@@ -1686,8 +1955,8 @@ sub ModifySkin2 {
 
 	} elsif ($FORM{'button'} == 2) {
 		$template_name = $FORM{'saveas'};
-		if ($template_name eq "default") { &admin_fatal_error("no_delete_default"); }
-		if ($template_name !~ m^\A[0-9a-zA-Z_\ \.\#\%\-\:\+\?\$\&\~\.\,\@/]+\Z^ || $template_name eq "") { &admin_fatal_error("invalid_template"); }
+		if ($template_name eq "default") { &fatal_error("no_delete_default"); }
+		if ($template_name !~ m^\A[0-9a-zA-Z_\ \.\#\%\-\:\+\?\$\&\~\.\,\@/]+\Z^ || $template_name eq "") { &fatal_error("invalid_template"); }
 		($template_css, undef, undef) = split(/\./, $FORM{'cssfile'});
 		$template_images = $FORM{'imgfolder'};
 		($template_head, undef) = split(/\./, $FORM{'headfile'});
@@ -1703,8 +1972,8 @@ sub ModifySkin2 {
 
 	} elsif ($FORM{'button'} == 3) {
 		$template_name = $FORM{'templateset'};
-		if ($template_name eq "default")       { &admin_fatal_error("no_delete_default"); }
-		if ($template_name eq "Forum default") { &admin_fatal_error("no_delete_default"); }
+		if ($template_name eq "default")       { &fatal_error("no_delete_default"); }
+		if ($template_name eq "Forum default") { &fatal_error("no_delete_default"); }
 		&UpdateTemplates($template_name, "delete");
 		$yySetLocation = qq~$adminurl?action=modskin~;
 	} else {
@@ -1725,7 +1994,7 @@ sub formatTempname {
 }
 
 sub TmpImgLoc {
-	if (!-e "$_[2]/$_[0]") { $thisimgloc = qq~img src="$forumstylesurl/default/$_[0]"~; }
+	if (!&checkfor_DBorFILE("$_[2]/$_[0]")) { $thisimgloc = qq~img src="$forumstylesurl/default/$_[0]"~; }
 	else { $thisimgloc = qq~img src="$_[1]/$_[0]"~; }
 	$thisimgloc;
 }
@@ -1736,10 +2005,8 @@ sub BoardTempl {
 	$imagesdir = qq~$_[1]~;
 	require "$templatesdir/$_[0]/BoardIndex.template";
 
-	if (-e ("$vardir/mostlog.txt")) {
-		fopen(MOSTUSERS, "$vardir/mostlog.txt");
-		@mostentries = <MOSTUSERS>;
-		fclose(MOSTUSERS);
+	if (&checkfor_DBorFILE("$vardir/mostlog.txt")) {
+		@mostentries = &read_DBorFILE(0,'',$vardir,'mostlog','txt');
 		($mostmemb,  $datememb) = split(/\|/, $mostentries[0]);
 		($mostguest, $dateguest) = split(/\|/, $mostentries[1]);
 		($mostusers, $dateusers) = split(/\|/, $mostentries[2]);
@@ -1996,19 +2263,6 @@ sub DisplayTempl {
 	$imagesdir = $_[1];
 	require "$templatesdir/$_[0]/Display.template";
 	($title, $stars, $starpic, $color, $noshow, $viewperms, $topicperms, $replyperms, $pollperms, $attachperms) = split(/\|/, $Group{"Administrator"});
-	if ($UseMenuType == 0) {
-		$yimimg = qq~$menusep<img src="$_[1]/yim.gif" alt="" border="0" />~;
-		$aimimg = qq~$menusep<img src="$_[1]/aim.gif" alt="" border="0" />~;
-		$msnimg = qq~$menusep<img src="$_[1]/msn.gif" alt="" border="0" />~;
-	} elsif ($UseMenuType == 1) {
-		$yimimg = qq~$menusep<span class="imgwindowbg">YIM</span>~;
-		$aimimg = qq~$menusep<span class="imgwindowbg">AIM</span>~;
-		$msnimg = qq~$menusep<span class="imgwindowbg">MSN</span>~;
-	} else {
-		$yimimg = qq~$menusep<img src="$yyhtml_root/Buttons/$language/yim.png" alt="" border="0" />~;
-		$aimimg = qq~$menusep<img src="$yyhtml_root/Buttons/$language/aim.png" alt="" border="0" />~;
-		$msnimg = qq~$menusep<img src="$yyhtml_root/Buttons/$language/msn.png" alt="" border="0" />~;
-	}
 	my $template_home = qq~<span class="nav">$mbname</span>~;
 	my $tempcatnm = $templ_txt{'72'};
 	my $tempboardnm = $templ_txt{'73'};
@@ -2078,10 +2332,10 @@ sub DisplayTempl {
 		$contactblock =~ s/({|<)yabb profile(}|>)//g;
 		$contactblock =~ s/({|<)yabb pm(}|>)/$template_pm/g;
 		$contactblock =~ s/({|<)yabb www(}|>)//g;
-		$contactblock =~ s/({|<)yabb aim(}|>)/$aimimg/g;
-		$contactblock =~ s/({|<)yabb yim(}|>)/$yimimg/g;
+		$contactblock =~ s/({|<)yabb aim(}|>)/$menusep$img{'aim'}/g;
+		$contactblock =~ s/({|<)yabb yim(}|>)/$menusep$img{'yim'}/g;
 		$contactblock =~ s/({|<)yabb icq(}|>)//g;
-		$contactblock =~ s/({|<)yabb msn(}|>)/$msnimg/g;
+		$contactblock =~ s/({|<)yabb msn(}|>)/$menusep$img{'msn'}/g;
 		$contactblock =~ s/({|<)yabb gtalk(}|>)//g;
 		$contactblock =~ s/({|<)yabb skype(}|>)//g;
 		$contactblock =~ s/({|<)yabb myspace(}|>)/$myspacead/g;
@@ -2173,11 +2427,11 @@ sub MyCenterTempl {
 	my $tmpimagesdir = $imagesdir;
 	$imagesdir = $_[1];
 	require "$templatesdir/$_[0]/MyCenter.template";
-	
+
 	$tabsep = qq~<img src="$imagesdir/tabsep211.png" border="0" alt="" style="float: left; vertical-align: middle;" />~;
 	$tabfill = qq~<img src="$imagesdir/tabfill.gif" border="0" alt="" style="vertical-align: middle;" />~;
 
-	if ($PM_level == 1 || ($PM_level == 2 && ($iamadmin || $iamgmod || $iammod)) || ($PM_level == 3 && ($iamadmin || $iamgmod))   )	{
+	if ($PM_level == 1 || ($PM_level == 2 && $staff) || ($PM_level == 3 && ($iamadmin || $iamgmod))) {
 		$yymcmenu .= qq~<span title="$mc_menus{'messages'}" class="selected">$tabsep$tabfill$mc_menus{'messages'}$tabfill</span>
 		~;
 	}
@@ -2197,7 +2451,7 @@ sub MyCenterTempl {
 	$mycenter_template =~ s/{yabb mccontent}/$MCContent/g;
 	$mycenter_template =~ s/{yabb mctitle}/$mctitle/g;
 	$mycenter_template =~ s/{yabb selecthtml}/$selecthtml/g;
-	
+
 	$mycenter_template =~ s~img src\=\"$tmpimagesdir\/(.+?)\"~&TmpImgLoc($1, $_[1], $_[2])~eisg;
 	$mycenter_template =~ s~img src\=\"$_[1]\/(.+?)\"~&TmpImgLoc($1, $_[1], $_[2])~eisg;
 	$imagesdir = $tmpimagesdir;
@@ -2236,7 +2490,7 @@ sub UpdateTemplates {
 		if ($template_menutype) { $templateset{"$testname"} .= "|$tempelement"; }
 		else { $templateset{"$testname"} .= "|"; }
 
-		unlink "$templatesdir/$tempelement/$tempelement.cfg";
+		&delete_DBorFILE("$templatesdir/$tempelement/$tempelement.cfg");
 		return;
 
 	} elsif ($tempjob eq "save") {
