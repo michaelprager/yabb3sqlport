@@ -1150,25 +1150,6 @@ if (confirm('$boardindex_imtxt{'11'} ${$username}{'PMstorenum'} $boardindex_imtx
 	}
 }
 
-sub GetBotlist {
-	if (-e "$vardir/bots.hosts") {
-		fopen(BOTS, "$vardir/bots.hosts") || &fatal_error("cannot_open","$vardir/bots.hosts", 1);
-		my @botlist = <BOTS>;
-		fclose (BOTS);
-		chomp(@botlist);
-		foreach (@botlist) {
-			$_ =~ /(.*?)\|(.*)/;
-			push(@all_bots, $1);
-			$bot_name{$1} = $2;
-		}
-	}
-}
-
-sub Is_Bot {
-	my $bothost = $_[0];
-	foreach (@all_bots){ return $bot_name{$_} if $bothost =~ /$_/i; }
-}
-
 sub Collapse_Write {
 	my @userhide;
 
