@@ -517,7 +517,7 @@ sub Display {
 		($msub, $mname, $memail, $mdate, $musername, $micon, $mreplyno, $mip, $postmessage, $ns, $mlm, $mlmb, $mfn) = split(/[\|]/, $_);
 
 		# If the user isn't a guest, load their info.
-		if ($musername ne 'Guest' && !$yyUDLoaded{$musername} && -e ("$memberdir/$musername.vars")) {
+		if ($musername ne 'Guest' && !$yyUDLoaded{$musername} && &checkfor_DBorFILE("$memberdir/$musername.vars")) {
 			my $tmpns = $ns;
 			$ns = "";
 			&LoadUserDisplay($musername);
