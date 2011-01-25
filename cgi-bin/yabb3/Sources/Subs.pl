@@ -2135,7 +2135,7 @@ sub CheckUserPM_Level {
 			if ($db_table{$folder.$ext}[0] || $db_table{$folder.$name.$ext}[0]) {
 				my $DBfile = $db_table{$folder.$ext}[0] ? $folder.$ext : $folder.$name.$ext;
 				unless ($check_sth{$DBfile.$db_table{$DBfile}[0]}) {
-					$check_sth{$DBfile.$db_table{$DBfile}[0]} = &mysql_process(0,'prepare',"SELECT `" . join('`,`', @{$db_table{$DBfile}[2]}) . "` FROM `$db_table{$DBfile}[0]` WHERE `$db_table{$DBfile}[1]`=?");
+					$check_sth{$DBfile.$db_table{$DBfile}[0]} = &mysql_process(0,'prepare',"SELECT `" . join('`, `', @{$db_table{$DBfile}[2]}) . "` FROM `$db_table{$DBfile}[0]` WHERE `$db_table{$DBfile}[1]`=?");
 				}
 				&mysql_process($check_sth{$DBfile.$db_table{$DBfile}[0]},'execute',$name);
 				return (&mysql_process($check_sth{$DBfile.$db_table{$DBfile}[0]},'fetchrow_array',0,1) ? 1 : 0);
@@ -2306,7 +2306,7 @@ sub CheckUserPM_Level {
 		if ($DBfile eq $datadir."txt") { # for Messages/[threadnumber].txt
 			if (!$sth_r{$DBfile.$db_table{$DBfile}[0]}) {
 				$sth_r{$DBfile.$db_table{$DBfile}[0]} = 
-					&mysql_process(0,'prepare',qq~SELECT CONCAT_WS('|', `~ . join('`,`', @{$db_table{$DBfile}[2]}) . qq~`) FROM `$db_table{$DBfile}[0]` WHERE `$db_table{$DBfile}[1]`=? ORDER BY `post_number` ASC~);
+					&mysql_process(0,'prepare',qq~SELECT CONCAT_WS('|', `~ . join('`, `', @{$db_table{$DBfile}[2]}) . qq~`) FROM `$db_table{$DBfile}[0]` WHERE `$db_table{$DBfile}[1]`=? ORDER BY `post_number` ASC~);
 			}
 			&mysql_process($sth_r{$DBfile.$db_table{$DBfile}[0]},'execute',$name);
 			return map { $$_[0] } @{&mysql_process($sth_r{$DBfile.$db_table{$DBfile}[0]},'fetchall_arrayref',0,1)};
@@ -2314,7 +2314,7 @@ sub CheckUserPM_Level {
 		} else { # for Messages/[threadnumber].[ctb|mail|poll|polled]
 			if (!$sth_r{$DBfile.$db_table{$DBfile}[0]}) {
 				$sth_r{$DBfile.$db_table{$DBfile}[0]} = 
-					&mysql_process(0,'prepare',qq~SELECT `~ . join('`,`', @{$db_table{$DBfile}[2]}) . qq~` FROM `$db_table{$DBfile}[0]` WHERE `$db_table{$DBfile}[1]`=?~);
+					&mysql_process(0,'prepare',qq~SELECT `~ . join('`, `', @{$db_table{$DBfile}[2]}) . qq~` FROM `$db_table{$DBfile}[0]` WHERE `$db_table{$DBfile}[1]`=?~);
 			}
 			&mysql_process($sth_r{$DBfile.$db_table{$DBfile}[0]},'execute',$name);
 			if (@{$db_table{$DBfile}[2]} > 1) {
@@ -2333,7 +2333,7 @@ sub CheckUserPM_Level {
 		if (!$sth_r{$DBfile.$db_table{$DBfile}[0]}) {
 			if (@{$db_table{$DBfile}[2]} > 1) {
 				$sth_r{$DBfile.$db_table{$DBfile}[0]} = 
-					&mysql_process(0,'prepare',"SELECT $db_vars_order FROM `" .
+					&mysql_process(0,'prepare',"SELECT ".join(', ', split(/,/,$db_vars_order))." FROM `" .
 						($db_user_vars_table ? "$db_user_vars_table`,`$db_prefix"."vars" : "$db_prefix"."vars") .
 						"` WHERE " .
 						($db_user_vars_table ? qq~`$db_user_vars_key`=`yabbusername` AND ~ : "") . qq~`yabbusername`=?~);
@@ -2356,7 +2356,7 @@ sub CheckUserPM_Level {
 		if ($DBfile eq $vardir."log"."txt") { # only for Variables/log.txt
 			&mysql_process(0,'do',"LOCK TABLES `$db_prefix"."log` WRITE" . ($db_user_log_table ? ",`$db_user_log_table` WRITE" : "")) if $LOCKHANDLE;
 
-			return map { $$_[0] } @{&mysql_process(0,'selectall_arrayref',qq~SELECT CONCAT_WS('|', ~ . join(',', split(/,/, $db_log_order)) . qq~) FROM `$db_prefix~.qq~log`~ . ($db_user_log_table ? ",`$db_user_log_table` WHERE `yabbuserlogname`=`$db_user_log_key`" : "") . " ORDER BY $db_log_date DESC")};
+			return map { $$_[0] } @{&mysql_process(0,'selectall_arrayref',qq~SELECT CONCAT_WS('|', ~ . join(', ', split(/,/, $db_log_order)) . qq~) FROM `$db_prefix~.qq~log`~ . ($db_user_log_table ? ",`$db_user_log_table` WHERE `yabbuserlogname`=`$db_user_log_key`" : "") . " ORDER BY $db_log_date DESC")};
 
 		} else {
 			&mysql_process(0,'do',"LOCK TABLES `$db_table{$DBfile}[0]` WRITE") if $LOCKHANDLE;
@@ -2382,7 +2382,7 @@ sub CheckUserPM_Level {
 			} else { # for Messages/[threadnumber].[ctb|mail|poll|polled]
 				if (!$sth_w{$DBfile.$db_table{$DBfile}[0]}) {
 					$sth_w{$DBfile.$db_table{$DBfile}[0]} = 
-						&mysql_process(0,'prepare',qq~UPDATE `$db_table{$DBfile}[0]` SET ~ . join(",", map { "`$_`=?" } @{$db_table{$DBfile}[2]}) . qq~ WHERE `$db_table{$DBfile}[1]`=?~);
+						&mysql_process(0,'prepare',qq~UPDATE `$db_table{$DBfile}[0]` SET ~ . join(", ", map { "`$_`=?" } @{$db_table{$DBfile}[2]}) . qq~ WHERE `$db_table{$DBfile}[1]`=?~);
 				}
 				if (@{$db_table{$DBfile}[2]} > 1) {
 					&mysql_process($sth_w{$DBfile.$db_table{$DBfile}[0]},'execute',(@$data,$name));
@@ -2395,7 +2395,7 @@ sub CheckUserPM_Level {
 			if ($DBfile eq $datadir."txt") { # for Messages/[threadnumber].txt
 				if (!$sth_w{$DBfile.$db_table{$DBfile}[0]}) {
 					$sth_w{$DBfile.$db_table{$DBfile}[0]} = 
-						&mysql_process(0,'prepare',qq~INSERT INTO `$db_table{$DBfile}[0]` (`$db_table{$DBfile}[1]`,`~ . join('`,`', @{$db_table{$DBfile}[2]}) . qq~`) VALUES (?,~ . join(',', map { '?' } @{$db_table{$DBfile}[2]}) . qq~)~);
+						&mysql_process(0,'prepare',qq~INSERT INTO `$db_table{$DBfile}[0]` (`$db_table{$DBfile}[1]`,`~ . join('`, `', @{$db_table{$DBfile}[2]}) . qq~`) VALUES (?,~ . join(', ', map { '?' } @{$db_table{$DBfile}[2]}) . qq~)~);
 				}
 				&mysql_process(0,'do',qq~DELETE FROM `$db_table{$DBfile}[0]` WHERE `$db_table{$DBfile}[1]`="$name"~); # must delete all old entries first because there is no update!
 				foreach (@$data) {
@@ -2404,7 +2404,7 @@ sub CheckUserPM_Level {
 
 			} else { # for Messages/[threadnumber].ctb; mail,poll,polled are empty here
 				&mysql_process(0,'do',qq~DELETE FROM `$db_table{$DBfile}[0]` WHERE `$db_table{$DBfile}[1]`="$name"~); # delete old entries first to avoid error because of double
-				&mysql_process(0,'do',qq~INSERT INTO `$db_table{$DBfile}[0]` VALUES ("$name",~ . join(',', (map { $vari{"dbh"}->quote($_); } @$data)) . qq~,"","","")~);
+				&mysql_process(0,'do',qq~INSERT INTO `$db_table{$DBfile}[0]` VALUES ("$name",~ . join(', ', (map { $vari{"dbh"}->quote($_); } @$data)) . qq~,"","","")~);
 			}
 		}
 	}
@@ -2417,8 +2417,8 @@ sub CheckUserPM_Level {
 				&mysql_process(0,'do',qq~UPDATE `$db_table{$DBfile}[0]` SET `${$db_table{$DBfile}[2]}[0]`=~ . $vari{"dbh"}->quote(join('', map { $_ } @$data)) . qq~ WHERE `$db_table{$DBfile}[1]`="$name"~);
 
 			} else { # update all .vars colums
-				&mysql_process(0,'do',"UPDATE `$db_user_vars_table` SET " . join(',', map { qq~`$_`=~ . $vari{"dbh"}->quote(${$uid.$name}{ $db_user_vars_col{$_} }); } keys %db_user_vars_col) . qq~ WHERE `$db_user_vars_key`="$name"~) if $db_user_vars_table;
-				&mysql_process(0,'do',"UPDATE `$db_prefix"."vars` SET " . join(',', map { qq~`$_`=~ . $vari{"dbh"}->quote(${$uid.$name}{ $_ }) } keys %db_vars_col) . qq~ WHERE `yabbusername`="$name"~);
+				&mysql_process(0,'do',"UPDATE `$db_user_vars_table` SET " . join(', ', map { qq~`$_`=~ . $vari{"dbh"}->quote(${$uid.$name}{ $db_user_vars_col{$_} }); } keys %db_user_vars_col) . qq~ WHERE `$db_user_vars_key`="$name"~) if $db_user_vars_table;
+				&mysql_process(0,'do',"UPDATE `$db_prefix"."vars` SET " . join(', ', map { qq~`$_`=~ . $vari{"dbh"}->quote(${$uid.$name}{ $_ }) } keys %db_vars_col) . qq~ WHERE `yabbusername`="$name"~);
 			}
 
 		} else { # INSERT table(s)
@@ -2426,11 +2426,11 @@ sub CheckUserPM_Level {
 				# INSERT new values into `$db_user_vars_table` if no key with same name exists
 				if ($db_user_vars_table && !&mysql_process(0,'selectrow_array',qq~SELECT `$db_user_vars_key` FROM `$db_user_vars_table` WHERE `$db_user_vars_key`="$name"~)) {
 					@keys = keys %db_user_vars_col;
-					&mysql_process(0,'do',"INSERT INTO `$db_user_vars_table` (`$db_user_vars_key`,`" . join('`,`', @keys) . qq~`) VALUES ("$name",~ . join(',', map { $vari{"dbh"}->quote(${$uid.$name}{ $db_user_vars_col{$_} }) } @keys) . ')');
+					&mysql_process(0,'do',"INSERT INTO `$db_user_vars_table` (`$db_user_vars_key`,`" . join('`, `', @keys) . qq~`) VALUES ("$name",~ . join(', ', map { $vari{"dbh"}->quote(${$uid.$name}{ $db_user_vars_col{$_} }) } @keys) . ')');
 				}
 				# INSERT new values into `$db_prefix"."vars`
 				@keys = keys %db_vars_col;
-				&mysql_process(0,'do',"INSERT INTO `$db_prefix"."vars` (`yabbusername`,`" . join('`,`', @keys) . qq~`) VALUES ("$name",~ . join(',', map { $vari{"dbh"}->quote(${$uid.$name}{ $_ }) } @keys) . ')');
+				&mysql_process(0,'do',"INSERT INTO `$db_prefix"."vars` (`yabbusername`,`" . join('`, `', @keys) . qq~`) VALUES ("$name",~ . join(', ', map { $vari{"dbh"}->quote(${$uid.$name}{ $_ }) } @keys) . ')');
 		}
 	}
 
@@ -2439,8 +2439,8 @@ sub CheckUserPM_Level {
 
 		if ($DBfile eq $vardir."log"."txt") { # only for Variables/log.txt
 			my @temp_array = split(/\|/, $$data[0]);
-			&mysql_process(0,'do',qq~INSERT INTO `$db_user_log_table` (`$db_user_log_key`,`$db_user_log_col`) VALUES ("$name","~ . join(',', map { $vari{"dbh"}->quote($temp_array[$_]) } @db_user_log_array_order) . qq~")~) if $db_user_log_table;
-			&mysql_process(0,'do',qq~INSERT INTO `$db_prefix~.qq~log` (`$db_log_col`) VALUES (~ . join(',', map { $vari{"dbh"}->quote($temp_array[$_]) } @db_log_array_order) . qq~)~);
+			&mysql_process(0,'do',qq~INSERT INTO `$db_user_log_table` (`$db_user_log_key`,`$db_user_log_col`) VALUES ("$name","~ . join(', ', map { $vari{"dbh"}->quote($temp_array[$_]) } @db_user_log_array_order) . qq~")~) if $db_user_log_table;
+			&mysql_process(0,'do',qq~INSERT INTO `$db_prefix~.qq~log` (`$db_log_col`) VALUES (~ . join(', ', map { $vari{"dbh"}->quote($temp_array[$_]) } @db_log_array_order) . qq~)~);
 
 		} else {
 			# to be done
@@ -2736,7 +2736,7 @@ sub CheckUserPM_Level {
 			}
 		}
 
-		&db_error(qq*\$method = '$method',<br>\@statement = ('* . join("','", @statement) . qq*'),<br>DBI::errstr = '* . $vari{"dbh"}->errstr . "'<br>prepare = ".$vari{"dbh"}->{Statement});
+		&db_error(qq*\$method = '$method',<br>\@statement = ('* . join("', '", @statement) . qq*'),<br>DBI::errstr = '* . $vari{"dbh"}->errstr . "'<br>prepare = ".$vari{"dbh"}->{Statement});
 	}
 	# Do the SQL-DB management END
 
