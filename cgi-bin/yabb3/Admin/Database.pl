@@ -286,7 +286,7 @@ sub SaveDatabase {
 	%db_user_vars_col = ();
 	%db_vars_col = ();
 
-	my $buildnew_vars = qq~CREATE TABLE `$FORM{'db_prefix'}vars` (\n`yabbusername` char(20) default NULL,\n~;
+	my $buildnew_vars = qq~CREATE TABLE `$FORM{'db_prefix'}vars` (\n`yabbusername` char(20) binary default NULL,\n~; # binary because we want case sensitive primary key (there might be duplicate legacy usernames if this would be case insensitive)
 	foreach (@db_vars_tabs_order) {
 		&fatal_error('', $db_txt{'wrongchar'} . "'$_': $1") if $own_vars_table && $FORM{"col_$_"} =~ /(\W)/;
 
