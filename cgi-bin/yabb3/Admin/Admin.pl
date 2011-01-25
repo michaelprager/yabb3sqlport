@@ -1461,12 +1461,6 @@ sub AddMember2 {
 
 	&fatal_error("id_taken") if &checkfor_DBorFILE("$memberdir/$member{'username'}.vars");
 
-	if ($send_welcomeim == 1) {
-		# new format msg file:
-		# messageid|(from)user|(touser(s))|(ccuser(s))|(bccuser(s))|subject|date|message|(parentmid)|reply#|ip|messagestatus|flags|storefolder|attachment
-		$messageid = $^T . $$;
-		&write_DBorFILE(0,'',$memberdir,$member{'regusername'},'msg',"$messageid|$sendname|$member{'regusername'}|||$imsubject|$date|$imtext|$messageid|0|$ENV{'REMOTE_ADDR'}|s|u||\n");
-	}
 	$encryptopass = &encode_password($member{'passwrd1'});
 	$reguser      = $member{'regusername'};
 	$registerdate = timetostring($date);
@@ -1475,6 +1469,7 @@ sub AddMember2 {
 	else { $new_template = "default"; }
 
 	&ToHTML($member{'regrealname'});
+	&ToChars($member{'regrealname'});
 
 	${$uid.$reguser}{'password'}      = $encryptopass;
 	${$uid.$reguser}{'realname'}      = $member{'regrealname'};
@@ -1492,9 +1487,36 @@ sub AddMember2 {
 	${$uid.$reguser}{'template'}      = $new_template;
 	${$uid.$reguser}{'language'}      = $member{'userlang'};
 	${$uid.$reguser}{'pageindex'}     = qq~1|1|1|0~;
+	# the following values must no be NULL when using SQL backend, so we set default values here
+	${$uid.$reguser}{'im_popup'} = 0;
+	${$uid.$reguser}{'hide_smilies_row'} = 0;
+	${$uid.$reguser}{'hide_user_text'} = 0;
+	${$uid.$reguser}{'im_imspop'} = 0;
+	${$uid.$reguser}{'hide_signat'} = 0;
+	${$uid.$reguser}{'stealth'} = 0;
+	${$uid.$reguser}{'dynamic_clock'} = 0;
+	${$uid.$reguser}{'pmmessprev'} = 0;
+	${$uid.$reguser}{'pmviewMess'} = 0;
+	${$uid.$reguser}{'pmactprev'} = 0;
+	${$uid.$reguser}{'notify_me'} = 0;
+	${$uid.$reguser}{'reversetopic'} = 0;
+	${$uid.$reguser}{'onlinealert'} = 0;
+	${$uid.$reguser}{'spamcount'} = 0;
+	${$uid.$reguser}{'hide_avatars'} = 0;
+	${$uid.$reguser}{'hide_attach_img'} = 0;
+	${$uid.$reguser}{'numberformat'} = 0;
 
-	&UserAccount($reguser, "register") & MemberIndex("add", $reguser) & FormatUserName($reguser);
+	&UserAccount($reguser, "register");
+	${$uid.$reguser}{'mysql'} = 1 if $use_MySQL;
+	&MemberIndex("add", $reguser);
+	&FormatUserName($reguser);
 
+	if ($send_welcomeim == 1) {
+		# new format msg file:
+		# messageid|(from)user|(touser(s))|(ccuser(s))|(bccuser(s))|subject|date|message|(parentmid)|reply#|ip|messagestatus|flags|storefolder|attachment
+		$messageid = $^T . $$;
+		&write_DBorFILE(1,'',$memberdir,$member{'regusername'},'msg',"$messageid|$sendname|$member{'regusername'}|||$imsubject|$date|$imtext|$messageid|0|$ENV{'REMOTE_ADDR'}|s|u||\n");
+	}
 	if ($emailpassword) {
 		my $templanguage = $language;
 		$language = $member{'userlang'};
