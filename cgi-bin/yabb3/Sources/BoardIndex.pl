@@ -577,9 +577,8 @@ sub BoardIndex {
 						$lastposter = qq~<a href="$scripturl?action=viewprofile;username=$useraccount{$lastposter}" rel="nofollow">${$uid.$lastposter}{'realname'}</a>~;
 					} else {
 						# Need to load thread to see lastposters DISPLAYname if is Ex-Member
-						fopen(EXMEMBERTHREAD, "$datadir/${$uid.$curboard}{'lastpostid'}.txt") || &fatal_error('cannot_open', "$datadir/${$uid.$curboard}{'lastpostid'}.txt", 1);
-						my @x = <EXMEMBERTHREAD>;
-						fclose(EXMEMBERTHREAD);
+						my @x = &read_DBorFILE(0,'',$datadir,${$uid.$curboard}{'lastpostid'},'txt');
+
 						$lastposter = (split(/\|/, $x[$#x], 3))[1] . " - $boardindex_txt{'470a'}";
 					}
 				}
