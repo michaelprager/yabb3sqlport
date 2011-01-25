@@ -2724,11 +2724,12 @@ sub CheckUserPM_Level {
 		} else {
 			@ary = $statement[0] ? $vari{"dbh"}->$method(@statement) : $vari{"dbh"}->$method;
 		}
+		if ($debug) {
+			my ($file, $line, $sub) = &get_caller;
+			my $prepare = ($method ne 'prepare' && $method ne 'do' && $method ne 'selectall_arrayref') ? "prepare was: " . $vari{"dbh"}->{Statement} . "\n" : "";
+			$openfiles .= qq~(~ . sprintf("%.4f", (time - $START_TIME)) . qq~)\n$method(@statement)\n$prepare\[$file, $line, $sub]\n~;
+		}
 		unless ($vari{"dbh"}->errstr || (!$ary[0] and $method eq 'do')) {
-			if ($debug) {
-				my ($file, $line, $sub) = &get_caller;
-				$openfiles .= qq~(~ . sprintf("%.4f", (time - $START_TIME)) . qq~)\n$method(@statement)\n[$file, $line, $sub]\n~;
-			}
 			if (!$ary[0] and $method =~ /ref$/) {
 				return ($method =~ /hash/ ? \%hash : \@ary);
 			} else {
