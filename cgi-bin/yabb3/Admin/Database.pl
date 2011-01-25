@@ -877,6 +877,7 @@ sub ReturnFileDB {
 			foreach (qw(msg ims outbox imstore imdraft log rlog)) {
 				$use_MySQL = 1;
 				my @temp = &read_DBorFILE(0,'',$memberdir,$member,$_);
+				next if !@temp;
 				$use_MySQL = 0;
 				&write_DBorFILE(0,'',$memberdir,$member,$_,@temp);
 			}
