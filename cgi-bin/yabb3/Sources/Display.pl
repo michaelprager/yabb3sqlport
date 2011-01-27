@@ -75,6 +75,7 @@ sub Display {
 		$vircurrentboard = $INFO{'virboard'};
 		$vircurcat = ${$uid.$vircurrentboard}{'cat'};
 		($vircat, undef) = split(/\|/, $catinfo{$vircurcat});
+		&ToChars($vircat);
 		($virboardname, undef) = split(/\|/, $board{$vircurrentboard},2);
 		&ToChars($virboardname);
 	}
