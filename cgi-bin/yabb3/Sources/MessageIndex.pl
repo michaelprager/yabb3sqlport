@@ -77,19 +77,16 @@ sub MessageIndex {
 		&LoadTools(0,"newthread","createpoll","notify","markboardread");
 	}
 
-	# Load announcements, if they exist. We don't really need announcements everywhere either with ajax.
-	if ($messagelist) {
-		if ($annboard && $annboard ne $currentboard && ${$uid.$currentboard}{'rbin'} != 1) {
-			chomp $annboard;
-			@tmpanns = &read_DBorFILE(0,'',$boardsdir,$annboard,'txt');
-			foreach my $realanns (@tmpanns) {
-				my $threadstatus = (split /\|/, $realanns)[8];
-				if ($threadstatus =~ /h/i && !$staff) { next; }
-				push (@threads, $realanns);
-				$numanns++;
-			}
-			undef @tmpanns;
+	if ($annboard && $annboard ne $currentboard && ${$uid.$currentboard}{'rbin'} != 1) {
+		chomp $annboard;
+		@tmpanns = &read_DBorFILE(0,'',$boardsdir,$annboard,'txt');
+		foreach my $realanns (@tmpanns) {
+			my $threadstatus = (split /\|/, $realanns)[8];
+			if ($threadstatus =~ /h/i && !$staff) { next; }
+			push (@threads, $realanns);
+			$numanns++;
 		}
+		undef @tmpanns;
 	}
 
 	# Determine what category we are in.
