@@ -546,6 +546,15 @@ sub SaveDatabase {
 	$buildnew_message_txt .= qq~`modified_by` char(20) default NULL,\n~;
 	$buildnew_message_txt .= qq~`attachments` varchar(500) default NULL,\n~;
 	$buildnew_message_txt .= qq~PRIMARY KEY (`mess_threadnum`,`post_number`)) TYPE=MyISAM~;
+	
+	
+	# /Boards/*.[txt|mail]
+	my $buildnew_boards;
+	$buildnew_boards = qq~CREATE TABLE IF NOT EXISTS `yabb3_boards` (\n~;
+	$buildnew_boards .= qq~`board` char(20) NOT NULL,\n~;
+	$buildnew_boards .= qq~`txt` text,\n~;
+	$buildnew_boards .= qq~`mail` text,\n~;
+	$buildnew_boards .= qq~PRIMARY KEY (`board`)) TYPE=MyISAM~;
 
 
 	# do the work now
@@ -554,11 +563,12 @@ sub SaveDatabase {
 
 	require DBI;
 	# remove old tables
-	&mysql_process(0,'do',"DROP TABLE IF EXISTS `$FORM{'db_prefix'}vars`, `$FORM{'db_prefix'}log`, `$FORM{'db_prefix'}ctb`, `$FORM{'db_prefix'}messages`");
+	&mysql_process(0,'do',"DROP TABLE IF EXISTS `$FORM{'db_prefix'}vars`, `$FORM{'db_prefix'}log`, `$FORM{'db_prefix'}ctb`, `$FORM{'db_prefix'}messages`, `$FORM{'db_prefix'}boards`");
 
 	# build new tables
 	&mysql_process(0,'do',$buildnew_vars);
 	&mysql_process(0,'do',$buildnew_online);
+	&mysql_process(0,'do',$buildnew_boards);
 	&mysql_process(0,'do',$buildnew_ctb);
 	&mysql_process(0,'do',$buildnew_message_txt);
 
@@ -567,6 +577,8 @@ sub SaveDatabase {
 	&delete_DBorFILE("$memberdir/membercalc.dbconvert");
 	&delete_DBorFILE("$datadir/messrest.dbconvert");
 	&delete_DBorFILE("$datadir/messcalc.dbconvert");
+	&delete_DBorFILE("$boardsdir/boardsrest.dbconvert");
+	&delete_DBorFILE("$boardsdir/boardscalc.dbconvert");
 
 	my $db_user_vars_col = join("", map { qq~'$_' => '$db_user_vars_col{$_}',~; } keys %db_user_vars_col) if %db_user_vars_col;
 	my $db_vars_col = join("", map { qq~'$_' => 1,~; } keys %db_vars_col) if %db_vars_col;
@@ -641,6 +653,7 @@ sub SaveDatabase {
 			</pre><br /><br />
 			<pre>$buildnew_vars</pre><br /><br />
 			<pre>$buildnew_online</pre><br /><br />
+			<pre>$buildnew_boards</pre><br /><br />
 			<pre>$buildnew_ctb</pre><br /><br />
 			<pre>$buildnew_message_txt</pre>
 		</td>
@@ -673,7 +686,7 @@ sub ConvertDatabase {
 	$begin_time = time();
 
 	# convert .vars
-	unless (-e "$datadir/messrest.dbconvert" && -e "$datadir/messrest.dbconvert") {
+	unless (-e "$datadir/messrest.dbconvert" && -e "$datadir/messcalc.dbconvert") {
 		if (-e "$memberdir/memberrest.dbconvert" && -M "$memberdir/memberrest.dbconvert" < 1) {
 			@contents = &read_DBorFILE(0,'',$memberdir,'memberrest','dbconvert');
 
@@ -745,7 +758,7 @@ sub ConvertDatabase {
 	# onlinelog will be build new, don't need conversion
 
 	# convert Messages/....[txt|ctb|mail|poll|polled]
-	#unless (-e "$.../...rest.dbconvert" && -e "$.../...calc.dbconvert") {
+	unless (-e "$boardsdir/boardsrest.dbconvert" && -e "$boardsdir/boardscalc.dbconvert") {
 		if (-e "$datadir/messrest.dbconvert" && -M "$datadir/messrest.dbconvert" < 1) {
 			@contents = &read_DBorFILE(0,'',$datadir,'messrest','dbconvert');
 
@@ -812,13 +825,61 @@ sub ConvertDatabase {
 
 			&AdminTemplate;
 		}
-	#}
+	}
+	
+	# convert boards
+	#unless (-e "$datadir/...rest.dbconvert") {
+		if (-e "$boardsdir/boardsrest.dbconvert" && -M "$boardsdir/boardsrest.dbconvert" < 1) {
+			@contents = &read_DBorFILE(0,'',$boardsdir,'boardsrest','dbconvert');
 
+			($start_time,$sumboards) = &read_DBorFILE(0,'',$boardsdir,'boardscalc','dbconvert');
+			chomp ($start_time, $sumboards);
+		}
+
+		if (!@contents) {
+			# Get the list
+			unless ($mloaded == 1) { require "$boardsdir/forum.master"; }
+			@contents = keys %board;
+			
+			$start_time = $begin_time;
+			$sumboards = @contents;
+			&write_DBorFILE(0,'',$boardsdir,'boardscalc','dbconvert',("$start_time\n$sumboards\n"));
+		}
+
+		# Loop through each -rest- boards
+		my $curboard;
+		while (@contents) {
+			$curboard = pop @contents;
+			$use_MySQL = 1;
+			&write_DBorFILE(0,'',$boardsdir,$curboard,'txt',(''));
+			
+			foreach (qw(txt mail)) {
+				$use_MySQL = 0;
+				my @temp = &read_DBorFILE(1,'',$boardsdir,$curboard,$_);
+				$use_MySQL = 1;
+				&write_DBorFILE(1,'',$boardsdir,$curboard,$_,@temp) if @temp;
+			}
+
+			last if time() > ($begin_time + $max_process_time);
+		}
+		$use_MySQL = 0;
+
+		# If it isn't completely done ...
+		if (@contents) {
+			&write_DBorFILE(0,'',$boardsdir,'boardsrest','dbconvert',@contents);
+
+			&do_info(scalar(@contents),$start_time,$sumboards,'database3','boardstodb');
+
+			&AdminTemplate();
+		}
+	#}
 
 	&delete_DBorFILE("$memberdir/memberrest.dbconvert");
 	&delete_DBorFILE("$memberdir/membercalc.dbconvert");
 	&delete_DBorFILE("$datadir/messrest.dbconvert");
 	&delete_DBorFILE("$datadir/messcalc.dbconvert");
+	&delete_DBorFILE("$boardsdir/boardsrest.dbconvert");
+	&delete_DBorFILE("$boardsdir/boardscalc.dbconvert");
 
 	&automaintenance("off"); # Must be set to off before &SaveSettingsTo(... !
 
@@ -899,62 +960,111 @@ sub ReturnFileDB {
 	# onlinelog will be build new, don't need conversion
 
 	# convert Messages/....[txt|ctb|mail|poll|polled]
-	if (-e "$datadir/ctbrest.dbconvert" && -M "$datadir/ctbrest.dbconvert" < 1) {
-		@contents = &read_DBorFILE(0,'',$datadir,'ctbrest','dbconvert');
+	unless (-e "$boardsdir/boardsrest.dbconvert" && -e "$boardsdir/boardscalc.dbconvert") {
+		if (-e "$datadir/ctbrest.dbconvert" && -M "$datadir/ctbrest.dbconvert" < 1) {
+			@contents = &read_DBorFILE(0,'',$datadir,'ctbrest','dbconvert');
 
-		($start_time,$sumuser) = &read_DBorFILE(0,'',$datadir,'ctbcalc','dbconvert');
-		chomp ($start_time, $sumuser);
-	}
-
-	if (!@contents) {
-		# Get the list
-		@contents = map { "$$_[0]\n"; } @{&mysql_process(0,'selectall_arrayref',"SELECT `threadnum` FROM `$db_prefix"."ctb`")};
-
-		$sumuser = @contents;
-		&write_DBorFILE(0,'',$datadir,'ctbcalc','dbconvert',("$start_time\n$sumuser\n"));
-	}
-
-	# Loop through each -rest- member
-	while (@contents) {
-		$thread = pop @contents;
-		chomp $thread;
-
-		my @temp;
-		foreach (qw(txt mail poll polled)) {
-			$use_MySQL = 1;
-			@temp = &read_DBorFILE(0,'',$datadir,$thread,$_);
-			next if !@temp;
-			$use_MySQL = 0;
-			&write_DBorFILE(0,'',$datadir,$thread,$_,@temp);
+			($start_time,$sumuser) = &read_DBorFILE(0,'',$datadir,'ctbcalc','dbconvert');
+			chomp ($start_time, $sumuser);
 		}
 
+		if (!@contents) {
+			# Get the list
+			@contents = map { "$$_[0]\n"; } @{&mysql_process(0,'selectall_arrayref',"SELECT `threadnum` FROM `$db_prefix"."ctb`")};
+
+			$sumuser = @contents;
+			&write_DBorFILE(0,'',$datadir,'ctbcalc','dbconvert',("$start_time\n$sumuser\n"));
+		}
+
+		# Loop through each -rest- member
+		while (@contents) {
+			$thread = pop @contents;
+			chomp $thread;
+
+			my @temp;
+			foreach (qw(txt mail poll polled)) {
+				$use_MySQL = 1;
+				@temp = &read_DBorFILE(0,'',$datadir,$thread,$_);
+				next if !@temp;
+				$use_MySQL = 0;
+				&write_DBorFILE(0,'',$datadir,$thread,$_,@temp);
+			}
+
+			$use_MySQL = 1;
+			# Load ctb MySQL
+			&MessageTotals("load",$thread);
+
+
+			$use_MySQL = 0;
+			# Save ctb to file
+			&MessageTotals("update",$thread);
+			undef %{$thread};
+
+			last if time() > ($begin_time + $max_process_time);
+		}
 		$use_MySQL = 1;
-		# Load ctb MySQL
-		&MessageTotals("load",$thread);
 
+		# If it isn't completely done ...
+		if (@contents) {
+			&write_DBorFILE(0,'',$datadir,'ctbrest','dbconvert',@contents);
 
-		$use_MySQL = 0;
-		# Save ctb to file
-		&MessageTotals("update",$thread);
-		undef %{$thread};
+			&do_info(scalar(@contents),$start_time,$sumuser,'database4','dbtotxt');
 
-		last if time() > ($begin_time + $max_process_time);
-	}
-	$use_MySQL = 1;
-
-	# If it isn't completely done ...
-	if (@contents) {
-		&write_DBorFILE(0,'',$datadir,'ctbrest','dbconvert',@contents);
-
-		&do_info(scalar(@contents),$start_time,$sumuser,'database4','dbtotxt');
-
-		&AdminTemplate;
+			&AdminTemplate;
+		}
 	}
 
+	# convert Boards/....[txt|mail]
+	#unless (-e "$boardsdir/boardsrest.dbconvert" && -e "$boardsdir/boardscalc.dbconvert") {
+		if (-e "$boardsdir/boardsrest.dbconvert" && -M "$boardsdir/boardsrest.dbconvert" < 1) {
+			@contents = &read_DBorFILE(0,'',$boardsdir,'boardsrest','dbconvert');
+
+			($start_time,$sumuser) = &read_DBorFILE(0,'',$boardsdir,'boardscalc','dbconvert');
+			chomp ($start_time, $sumuser);
+		}
+
+		if (!@contents) {
+			# Get the list
+			@contents = map { "$$_[0]\n"; } @{&mysql_process(0,'selectall_arrayref',"SELECT `board` FROM `$db_prefix"."boards`")};
+
+			$sumuser = @contents;
+			&write_DBorFILE(0,'',$boardsdir,'boardscalc','dbconvert',("$start_time\n$sumuser\n"));
+		}
+
+		# Loop through each -rest- boards
+		while (@contents) {
+			my $board = pop @contents;
+			chomp $board;
+
+			my @temp;
+			foreach (qw(txt mail)) {
+				$use_MySQL = 1;
+				@temp = &read_DBorFILE(0,'',$boardsdir,$board,$_);
+				next if !@temp && $_ ne "txt";
+				$use_MySQL = 0;
+				&write_DBorFILE(0,'',$boardsdir,$board,$_,@temp);
+			}
+
+			last if time() > ($begin_time + $max_process_time);
+		}
+		$use_MySQL = 1;
+
+		# If it isn't completely done ...
+		if (@contents) {
+			&write_DBorFILE(0,'',$boardsdir,'boardsrest','dbconvert',@contents);
+
+			&do_info(scalar(@contents),$start_time,$sumuser,'database4','dbtoboards');
+
+			&AdminTemplate;
+		}
+	#}
+	
 	&delete_DBorFILE("$memberdir/memberrest.dbconvert");
 	&delete_DBorFILE("$memberdir/membercalc.dbconvert");
 	&delete_DBorFILE("$datadir/ctbrest.dbconvert");
 	&delete_DBorFILE("$datadir/ctbcalc.dbconvert");
+	&delete_DBorFILE("$boardsdir/boardsrest.dbconvert");
+	&delete_DBorFILE("$boardsdir/boardscalc.dbconvert");
 
 	&automaintenance("off"); # Must be set to off before &SaveSettingsTo(... !
 
@@ -1030,50 +1140,97 @@ sub Delete_files {
 
 
 	# delete Messages/....[vars|ctb|mail|poll|polled]
-	if (-e "$datadir/txtdel.dbconvert" && -M "$datadir/txtdel.dbconvert" < 1) {
-		@contents = &read_DBorFILE(0,'',$datadir,'txtdel','dbconvert');
+	unless (-e "$boardsdir/boardsdel.dbconvert" && -e "$boardsdir/boardsdelcalc.dbconvert") {
+		if (-e "$datadir/txtdel.dbconvert" && -M "$datadir/txtdel.dbconvert" < 1) {
+			@contents = &read_DBorFILE(0,'',$datadir,'txtdel','dbconvert');
 
-		($start_time,$sumuser) = &read_DBorFILE(0,'',$datadir,'txtdelcalc','dbconvert');
-		chomp ($start_time, $sumuser);
-	}
-
-	if (!@contents) {
-		# Get the list
-		opendir(TXT, $datadir) || die "$txt{'230'} ($datadir) :: $!";
-		@contents = map { $_ =~ s/\.txt$//; "$_\n"; } grep { /\d+\.txt$/ } readdir(TXT);
-		closedir(TXT);
-
-		$sumuser = @contents;
-		&write_DBorFILE(0,'',$datadir,'txtdelcalc','dbconvert',("$start_time\n$sumuser\n"));
-	}
-
-	# Loop through each -rest- thread
-	$use_MySQL = 0;
-	while (@contents) {
-		$txt = pop @contents;
-		chomp $txt;
-
-		foreach (qw(txt ctb mail poll polled)) {
-			&delete_DBorFILE("$datadir/$txt.$_");
+			($start_time,$sumuser) = &read_DBorFILE(0,'',$datadir,'txtdelcalc','dbconvert');
+			chomp ($start_time, $sumuser);
 		}
 
-		last if time() > ($begin_time + $max_process_time);
+		if (!@contents) {
+			# Get the list
+			opendir(TXT, $datadir) || die "$txt{'230'} ($datadir) :: $!";
+			@contents = map { $_ =~ s/\.txt$//; "$_\n"; } grep { /\d+\.txt$/ } readdir(TXT);
+			closedir(TXT);
+
+			$sumuser = @contents;
+			&write_DBorFILE(0,'',$datadir,'txtdelcalc','dbconvert',("$start_time\n$sumuser\n"));
+		}
+
+		# Loop through each -rest- thread
+		$use_MySQL = 0;
+		while (@contents) {
+			$txt = pop @contents;
+			chomp $txt;
+
+			foreach (qw(txt ctb mail poll polled)) {
+				&delete_DBorFILE("$datadir/$txt.$_");
+			}
+
+			last if time() > ($begin_time + $max_process_time);
+		}
+		$use_MySQL = 1;
+
+		# If it isn't completely done ...
+		if (@contents) {
+			&write_DBorFILE(0,'',$datadir,'txtdel','dbconvert',@contents);
+
+			&do_info(scalar(@contents),$start_time,$sumuser,'database5','txtdel');
+
+			&AdminTemplate;
+		}
 	}
-	$use_MySQL = 1;
 
-	# If it isn't completely done ...
-	if (@contents) {
-		&write_DBorFILE(0,'',$datadir,'txtdel','dbconvert',@contents);
+	# delete Boards/....[txt|mail]
+	#unless (-e "$boardsdir/boardsdel.dbconvert" && -e "$boardsdir/boardsdelcalc.dbconvert") {
+		if (-e "$boardsdir/boardsdel.dbconvert" && -M "$boardsdir/boardsdel.dbconvert" < 1) {
+			@contents = &read_DBorFILE(0,'',$boardsdir,'boardsdel','dbconvert');
 
-		&do_info(scalar(@contents),$start_time,$sumuser,'database5','txtdel');
+			($start_time,$sumuser) = &read_DBorFILE(0,'',$boardsdir,'boardsdelcalc','dbconvert');
+			chomp ($start_time, $sumuser);
+		}
 
-		&AdminTemplate;
-	}
+		if (!@contents) {
+			# Get the list
+			opendir(BOARDS, $boardsdir) || die "$txt{'230'} ($boardsdir) :: $!";
+			@contents = map { $_ =~ s/\.txt$//; "$_\n"; } grep { /.+\.txt$/ } readdir(BOARDS);
+			closedir(BOARDS);
 
+			$sumuser = @contents;
+			&write_DBorFILE(0,'',$boardsdir,'boardsdelcalc','dbconvert',("$start_time\n$sumuser\n"));
+		}
+
+		# Loop through each -rest- board
+		$use_MySQL = 0;
+		while (@contents) {
+			$txt = pop @contents;
+			chomp $txt;
+
+			foreach (qw(txt mail)) {
+				&delete_DBorFILE("$boardsdir/$txt.$_");
+			}
+
+			last if time() > ($begin_time + $max_process_time);
+		}
+		$use_MySQL = 1;
+
+		# If it isn't completely done ...
+		if (@contents) {
+			&write_DBorFILE(0,'',$boardsdir,'boardsdel','dbconvert',@contents);
+
+			&do_info(scalar(@contents),$start_time,$sumuser,'database5','boardsdel');
+
+			&AdminTemplate;
+		}
+	#}	
+	
 	&delete_DBorFILE("$memberdir/memberdel.dbconvert");
 	&delete_DBorFILE("$memberdir/memberdelcalc.dbconvert");
 	&delete_DBorFILE("$datadir/txtdel.dbconvert");
 	&delete_DBorFILE("$datadir/txtdelcalc.dbconvert");
+	&delete_DBorFILE("$boardsdir/boardsdel.dbconvert");
+	&delete_DBorFILE("$boardsdir/boardsdelcalc.dbconvert");
 
 	&automaintenance("off");
 

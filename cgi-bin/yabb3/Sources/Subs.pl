@@ -2008,12 +2008,18 @@ sub CheckUserPM_Level {
 		#	'',
 		#	[qw[]],
 		#],
-		#$boardsdir."mail" =>
-		#[
-		#	"",
-		#	'',
-		#	[qw[]],
-		#],
+		$boardsdir."txt" =>
+		[
+			"$db_prefix"."boards",
+			'board',
+			[qw[txt]],
+		],
+		$boardsdir."mail" =>
+		[
+			"$db_prefix"."boards",
+			'board',
+			[qw[mail]],
+		],
 		#$boardsdir."master" =>
 		#[
 		#	"",
@@ -2135,10 +2141,17 @@ sub CheckUserPM_Level {
 			if ($db_table{$folder.$ext}[0] || $db_table{$folder.$name.$ext}[0]) {
 				my $DBfile = $db_table{$folder.$ext}[0] ? $folder.$ext : $folder.$name.$ext;
 				unless ($check_sth{$DBfile.$db_table{$DBfile}[0]}) {
-					$check_sth{$DBfile.$db_table{$DBfile}[0]} = &mysql_process(0,'prepare',"SELECT `" . join('`, `', @{$db_table{$DBfile}[2]}) . "` FROM `$db_table{$DBfile}[0]` WHERE `$db_table{$DBfile}[1]`=?");
+					# There are two modes to check for "existance".
+					# If $db_table defines only one column, we check if that column contains any data for the specified key.
+					# But if $db_table defines multiple columns, we just check if there is a row at all with the specified key.
+					if (@{$db_table{$DBfile}[2]} == 1) {
+						$check_sth{$DBfile.$db_table{$DBfile}[0]} = &mysql_process(0,'prepare',"SELECT 0 FROM `$db_table{$DBfile}[0]` WHERE `$db_table{$DBfile}[1]`=? AND `@{$db_table{$DBfile}[2]}`<>''");
+					} else {
+						$check_sth{$DBfile.$db_table{$DBfile}[0]} = &mysql_process(0,'prepare',"SELECT 0 FROM `$db_table{$DBfile}[0]` WHERE `$db_table{$DBfile}[1]`=?");
+					}
 				}
 				&mysql_process($check_sth{$DBfile.$db_table{$DBfile}[0]},'execute',$name);
-				return (&mysql_process($check_sth{$DBfile.$db_table{$DBfile}[0]},'fetchrow_array',0,1) ? 1 : 0);
+				return (&mysql_process($check_sth{$DBfile.$db_table{$DBfile}[0]},'rows') > 0 ? 1 : 0);
 			}
 		}
 
@@ -2294,8 +2307,21 @@ sub CheckUserPM_Level {
 	sub boards_DB_r {
 		my ($LOCKHANDLE, $name, $DBfile) = @_;
 
-		&fatal_error('', "No table for .../Boards/... jet!!!", 1);
+		#&fatal_error('', "No table for .../Boards/... jet!!!", 1);
 		&mysql_process(0,'do',"LOCK TABLES `$db_table{$DBfile}[0]` WRITE") if $LOCKHANDLE;
+		
+		# for Boards/[board].[txt|mail]
+		if (!$sth_r{$DBfile.$db_table{$DBfile}[0]}) {
+			$sth_r{$DBfile.$db_table{$DBfile}[0]} = 
+				&mysql_process(0,'prepare',qq~SELECT `~ . join('`, `', @{$db_table{$DBfile}[2]}) . qq~` FROM `$db_table{$DBfile}[0]` WHERE `$db_table{$DBfile}[1]`=?~);
+		}
+		&mysql_process($sth_r{$DBfile.$db_table{$DBfile}[0]},'execute',$name);
+		if (@{$db_table{$DBfile}[2]} > 1) {
+			return &mysql_process($sth_r{$DBfile.$db_table{$DBfile}[0]},'fetchrow_array',0,1);
+		} else {
+			return split(/^/m, &mysql_process($sth_r{$DBfile.$db_table{$DBfile}[0]},'fetchrow_array',0,1));
+		}
+
 	}
 
 	sub threads_DB_r {
@@ -2370,6 +2396,25 @@ sub CheckUserPM_Level {
 	sub boards_DB_w {
 		my ($update_DB, $name, $DBfile, $data) = @_;
 
+		if ($update_DB) { # UPDATE table, only call if board exists
+			if ($DBfile eq $boardsdir."txt" || $DBfile eq $boardsdir."mail") { # for Boards/[board].[txt|mail]
+				if (!$sth_w{$DBfile.$db_table{$DBfile}[0]}) {
+					$sth_w{$DBfile.$db_table{$DBfile}[0]} = 
+						&mysql_process(0,'prepare',qq~UPDATE `$db_table{$DBfile}[0]` SET ~ . join(", ", map { "`$_`=?" } @{$db_table{$DBfile}[2]}) . qq~ WHERE `$db_table{$DBfile}[1]`=?~);
+				}
+				&mysql_process($sth_w{$DBfile.$db_table{$DBfile}[0]},'execute',(join('', @$data),$name));
+			} else {
+				&fatal_error('', "boards_DB_w() UPDATE not implemented for $DBfile", 1);
+			}
+		} else { # INSERT table == create a new board in `boards` table if it does not exist yet
+			# check if board already exists. We don't want to delete+insert here, as we'd lose data we want to keep. For example deleting boardname.mail would also kill boardname.txt
+			my @exists = &mysql_process(0, 'selectrow_array', qq~SELECT 1 FROM `$db_table{$DBfile}[0]` WHERE `$db_table{$DBfile}[1]`=~.$vari{"dbh"}->quote($name));
+			if ($exists[0]) { # do UPDATE instead
+				&mysql_process(0, 'do', qq~UPDATE `$db_table{$DBfile}[0]` SET ~ . join(", ", map { "`$_`=".$vari{"dbh"}->quote(join('', @$data)) } @{$db_table{$DBfile}[2]}) . qq~ WHERE `$db_table{$DBfile}[1]`=~.$vari{"dbh"}->quote($name));
+			} else { # do INSERT
+				&mysql_process(0, 'do', qq~INSERT INTO `$db_table{$DBfile}[0]` VALUES (~.$vari{"dbh"}->quote($name).qq~, "", "")~);
+			}
+		}
 	}
 
 	sub threads_DB_w {
@@ -2717,7 +2762,9 @@ sub CheckUserPM_Level {
 		} else {
 			$vari{"dbh"}->{HandleError} = 0;
 		}
-		return if !@statement;
+		if ($method != 'rows') { # for 'rows', we don't need a statement
+			return if !@statement;
+		}
 
 		if ($sth) {
 			@ary = $statement[0] ? $sth->$method(@statement) : $sth->$method;
