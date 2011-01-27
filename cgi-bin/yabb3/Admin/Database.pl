@@ -609,7 +609,7 @@ sub SaveDatabase {
 	<tr>
 		<td align="left" class="windowbg2">
 			$db_txt{''}
-			<pre style="overflow:scroll;">
+			<pre style="overflow:scroll;width:700px;">
 # Set to 1 to use MySQL-DB, 0 to use the default file-DB
 \$use_MySQL = $use_MySQL;
 
