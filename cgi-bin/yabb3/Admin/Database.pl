@@ -557,17 +557,29 @@ sub SaveDatabase {
 	$buildnew_boards .= qq~PRIMARY KEY (`board`)) TYPE=MyISAM~;
 
 
+	# /Boards/forum.[master|control|totals]
+	my $buildnew_forum;
+	$buildnew_forum = qq~CREATE TABLE IF NOT EXISTS `$FORM{'db_prefix'}forum` (\n~;
+	$buildnew_forum .= qq~`master` text,\n~;
+	$buildnew_forum .= qq~`control` text,\n~;
+	$buildnew_forum .= qq~`totals` text) TYPE=MyISAM~;
+	
+
 	# do the work now
 	require "$admindir/NewSettings.pl";
 	&SaveSettingsTo('Settings.pl');
 
 	require DBI;
 	# remove old tables
-	&mysql_process(0,'do',"DROP TABLE IF EXISTS `$FORM{'db_prefix'}vars`, `$FORM{'db_prefix'}log`, `$FORM{'db_prefix'}ctb`, `$FORM{'db_prefix'}messages`, `$FORM{'db_prefix'}boards`");
+	my @tables = qw/vars log ctb messages boards forum/;
+	foreach (@tables) {
+		&mysql_process(0,'do',"DROP TABLE IF EXISTS `$FORM{'db_prefix'}$_`");
+	}
 
 	# build new tables
 	&mysql_process(0,'do',$buildnew_vars);
 	&mysql_process(0,'do',$buildnew_online);
+	&mysql_process(0,'do',$buildnew_forum);
 	&mysql_process(0,'do',$buildnew_boards);
 	&mysql_process(0,'do',$buildnew_ctb);
 	&mysql_process(0,'do',$buildnew_message_txt);
@@ -653,6 +665,7 @@ sub SaveDatabase {
 			</pre><br /><br />
 			<pre>$buildnew_vars</pre><br /><br />
 			<pre>$buildnew_online</pre><br /><br />
+			<pre>$buildnew_forum</pre><br /><br />
 			<pre>$buildnew_boards</pre><br /><br />
 			<pre>$buildnew_ctb</pre><br /><br />
 			<pre>$buildnew_message_txt</pre>
@@ -838,7 +851,17 @@ sub ConvertDatabase {
 
 		if (!@contents) {
 			# Get the list
-			unless ($mloaded == 1) { require "$boardsdir/forum.master"; }
+			
+			# convert forum.[master|control|totals]
+			&get_forum_master;
+			my @boardcontrols = &read_DBorFILE(0,'',$boardsdir,'forum','control');
+			my @boardtotals = &read_DBorFILE(0,'',$boardsdir,'forum','totals');
+			$use_MySQL = 1;
+			&Write_ForumMaster;
+			&write_DBorFILE(1,'',$boardsdir,'forum','control',@boardcontrols);
+			&write_DBorFILE(1,'',$boardsdir,'forum','totals',@boardtotals);
+			$use_MySQL = 0;
+
 			@contents = keys %board;
 			
 			$start_time = $begin_time;
@@ -1024,6 +1047,17 @@ sub ReturnFileDB {
 		}
 
 		if (!@contents) {
+
+			# convert forum.[master|control|totals]
+			&get_forum_master;
+			my @boardcontrols = &read_DBorFILE(0,'',$boardsdir,'forum','control');
+			my @boardtotals = &read_DBorFILE(0,'',$boardsdir,'forum','totals');
+			$use_MySQL = 0;
+			&Write_ForumMaster;
+			&write_DBorFILE(1,'',$boardsdir,'forum','control',@boardcontrols);
+			&write_DBorFILE(1,'',$boardsdir,'forum','totals',@boardtotals);
+			$use_MySQL = 1;
+		
 			# Get the list
 			@contents = map { "$$_[0]\n"; } @{&mysql_process(0,'selectall_arrayref',"SELECT `board` FROM `$db_prefix"."boards`")};
 
@@ -1192,6 +1226,13 @@ sub Delete_files {
 		}
 
 		if (!@contents) {
+		
+			# delete forum.[master|control|totals]
+			$use_MySQL = 0;
+			&delete_DBorFILE("$boardsdir/forum.master");
+			&delete_DBorFILE("$boardsdir/forum.control");
+			&delete_DBorFILE("$boardsdir/forum.totals");
+			
 			# Get the list
 			opendir(BOARDS, $boardsdir) || die "$txt{'230'} ($boardsdir) :: $!";
 			@contents = map { $_ =~ s/\.txt$//; "$_\n"; } grep { /.+\.txt$/ } readdir(BOARDS);

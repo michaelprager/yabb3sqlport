@@ -69,7 +69,7 @@ sub Display {
 	$curcat = ${$uid.$currentboard}{'cat'};
 
 	# Figure out the name of the category
-	unless ($mloaded == 1) { require "$boardsdir/forum.master"; }
+	&get_forum_master;
 
 	if ($currentboard eq $annboard) {
 		$vircurrentboard = $INFO{'virboard'};

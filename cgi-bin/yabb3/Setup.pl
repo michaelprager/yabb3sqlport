@@ -883,7 +883,7 @@ EOF
 
 
 	} elsif ($action eq "cleanup") {
-		require "$boardsdir/forum.master";
+		&get_forum_master;
 
 		if (!$INFO{'clean'}) {
 			fopen(FORUMTOTALS, ">>$boardsdir/forum.totals") || &setup_fatal_error("Can not open $boardsdir/forum.totals", 1);
@@ -1629,7 +1629,7 @@ sub GetCats {
 }
 
 sub CreateControl {
-	require "$boardsdir/forum.master";
+	&get_forum_master;
 
 	foreach $foundboard (keys %board) {
 		# get category
@@ -1688,7 +1688,7 @@ sub CreateControl {
 }
 
 sub ConvertBoards {
-	require "$boardsdir/forum.master";
+	&get_forum_master;
 
 	my %stickies;
 	if (open(DATADIR, "$convboardsdir/sticky.stk")) {
@@ -1746,7 +1746,7 @@ sub ConvertBoards {
 # Message Conversion ##
 
 sub ConvertMessages {
-	require "$boardsdir/forum.master";
+	&get_forum_master;
 
 	${$uid.$username}{'timeformat'} = 'SDT, DD MM YYYY HH:mm:ss zzz'; # the .ctb time format
 	${$uid.$username}{'timeselect'} = 7;

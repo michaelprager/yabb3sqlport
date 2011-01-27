@@ -266,7 +266,7 @@ sub tempstarter {
 	require "$sourcedir/Load.pl";
 	require "$sourcedir/System.pl";
 	require "$admindir/Admin.pl";
-	require "$boardsdir/forum.master";
+	&get_forum_master;
 
 	&LoadCookie;          # Load the user's cookie (or set to guest)
 	&LoadUserSettings;    # Load user settings

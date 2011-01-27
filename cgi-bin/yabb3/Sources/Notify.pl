@@ -460,7 +460,7 @@ sub NotificationAlert {
 	&LoadCensorList if $action eq 'shownotify';
 
 	## load board names
-	unless ($mloaded == 1) { require "$boardsdir/forum.master"; } # for $board{...}
+	&get_forum_master; # for $board{...}
 
 	foreach $mythread (@tmaildir) { # number of next thread
 		# see if thread exists and search for it if moved

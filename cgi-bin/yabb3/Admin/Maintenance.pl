@@ -21,7 +21,7 @@ sub RebuildMessageIndex {
 	# Set up the multi-step action
 	$time_to_jump = time() + $max_process_time;
 
-	require "$boardsdir/forum.master";
+	&get_forum_master;
 
 	my %rebuildboards;
 	if (!$INFO{'rebuild'}) {
@@ -389,7 +389,7 @@ sub AdminBoardRecount {
 	}
 
 	# Get the board list from the forum.master file
-	require "$boardsdir/forum.master";
+	&get_forum_master;
 	foreach (keys %board) { &BoardCountTotals($_); }
 
 	$yymain .= qq~<b>$admin_txt{'503'}</b>~;

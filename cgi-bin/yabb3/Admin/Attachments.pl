@@ -440,7 +440,7 @@ sub FullRebuildAttachents {
 	$time_to_jump = time() + $max_process_time;
 
 	# Get the board list from the forum.master file
-	require "$boardsdir/forum.master";
+	&get_forum_master;
 	@boardlist = sort( keys(%board) );
 
 	# Find the current board:

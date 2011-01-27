@@ -472,7 +472,7 @@ sub shellaccess {
 	&LoadUserSettings;    # Load user settings
 	&WhatLanguage;        # Figure out which language file we should be using! :D
 
-	require "$boardsdir/forum.master";
+	&get_forum_master;
 	require "$sourcedir/Security.pl";
 
 	# Is RSS disabled?

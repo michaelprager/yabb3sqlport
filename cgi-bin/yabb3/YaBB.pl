@@ -55,7 +55,7 @@ BEGIN {
 	require "$sourcedir/Load.pl";
 
 	require "$sourcedir/Guardian.pl";
-	require "$boardsdir/forum.master";
+	&get_forum_master;
 } # END of BEGIN block
 
 # If enabled: check if hard drive has enough space to safely operate the board

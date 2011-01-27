@@ -53,7 +53,7 @@ if ($curnum ne '') {
 
 if ($currentboard ne '') {
 	if ($currentboard !~ /\A[\s0-9A-Za-z#%+,-\.:=?@^_]+\Z/) { &fatal_error("invalid_character","$maintxt{'board'}"); }
-	unless ($mloaded == 1) { require "$boardsdir/forum.master"; }
+	&get_forum_master;
 	unless (defined($board{"$currentboard"})) { &fatal_error("no_board_found"); }
 	($boardname, $boardperms, $boardview) = split(/\|/, $board{"$currentboard"});
 	my $access = &AccessCheck($currentboard, '', $boardperms);

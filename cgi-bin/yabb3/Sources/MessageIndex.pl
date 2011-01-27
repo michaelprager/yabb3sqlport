@@ -1136,7 +1136,7 @@ sub MessagePageindex {
 
 sub moveto {
 	#my ($boardlist, $catid, $board, $category, $boardname, $boardperms, $boardview, $brdlist, @bdlist, $catname, $catperms, $access);
-	unless ($mloaded == 1) { require "$boardsdir/forum.master"; }
+	&get_forum_master;
 	
 	sub move_subboards {
 		$indent += 2;

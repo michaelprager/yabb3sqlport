@@ -33,7 +33,7 @@ sub Recent_Topics_Posts {
 	elsif ($display > $maxrecentdisplay) { $display = $maxrecentdisplay; }
 
 	$numfound = 0;
-	unless ($mloaded == 1) { require "$boardsdir/forum.master"; }
+	&get_forum_master;
 	foreach my $catid (@categoryorder) {
 		my ($catname, $catperms) = split(/\|/, $catinfo{$catid});
 		unless (&CatAccess($catperms)) { next; }

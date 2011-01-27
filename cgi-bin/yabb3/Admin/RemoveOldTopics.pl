@@ -35,7 +35,7 @@ sub RemoveOldThreads {
 
 	&write_DBorFILE(0,'',$vardir,'oldestmes','txt',($maxdays));
 
-	require "$boardsdir/forum.master";
+	&get_forum_master;
 	require "$admindir/Attachments.pl";
 
 	my @boards = sort( keys %board );

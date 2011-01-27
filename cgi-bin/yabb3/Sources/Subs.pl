@@ -939,7 +939,7 @@ sub jumpto {
 	<option value="action=recent;display=10">$recent_txt{'recentposts'}</option>
 	<option value="action=recenttopics;display=10">$recent_txt{'recenttopic'}</option>\n~;
 
-	unless ($mloaded == 1) { require "$boardsdir/forum.master"; }
+	&get_forum_master;
 	foreach my $catid (@categoryorder) {
 		my @bdlist = split(/,/, $cat{$catid});
 		my ($catname, $catperms) = split(/\|/, $catinfo{"$catid"});
@@ -1580,17 +1580,16 @@ sub save_moved_file {
 }
 
 sub Write_ForumMaster {
-	&read_DBorFILE(0,FORUMMASTER,$boardsdir,'forum','master');
-	print FORUMMASTER qq~\$mloaded = 1;\n~;
+	my $forummaster = qq~\$mloaded = 1;\n~;
 	@catorder = &undupe(@categoryorder);
-	print FORUMMASTER qq~\@categoryorder = qw(@catorder);\n~;
+	$forummaster .=  qq~\@categoryorder = qw(@catorder);\n~;
 	my ($key, $value);
 	while (($key, $value) = each(%cat)) {
 		# Escape membergroups with a $ in them
 		$value =~ s~\$~\\\$~g;
 		# Strip membergroups with a ~ from them
 		$value =~ s/\~//g;
-		print FORUMMASTER qq~\$cat{'$key'} = qq\~$value\~;\n~;
+		$forummaster .=  qq~\$cat{'$key'} = qq\~$value\~;\n~;
 	}
 	while (($key, $value) = each(%catinfo)) {
 		my ($catname, $therest) = split(/\|/, $value, 2);
@@ -1602,7 +1601,7 @@ sub Write_ForumMaster {
 		$value =~ s~\$~\\\$~g;
 		# Strip membergroups with a ~ from them
 		$value =~ s/\~//g;
-		print FORUMMASTER qq~\$catinfo{'$key'} = qq\~$value\~;\n~;
+		$forummaster .=  qq~\$catinfo{'$key'} = qq\~$value\~;\n~;
 	}
 	while (($key, $value) = each(%board)) {
 		my ($boardname, $therest) = split(/\|/, $value, 2);
@@ -1614,14 +1613,15 @@ sub Write_ForumMaster {
 		$value =~ s~\$~\\\$~g;
 		# Strip membergroups with a ~ from them
 		$value =~ s/\~//g;
-		print FORUMMASTER qq~\$board{'$key'} = qq\~$value\~;\n~;
+		$forummaster .=  qq~\$board{'$key'} = qq\~$value\~;\n~;
 	}
 	while (($key, $value) = each(%subboard)) {
 		if($value ne "") {
-			print FORUMMASTER qq~\$subboard{'$key'} = qq\~$value\~;\n~;
+			$forummaster .=  qq~\$subboard{'$key'} = qq\~$value\~;\n~;
 		}
 	}
-	&write_DBorFILE(0,FORUMMASTER,$boardsdir,'forum','master',("\n1;"));
+	$forummaster .= qq~\n1;~;
+	&write_DBorFILE(0,'',$boardsdir,'forum','master',($forummaster));
 }
 
 sub dirsize {
@@ -2002,12 +2002,6 @@ sub CheckUserPM_Level {
 	# key = folder.[name of the file].['extension of the file']
 	# values = ['name of the table','key of the table',[qw[colums to get/be update]]]
 	my %db_table = (
-		#$boardsdir."control" =>
-		#[
-		#	"",
-		#	'',
-		#	[qw[]],
-		#],
 		$boardsdir."txt" =>
 		[
 			"$db_prefix"."boards",
@@ -2020,18 +2014,24 @@ sub CheckUserPM_Level {
 			'board',
 			[qw[mail]],
 		],
-		#$boardsdir."master" =>
-		#[
-		#	"",
-		#	'',
-		#	[qw[]],
-		#],
-		#$boardsdir."totals" =>
-		#[
-		#	"",
-		#	'',
-		#	[qw[]],
-		#],
+		$boardsdir."master" =>
+		[
+			"$db_prefix"."forum",
+			'',
+			[qw[master]],
+		],
+		$boardsdir."control" =>
+		[
+			"$db_prefix"."forum",
+			'',
+			[qw[control]],
+		],
+		$boardsdir."totals" =>
+		[
+			"$db_prefix"."forum",
+			'',
+			[qw[totals]],
+		],
 
 		# Changes here on @{$db_table{$datadir."ctb"}}[2] must also be done
 		# in exactly the same order in:
@@ -2307,15 +2307,23 @@ sub CheckUserPM_Level {
 	sub boards_DB_r {
 		my ($LOCKHANDLE, $name, $DBfile) = @_;
 
-		#&fatal_error('', "No table for .../Boards/... jet!!!", 1);
 		&mysql_process(0,'do',"LOCK TABLES `$db_table{$DBfile}[0]` WRITE") if $LOCKHANDLE;
 		
-		# for Boards/[board].[txt|mail]
+		# for Boards/[board].[txt|mail] and Boards/forum.[master|control|totals]
 		if (!$sth_r{$DBfile.$db_table{$DBfile}[0]}) {
-			$sth_r{$DBfile.$db_table{$DBfile}[0]} = 
-				&mysql_process(0,'prepare',qq~SELECT `~ . join('`, `', @{$db_table{$DBfile}[2]}) . qq~` FROM `$db_table{$DBfile}[0]` WHERE `$db_table{$DBfile}[1]`=?~);
+			if ($db_table{$DBfile}[1]) { # board.[txt|mail] have primary key, forum.[master|control|totals] don't
+				$sth_r{$DBfile.$db_table{$DBfile}[0]} = 
+					&mysql_process(0,'prepare',qq~SELECT `~ . join('`, `', @{$db_table{$DBfile}[2]}) . qq~` FROM `$db_table{$DBfile}[0]` WHERE `$db_table{$DBfile}[1]`=?~);
+			} else {
+				$sth_r{$DBfile.$db_table{$DBfile}[0]} = 
+					&mysql_process(0,'prepare',qq~SELECT `~ . join('`, `', @{$db_table{$DBfile}[2]}) . qq~` FROM `$db_table{$DBfile}[0]`~);
+			}
 		}
-		&mysql_process($sth_r{$DBfile.$db_table{$DBfile}[0]},'execute',$name);
+		if ($db_table{$DBfile}[1]) {
+			&mysql_process($sth_r{$DBfile.$db_table{$DBfile}[0]},'execute',$name);
+		} else {
+			&mysql_process($sth_r{$DBfile.$db_table{$DBfile}[0]},'execute');
+		}
 		if (@{$db_table{$DBfile}[2]} > 1) {
 			return &mysql_process($sth_r{$DBfile.$db_table{$DBfile}[0]},'fetchrow_array',0,1);
 		} else {
@@ -2397,22 +2405,43 @@ sub CheckUserPM_Level {
 		my ($update_DB, $name, $DBfile, $data) = @_;
 
 		if ($update_DB) { # UPDATE table, only call if board exists
-			if ($DBfile eq $boardsdir."txt" || $DBfile eq $boardsdir."mail") { # for Boards/[board].[txt|mail]
-				if (!$sth_w{$DBfile.$db_table{$DBfile}[0]}) {
+			if (!$sth_w{$DBfile.$db_table{$DBfile}[0]}) {
+				if ($db_table{$DBfile}[1]) { # if we have a primary key (e.g. in Boards/[board].[txt|mail])
 					$sth_w{$DBfile.$db_table{$DBfile}[0]} = 
 						&mysql_process(0,'prepare',qq~UPDATE `$db_table{$DBfile}[0]` SET ~ . join(", ", map { "`$_`=?" } @{$db_table{$DBfile}[2]}) . qq~ WHERE `$db_table{$DBfile}[1]`=?~);
+				} else { # for tables without primary key (e.g. Boards/forum.[master|control|totals]
+					$sth_w{$DBfile.$db_table{$DBfile}[0]} = 
+						&mysql_process(0,'prepare',qq~UPDATE `$db_table{$DBfile}[0]` SET ~ . join(", ", map { "`$_`=?" } @{$db_table{$DBfile}[2]}));
 				}
+			}
+			if ($db_table{$DBfile}[1]) {
 				&mysql_process($sth_w{$DBfile.$db_table{$DBfile}[0]},'execute',(join('', @$data),$name));
 			} else {
-				&fatal_error('', "boards_DB_w() UPDATE not implemented for $DBfile", 1);
+				&mysql_process($sth_w{$DBfile.$db_table{$DBfile}[0]},'execute',(join('', @$data)));
 			}
 		} else { # INSERT table == create a new board in `boards` table if it does not exist yet
 			# check if board already exists. We don't want to delete+insert here, as we'd lose data we want to keep. For example deleting boardname.mail would also kill boardname.txt
-			my @exists = &mysql_process(0, 'selectrow_array', qq~SELECT 1 FROM `$db_table{$DBfile}[0]` WHERE `$db_table{$DBfile}[1]`=~.$vari{"dbh"}->quote($name));
+			my @exists;
+			if ($db_table{$DBfile}[1]) {
+				@exists = &mysql_process(0, 'selectrow_array', qq~SELECT 1 FROM `$db_table{$DBfile}[0]` WHERE `$db_table{$DBfile}[1]`=~.$vari{"dbh"}->quote($name));
+			} else {
+				@exists = &mysql_process(0, 'selectrow_array', qq~SELECT 1 FROM `$db_table{$DBfile}[0]`~);
+			}
 			if ($exists[0]) { # do UPDATE instead
-				&mysql_process(0, 'do', qq~UPDATE `$db_table{$DBfile}[0]` SET ~ . join(", ", map { "`$_`=".$vari{"dbh"}->quote(join('', @$data)) } @{$db_table{$DBfile}[2]}) . qq~ WHERE `$db_table{$DBfile}[1]`=~.$vari{"dbh"}->quote($name));
+				if ($db_table{$DBfile}[1]) {
+					&mysql_process(0, 'do', qq~UPDATE `$db_table{$DBfile}[0]` SET ~ . join(", ", map { "`$_`=".$vari{"dbh"}->quote(join('', @$data)) } @{$db_table{$DBfile}[2]}) . qq~ WHERE `$db_table{$DBfile}[1]`=~.$vari{"dbh"}->quote($name));
+				} else {
+					&mysql_process(0, 'do', qq~UPDATE `$db_table{$DBfile}[0]` SET ~ . join(", ", map { "`$_`=".$vari{"dbh"}->quote(join('', @$data)) } @{$db_table{$DBfile}[2]}));
+				}
 			} else { # do INSERT
-				&mysql_process(0, 'do', qq~INSERT INTO `$db_table{$DBfile}[0]` VALUES (~.$vari{"dbh"}->quote($name).qq~, "", "")~);
+				if ($DBfile eq $boardsdir."txt" || $DBfile eq $boardsdir."mail") {
+					&mysql_process(0, 'do', qq~INSERT INTO `$db_table{$DBfile}[0]` VALUES (~.$vari{"dbh"}->quote($name).qq~, "", "")~);
+				} elsif ($DBfile eq $boardsdir."master" || $DBfile eq $boardsdir."control" || $DBfile eq $boardsdir."totals") {
+					my $master = $vari{"dbh"}->quote($DBfile eq $boardsdir."master" ? join('', @$data) : '');
+					my $control = $vari{"dbh"}->quote($DBfile eq $boardsdir."control" ? join('', @$data) : '');
+					my $totals = $vari{"dbh"}->quote($DBfile eq $boardsdir."totals" ? join('', @$data) : '');
+					&mysql_process(0, 'do', qq~INSERT INTO `$db_table{$DBfile}[0]` VALUES ($master, $control, $totals)~);
+				}
 			}
 		}
 	}
@@ -2827,6 +2856,13 @@ sub CheckUserPM_Level {
 		} elsif ($file =~ /$memberdir\/([^\/]+)\.rlog$/) {
 			&mysql_process(0,'do',qq~UPDATE `$db_prefix~.qq~vars` SET `rlog`='' WHERE `yabbusername`="$1"~);
 
+		} elsif ($file =~ /$boardsdir\/([^\/]+)\.txt$/) {
+			&mysql_process(0,'do',qq~UPDATE `$db_prefix~.qq~boards` SET `txt`='' WHERE `board`="$1"~);
+		} elsif ($file =~ /$boardsdir\/([^\/]+)\.mail$/) {
+			&mysql_process(0,'do',qq~UPDATE `$db_prefix~.qq~boards` SET `mail`='' WHERE `board`="$1"~);
+		} elsif ($file =~ /$boardsdir\/forum\.(master|control|totals)$/) {
+			&mysql_process(0,'do',qq~UPDATE `$db_prefix~.qq~forum` SET `$1`=''~);
+
 		#} elsif ($file =~ /\/([^\/]+)\.$/) {
 		#	&mysql_process(0,'do',qq~DELETE FROM `` WHERE ``="$1"~);
 		#}
@@ -2838,5 +2874,16 @@ sub CheckUserPM_Level {
 
 }
 # Block for File and SQL management END
+
+sub get_forum_master() {
+	unless ($mloaded == 1) {
+		if ($use_MySQL) {
+			my $content = join('', &read_DBorFILE(0, '', $boardsdir, 'forum', 'master'));
+			eval $content;
+		} else {
+			require "$boardsdir/forum.master";
+		}
+	}
+}
 
 1;

@@ -1208,7 +1208,7 @@ sub Collapse_All {
 }
 
 sub MarkAllRead { # Mark all boards as read.
-	unless ($mloaded == 1) { require "$boardsdir/forum.master"; }
+	&get_forum_master;
 
 	my @cats = ();
 	if ($INFO{'cat'}) { @cats = ($INFO{'cat'}); $INFO{'catselect'} = $INFO{'cat'};}
@@ -1260,7 +1260,7 @@ sub MarkAllRead { # Mark all boards as read.
 sub gostRemove {
 	$thecat    = $_[0];
 	$gostboard = $_[1];
-	unless ($mloaded == 1) { require "$boardsdir/forum.master"; }
+	&get_forum_master;
 	(@gbdlist) = split(/\,/, $cat{$thecat});
 	$tmp_master = '';
 	foreach $item (@gbdlist) {

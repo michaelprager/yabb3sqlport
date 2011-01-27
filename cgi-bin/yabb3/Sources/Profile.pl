@@ -2768,7 +2768,7 @@ sub usersrecentposts {
 	$#data = $display - 1;
 	@data = map(0, @data);
 
-	if (!$mloaded) { require "$boardsdir/forum.master"; }
+	&get_forum_master;
 	foreach $catid (@categoryorder) {
 		foreach (split(/\,/, $cat{$catid})) {
 			$boardcat{$_} = $catid;

@@ -18,7 +18,7 @@ if ($action eq 'detailedversion') { return 1; }
 sub ManageBoards {
 	&is_admin_or_gmod;
 	&LoadBoardControl;
-	unless ($mloaded == 1) { require "$boardsdir/forum.master"; }
+	&get_forum_master;
 	if ($INFO{'action'} eq 'managecats') {
 		$colspan = qq~colspan="2"~;
 		$add = $admin_txt{'47'};
@@ -247,7 +247,7 @@ sub ManageBoards {
 
 sub BoardScreen {
 	&is_admin_or_gmod;
-	unless ($mloaded == 1) { require "$boardsdir/forum.master"; }
+	&get_forum_master;
 	$i = 0;
 	while ($_ = each(%FORM)) {
 		if ($FORM{$_} && $_ =~ /^yitem_(.+)$/) {
@@ -284,7 +284,7 @@ sub BoardScreen {
 	if    ($FORM{'baction'} eq "edit")  { &AddBoards(@editbrd); }
 	elsif ($FORM{'baction'} eq "delme") {
 		shift(@editbrd);
-		if (!$mloaded) { require "$boardsdir/forum.master"; }
+		&get_forum_master;
 		foreach my $bd (@editbrd) {
 			# Remove Board form category it belongs to unless it's a sub board, then it's not in the cat list
 			if(!${$uid.$bd}{'parent'}) {
@@ -416,7 +416,7 @@ sub AddBoards {
 	if ($INFO{'parent'}) {
 		$FORM{'amount'} = 1;
 	}
-	unless ($mloaded == 1) { require "$boardsdir/forum.master"; }
+	&get_forum_master;
 	&LoadBoardControl;
 	
 	# build recursive drop down of boards in each category for selecting parent board
@@ -993,7 +993,7 @@ sub DrawPerms {
 
 sub AddBoards2 {
 	&is_admin_or_gmod;
-	unless ($mloaded == 1) { require "$boardsdir/forum.master"; }
+	&get_forum_master;
 	$anncount  = 0;
 	$rbincount = 0;
 	my (@boardcontrol,@changes,@updatecats);
@@ -1203,7 +1203,7 @@ sub AddBoards2 {
 
 sub ReorderBoards {
 	&is_admin_or_gmod;
-	unless ($mloaded == 1) { require "$boardsdir/forum.master"; }
+	&get_forum_master;
 	if($INFO{'subboards'}) { &LoadBoardControl; }
 	if ($#categoryorder > 0) {
 		foreach $category (@categoryorder) {
@@ -1397,7 +1397,7 @@ for (var i = 0; i < parentsel.options.length; i++) {
 
 sub ReorderBoards2 {
 	&is_admin_or_gmod;
-	unless ($mloaded == 1) { require "$boardsdir/forum.master"; }
+	&get_forum_master;
 	
 	if($INFO{'subboards'}) {
 		@itemorder = split(/\|/, $subboard{ $INFO{"item"} });

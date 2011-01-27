@@ -19,7 +19,7 @@ if ($action eq 'detailedversion') { return 1; }
 
 if($FORM{'searchboards'} =~ /\A\!/) {
 	my $checklist = '';
-	unless ($mloaded == 1) { require "$boardsdir/forum.master"; }
+	&get_forum_master;
 	foreach my $catid (@categoryorder) {
 		(@bdlist) = split(/\,/,$cat{$catid});
 		my ($catname, $catperms, $catallowcol) = split(/\|/, $catinfo{$catid});
